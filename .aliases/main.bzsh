@@ -2,7 +2,11 @@
 # Global Aliases (zsh and bash)
 ##################
 
+
+# git init --bare $HOME/.cfg
+
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 
 # Search, find, grep and other locating
