@@ -1,0 +1,132 @@
+ZSH_DISABLE_COMPFIX=true
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# 256 color mode
+export TERM="xterm-256color"
+export ZSH=$HOME/.oh-my-zsh
+
+# Better history
+# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+unset config_files
+# # initialize autocomplete here, otherwise functions won't be loaded
+# autoload -U compinit
+# compinit
+
+###############################################################################
+# unset config_files
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable 
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+
+# Would you like to use another custom folder than $ZSH/custom?
+ZSH_CUSTOM=~/.zsh-custom
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse
+# Add wisely, as too many plugins slow down shell startup.
+if [[ "$OSTYPE" =~ "darwin"* ]]; then # macOS
+plugins=(
+  alias-finder
+  extract
+  docker
+  git 
+  history-substring-search
+  # thefuck
+  # sudo
+  zsh-autosuggestions
+  zsh-autocomplete
+  zsh-syntax-highlighting 
+  # vi-mode
+  macos
+  )
+else
+plugins=(
+  alias-finder
+  docker
+  git 
+  history-substring-search
+  # sudo
+  zsh-autosuggestions
+  zsh-autocomplete
+  zsh-syntax-highlighting 
+  git-open
+  # vi-mode
+  git z 
+  )
+fi
+
+autoload -U compinit && compinit
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+### Fix slowness of pastes with zsh-syntax-highlighting.zsh
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+### Fix slowness of pastes
+
+# source central scripts
+source ~/.script/spec.sh
+
+# source localrc if it exists
+if [[ -a ~/.localrc ]]; then
+  source ~/.localrc
+fi
+
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+  
+
+# https://stackoverflow.com/questions/45635168/vscode-how-to-run-a-command-after-each-terminal-open
+#
+# Allow parent to initialize shell
+#
+# This is awesome for opening terminals in VSCode.
+#
+if [[ -n $INIT_COMMAND ]]; then
+    echo "Running: $INIT_COMMAND"
+    eval "$INIT_COMMAND"
+fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+
