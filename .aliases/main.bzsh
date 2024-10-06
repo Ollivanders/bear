@@ -6,7 +6,8 @@
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias cfgu='cfg add -u'
+alias cfgs='cfg status'
+alias cfgu='cfg add -u && cfg commit -m "update" && cfg push'
 
 # Search, find, grep and other locating
 alias grep='grep --color=auto'
