@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #
+
 # Settings for both bash and zsh
 
 # all of our zsh and bash files
@@ -12,14 +13,7 @@ done
 function add_dir_to_path() {
   # add subdirecDocuments/projects/dotfiles/bintories from bin to path
   for directory in $(find "$1" -mindepth 1 -type d); do
-    if [ -d "$directory" ]; then
-      PATH=$PATH:$directory
-      add_dir_to_path $directory
-    fi
-  done
-  # symlink directories too
-  for directory in $(find "$1" -mindepth 1 -type l); do
-    if [ -d "$directory" ]; then
+    if [ -d $directory ]; then
       PATH=$PATH:$directory
       add_dir_to_path $directory
     fi
@@ -40,8 +34,12 @@ if [[ -n $INIT_COMMAND ]]; then
   eval "$INIT_COMMAND"
 fi
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 if [[ -e ~/.localrc ]]; then
   source ~/.localrc
+fi
+
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
 fi
