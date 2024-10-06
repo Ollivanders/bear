@@ -2,12 +2,11 @@
 # Global Aliases (zsh and bash)
 ##################
 
-
 # git init --bare $HOME/.cfg
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
+alias cfgu='cfg add -u'
 
 # Search, find, grep and other locating
 alias grep='grep --color=auto'
@@ -26,8 +25,8 @@ fi
 
 # Reload
 alias reload!='. ~/.script/re-source.sh' # reload zshrc file
-alias rel='reload!'                               # reload zshrc file
-alias reload="exec ${SHELL} -l"                   # restart shell
+alias rel='reload!'                      # reload zshrc file
+alias reload="exec ${SHELL} -l"          # restart shell
 
 # Paths
 alias pwd='echo ${PWD}'

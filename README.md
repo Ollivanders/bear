@@ -1,4 +1,4 @@
-<img src="./docs/images/osSwirl.png" alt="drawing" style="width:300px;float: right"/>
+<img src="./.docs/osSwirl.png" alt="drawing" style="width:300px;float: right"/>
 
 # BEAR - bare GIT dotfiles manager
 ## The Dankest Dotfiles
@@ -13,4 +13,4 @@ apt install begin, only be reminded every single time you do it that you forgot 
 
 Swipe that misery away, reinstall from here and you will be frolicking with unicorns again.                                                                                           
 
-[Follows bare repo layout](https://www.atlassian.com/git/tutorials/dotfiles)
+[Follows bare repo layout](https://www.atlassian.com/git/tutorials/dotfiles).
