@@ -121,7 +121,12 @@ function gitstatus_start() {
       --repo-ttl-seconds="$ttl"
       $extra_flags)
 
-    tmpdir="$(command mktemp -d "${TMPDIR:-/tmp}"/gitstatus.bash.$$.XXXXXXXXXX)" || return
+    if [[ -n "$TMPDIR" && ( ( -d "$TMPDIR" && -w "$TMPDIR" ) || ! ( -d /tmp && -w /tmp ) ) ]]; then
+      local tmpdir=$TMPDIR
+    else
+      local tmpdir=/tmp
+    fi
+    tmpdir="$(command mktemp -d "$tmpdir"/gitstatus.bash.$$.XXXXXXXXXX)" || return
 
     if [[ -n "$log_level" ]]; then
       GITSTATUS_DAEMON_LOG="$tmpdir"/daemon.log
@@ -285,7 +290,7 @@ function gitstatus_stop() {
   unset _GITSTATUS_DIRTY_MAX_INDEX_SIZE _GITSTATUS_CLIENT_PID
 }
 
-# Retrives status of a git repository from a directory under its working tree.
+# Retrieves status of a git repository from a directory under its working tree.
 #
 # Usage: gitstatus_query [OPTION]...
 #

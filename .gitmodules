@@ -28,3 +28,4 @@
 [submodule ".zsh-custom/plugins/zsh-autocomplete"]
 	path = .zsh-custom/plugins/zsh-autocomplete
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
+
