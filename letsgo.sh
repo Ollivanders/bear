@@ -11,10 +11,8 @@ else
 fi
 cd "$(dirname "$0")"
 QUICK=false
-export DOTFILES_ROOT=$(pwd -P)
-source ${DOTFILES_ROOT}/system/dirs.bzsh
+source ~/.aliases/dirs.bzsh
 PARENT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-DOTFILES_DIRECTORY="$(cd "$(dirname "$PARENT_DIRECTORY")" && pwd -P)"
 USING_ZSH=true
 RUN='0'
 STEP=1
@@ -43,7 +41,7 @@ function setup_git() {
 	begin_step "GitConfig"
 	echo -e "Lets configure git first" #\e${FONTFACE}😊\e[0m
 
-	if ! [ -f ${DOTFILES}/git/gitconfig.local ]; then
+	if ! [ -f ${HOME}/.gitconfig.local ]; then
 		echo "Git is not setup yet with these dotfiles"
 		echo "because the dotfiles keep gitconfig.local as a seperate file, you need to reconfigure it here"
 		prompt_line_yn "Would you like to get it up and running now?"
@@ -76,13 +74,7 @@ function setup_git() {
 
 			prompt_line_yn "This good???"
 		done
-		sed -e "s/AUTHORNAME/$user/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.example >git/gitconfig.local
-		if [[ ! -L $HOME/.gitconfig.local ]]; then
-			link_file "${DOTFILES_ROOT}/git/gitconfig.local" "$HOME/.gitconfig.local" # do it hear to make sure it defo makes it
-		fi
-		if [[ ! -L $HOME/.gitconfig ]]; then
-			link_file "${DOTFILES_ROOT}/git/gitconfig.symlink" "$HOME/.gitconfig" # do it hear to make sure it defo makes it
-		fi
+		sed -e "s/AUTHORNAME/$user/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" gitconfig.local.example >gitconfig.local
 		success 'gitconfig'
 	else
 		echo "Sorry didin't mean to invade the setup, lets keep it classy and move on"
@@ -99,12 +91,12 @@ function setup_dirs() {
 
 	while [[ $line =~ 'y' ]]; do
 		info "sweet" "So currently, we are going to make the following"
-		cat ${DOTFILES_ROOT}/system/dirs.bzsh
+		cat ~/aliases/dirs.bzsh
 		echo "You happy with making these dirs if they don't exist"
 		echo "You will be able to search them using a bunch of handy alias"
 		prompt_line_yn "Would you like to change the paths"
 		if [[ $line =~ 'y' ]]; then
-			${EDITOR} ${DOTFILES_ROOT}/system/dirs.bzsh
+			${EDITOR} ~/aliases/dirs.bzsh
 		fi
 		prompt_line_yn "Are you happy with making these dirs?"
 		if [[ $line =~ 'n' ]]; then
@@ -117,38 +109,9 @@ function setup_dirs() {
 }
 
 #------------------------------------------------------------------------------
-# Install dotfiles
-function install_dotfiles() {
-	local overwrite_all=false backup_all=false skip_all=false
-
-	for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*'); do
-		dst="$HOME/.$(basename "${src%.*}")"
-		link_file "$src" "$dst"
-	done
-
-	if [[ ! -L $HOME/.dotfiles ]]; then
-		link_file "$DOTFILES_ROOT" "$HOME/.dotfiles"
-	fi
-}
-
-function setup_dotfiles() {
-	begin_step 'Setting up dotfiles'
-
-	echo "Now we are going to symlink on your config files to this directory"
-
-	prompt_line_yn "Would you like to symlink these files?"
-
-	if [[ $line =~ 'y' ]]; then
-		install_dotfiles
-	else
-		echo "We shall skip over those then..."
-	fi
-}
-
-#------------------------------------------------------------------------------
 # Install software
 function install_software() {
-	if source $DOTFILES_ROOT/script/softwareInstall.sh | while read -r data; do info "Installing" "$data"; done; then
+	if source ~/.script/softwareInstall.sh | while read -r data; do info "Installing" "$data"; done; then
 		success "modules installed"
 	else
 		fail "error installing modules"
@@ -171,16 +134,16 @@ function setup_software() {
 # OS individual install
 function setup_mac() {
 	info "Installing" "default software and iTerm terminal"
-	$DOTFILES_ROOT/os/macos/macInstall.sh 2>&1
+	~/.install/macInstall.sh 2>&1
 	info "Configuring" "home brew"
-	$DOTFILES_ROOT/homebrew/installBrew.sh 2>&1
+	~/.install/installBrew.sh 2>&1
 }
 
 function setup_ubuntu() {
 	if [[ $QUICK = true ]]; then
-		$DOTFILES_ROOT/os/ubuntu/ubuntuInstall.sh -q 2>&1
+		~/.install/ubuntuInstall.sh -q 2>&1
 	else
-		$DOTFILES_ROOT/os/ubuntu/ubuntuInstall.sh 2>&1
+		~/.install/ubuntuInstall.sh 2>&1
 	fi
 }
 
@@ -193,7 +156,7 @@ function setup_os() {
 		prompt_line_yn "Would you like to proceed with the linux specifc setup?"
 		if [[ $line =~ 'y' ]]; then
 			info "Update" "before we kick off with the good stuff"
-			sudo $DOTFILES_ROOT/os/ubuntu/update.sh 2>&1
+			sudo ~/.install/update.sh 2>&1
 
 			echo " "
 			info "zsh>bash" "Would you like to use zsh over bash as your default shell?"
@@ -206,7 +169,7 @@ function setup_os() {
 
 			if [[ $line =~ 'y' ]]; then
 				info "Noice" "lets get zsh setup and installed"
-				$DOTFILES_ROOT/zsh/installZSH.sh 2>&1
+				~/.install/installZSH.sh 2>&1
 				info "Note" "logout and back in again for this to work"
 			else
 				USING_ZSH=false
@@ -226,7 +189,7 @@ function setup_os() {
 		if [[ $line =~ 'y' ]]; then
 			setup_mac
 			info "Setting" "default settings"
-			$DOTFILES_ROOT/os/macos/set-defaults.sh 2>&1
+			~/.homebin/dotfiles_management/set-defaults.sh 2>&1
 		fi
 
 	elif [[ "$OSTYPE" == "win"* ]]; then # Wins (what are you doing)
@@ -251,9 +214,6 @@ function setup_zsh() {
 			echo "Hang tight while we install some external libraries"
 			git submodule init
 			git submodule update
-			if [[ ! -L $HOME/.oh-my-zsh ]]; then
-				link_file "$DOTFILES_ROOT/zsh/ohmyzsh" "$HOME/.oh-my-zsh"
-			fi
 
 			info "change" "manually after running 'p10k configure' and logging out to init ZSH"
 			user "Would you like to use a default .p10k.zsh with a default configuration?"
@@ -265,14 +225,6 @@ function setup_zsh() {
 				action=$line
 			done
 
-			if [[ -f $HOME/.p10k.zsh ]]; then
-				rm $HOME/.p10k.zsh
-			fi
-
-			if [[ -f $$DOTFILES_ROOT/zsh/p10k.zsh.symlink/.p10k.zsh ]]; then
-				rm $DOTFILES_ROOT/zsh/p10k.zsh.symlink/.p10k.zsh
-			fi
-
 			if [[ $action = 'configure' ]]; then
 				# info "it is recommended that you run: p10k configure"
 				# cp "$HOME/.p10k.zsh" "$DOTFILES_ROOT/zsh/p10k.zsh.symlink"
@@ -280,13 +232,8 @@ function setup_zsh() {
 				# $DOTFILES_ROOT/zsh/configurep10k.sh
 				echo "logout/restart the shell to be on zsh then run 'p10k configure'"
 			elif [[ $action = 'auto' ]]; then
-				if [ "$(uname -s)" == "Darwin" ]; then
-					cp "$DOTFILES_ROOT/zsh/p10kdesigns/macos.zsh" "$DOTFILES_ROOT/zsh/.p10k.zsh.symlink"
-				else
-					cp "$DOTFILES_ROOT/zsh/p10kdesigns/ubuntu.zsh" "$DOTFILES_ROOT/zsh/.p10k.zsh.symlink"
-				fi
+				echo "Skipped"
 			fi
-			# link_file "$DOTFILES_ROOT/zsh/p10k.zsh.symlink" "$HOME/.p10k.zsh"
 		fi
 	fi
 }
@@ -332,12 +279,7 @@ function setup_ssh_keys() {
 			exit 1
 		fi
 
-		EXPORT_TO_BASHRC="${EXPORT_TO_BASHRC}\nexport GIT_SSH_COMMAND='ssh -o ControlPath=none'"
-		bashrc="${HOME}/.bashrc"
 		echo -e "Writing to \e${FONTVAR}${bashrc}\e[0m"
-		echo -e "# Generated by setup.sh - $(date)\n${EXPORT_TO_BASHRC}" >>"${bashrc}"
-		. "${bashrc}"
-
 		sshconfig="${HOME}/.ssh/config"
 
 		info "Note" "You can copy this ssh key to your clipboard with the 'pubkey' function, located in bin/"
@@ -388,7 +330,7 @@ function setup_default_editor() {
 				editor='-'
 				echo "Ok, I won't touch EDITOR."
 			else
-				EDITOR_FILE=${DOTFILES}/local/editor.bzsh
+				EDITOR_FILE=~/local/editor.bzsh
 				echo "I'm going put this is ${EDITOR_FILE}:"
 				echo
 				echo -e "  export GIT_EDITOR='\e${FONTVAR}${editor}\e[0m'" # TODO: be more descriptive
@@ -411,14 +353,11 @@ function update_configuration() {
 	begin_step "Update Software and Dotfiles Configuration"
 
 	info "Update" "dotfiles repo from remote version"
-	cd ${DOTFILES_ROOT}
-	git config pull.rebase false
 	# update repo
-	git pull
+	cfg pull
 	# pull latest versions for each submodule on current branch
-	git submodule update --remote --merge
+	cfg submodule update --remote --merge
 	
-	install_dotfiles
 	install_software
 
 	# setup_os
@@ -470,9 +409,6 @@ function specific_choice() {
 		"2")
 			setup_git
 			;;
-		"3")
-			setup_dotfiles
-			;;
 		"4")
 			setup_os
 			;;
@@ -518,7 +454,6 @@ function specific_choice() {
 
 function quick_install() {
 	QUICK=true
-	install_dotfiles
 	install_software
 
 	# setup_os
@@ -571,7 +506,6 @@ echo ''
 
 intro
 setup_git
-setup_dotfiles
 setup_os
 setup_software
 setup_zsh
