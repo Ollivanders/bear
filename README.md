@@ -14,3 +14,11 @@ apt install begin, only be reminded every single time you do it that you forgot 
 Swipe that misery away, reinstall from here and you will be frolicking with unicorns again.                                                                                           
 
 [Follows bare repo layout](https://www.atlassian.com/git/tutorials/dotfiles).
+
+# Installation
+
+````
+```
+git clone --bare https://github.com/Ollivanders/bear.git .cfg
+git init --bare $HOME/.cfg
+```
