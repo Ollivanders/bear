@@ -20,5 +20,5 @@ Swipe that misery away, reinstall from here and you will be frolicking with unic
 ````
 ```
 git clone --bare https://github.com/Ollivanders/bear.git .cfg
-git init --bare $HOME/.cfg
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 ```
