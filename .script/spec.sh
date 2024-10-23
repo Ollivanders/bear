@@ -6,6 +6,8 @@
 # all of our zsh and bash files
 config_files=(~/.aliases/*.bzsh)
 
+start=$(date +%s)
+
 for file in "${config_files[@]}"; do
   source $file
 done
@@ -43,3 +45,6 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
+
+end=$(date +%s)
+echo "Elapsed time: $($($end - $start) / 1000000) ms"

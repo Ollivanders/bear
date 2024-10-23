@@ -1,0 +1,10 @@
+[user]
+        name = Ollivanders
+        email = ollivander64@gmail.com
+
+[includeIf "gitdir:/Users/ollivander/Documents/"]
+path = /Users/ollivander/.dotfiles/local/personal/gitconfig.local
+
+[includeIf "gitdir:/Users/ollivander"]
+path = /Users/ollivander/.dotfiles/local/personal/gitconfig.local
+

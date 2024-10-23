@@ -49,7 +49,7 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 # Shortcuts
 alias cdown="cd ~/Downloads"
 alias cdesk="cd ~/Desktop"
-alias p="cd ~/Documents/Projects"
+alias p="cd ${PROJECTS_DIR}"
 alias ch="cd ~/"
 alias cscratch="cd $SCRATCH_DIR"
 alias gupdate="dot -u"
@@ -59,16 +59,15 @@ alias gupdate="dot -u"
 
 alias dotenv='export $(xargs -L 1 <.env)'
 
-# TODO add more options to reflect
-alias p='tabinto projects cd'
-alias pcode='tabinto projects code'
+alias pc='cd $(find ~/projects -type d -maxdepth 1 | fzf)'
+alias po='nvim $(find ~/projects -type d -maxdepth 1 | fzf)'
+alias pcode='code $(find ~/projects -type d -maxdepth 1 | fzf)'
 
 alias docgen="python3 <(curl https://raw.githubusercontent.com/Ollivanders/adam/master/main.py)"
 alias cheese="python3 ~/.script/cheese.py"
 alias org="gh gist edit 'd83ac29f201fd79ecd7e67c7b944ad1b'"
 alias tf="terraform"
 
-alias virmc='nvim ~/.config/nvim/init.vim'
-alias ealiases='nvim ~/.aliases/local.bzsh'
+alias virmc="${EDITOR} ~/.config/nvim/init.vim"
+alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
 
-# TODO configure for bash as well (change system directory to .sh or more gen)
