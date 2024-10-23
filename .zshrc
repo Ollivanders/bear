@@ -18,16 +18,6 @@ bindkey "^[[A" up-line-or-beginning-search   # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 autoload -U compinit && compinit
 
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search   # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
-autoload -U compinit && compinit
-
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to enable command auto-correction.
@@ -46,17 +36,17 @@ plugins=(
   alias-finder
   brew
   extract
-  # docker
-  git
+  docker
   history-substring-search
-  # sudo
   zsh-autosuggestions
-  zsh-autocomplete
   zsh-syntax-highlighting
   git-open
-  # vi-mode
+  git-auto-fetch
+  git-extras
+  gitfast
   git
   terraform
+  vi-mode
 )
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
@@ -76,8 +66,4 @@ source ~/.script/spec.sh
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh" 
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" 
 
-eval "$(zoxide init zsh)"
