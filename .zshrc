@@ -38,6 +38,7 @@ plugins=(
   extract
   docker
   history-substring-search
+  # zsh-autocomplete
   zsh-autosuggestions
   zsh-syntax-highlighting
   git-open
@@ -46,7 +47,7 @@ plugins=(
   gitfast
   git
   terraform
-  vi-mode
+  zsh-vi-mode
 )
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh

@@ -1,0 +1,41 @@
+# window management
+# cask "spectacle"
+
+# shell tools, update
+# cask "iterm2" # currently installed in terminal script to include profile and preferences 
+brew "tmux"
+brew "zsh"
+brew "grep"
+# brew "thefuck"
+
+# vim tools
+brew "aspell"
+brew "ctags"
+
+# Source Control Tools
+brew "hub"
+brew "tig"
+brew "duti"
+brew "lazygit"
+
+# keyboard tools
+# cask "karabiner-elements"
+
+# Remote 
+brew  "nmap"
+
+# databases
+# cask "postgres"
+
+# languages
+brew "gitmoji"
+brew "bash"
+brew "node"
+brew "npm"
+brew "pyenv"
+brew "pyenv-virtualenv"
+brew "fzf"
+
+# General
+brew "ripgrep"
+

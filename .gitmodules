@@ -29,3 +29,6 @@
 	path = .zsh-custom/plugins/zsh-autocomplete
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
 
+[submodule ".zsh-custom/plugins/zsh-vi-mode"]
+	path = .zsh-custom/plugins/zsh-vi-mode
+	url = https://github.com/jeffreytse/zsh-vi-mode

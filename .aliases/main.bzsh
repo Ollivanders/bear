@@ -70,4 +70,4 @@ alias tf="terraform"
 
 alias virmc="${EDITOR} ~/.config/nvim/init.vim"
 alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
-
+alias nn="nvim"
