@@ -7,7 +7,7 @@ map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, si
 map("n", "<leader>fp", ":NeovimProjectDiscover", { desc = "Project Discover" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
-map({ "n", "x" }, ";", ":")
+-- map({ "n", "x" }, ";", ":")
 
 -- Quit all opened buffers
 map("n", "<leader>Q", "<cmd>qa!<cr>", { silent = true, desc = "quit nvim" })
@@ -60,3 +60,28 @@ map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" }
 -- diffOpenWithInput with HEAD opens diff of latest commit.
 -- diffOpenWithInput with HEAD~3 opens diff of last 3 commits.
 -- diffOpenWithInput with master..HEAD opens changes of your feature branch.
+
+-- local wk = require("which-key")
+-- wk.add({
+--   l = {
+--     name = "flash",
+--     s = {
+--       function()
+--         require("flash").jump()
+--       end,
+--       "Flash Jump",
+--     },
+--     t = {
+--       function()
+--         require("flash").treesitter()
+--       end,
+--       "Flash Treesitter",
+--     },
+--     r = {
+--       function()
+--         require("flash").treesitter_search()
+--       end,
+--       "Flash Treesitter Search",
+--     },
+--   },
+-- }, { prefix = "<leader>" })
