@@ -22,6 +22,8 @@ function add_dir_to_path() {
 
 # add homebin to path
 add_dir_to_path "${HOME}/.homebin"
+# add cargo bin to path
+PATH=$PATH:${HOME}/.cargo/bin
 
 # https://stackoverflow.com/questions/45635168/vscode-how-to-run-a-command-after-each-terminal-open
 #
