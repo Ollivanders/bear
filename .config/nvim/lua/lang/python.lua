@@ -43,4 +43,25 @@
 --   end,
 -- }
 
-return { import = "lazyvim.plugins.extras.lang.python" }
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                rope_autoimport = {
+                  enabled = true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  { import = "lazyvim.plugins.extras.lang.python" },
+}
