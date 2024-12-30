@@ -6,6 +6,7 @@
 brew "tmux"
 brew "zsh"
 brew "grep"
+brew "fd"
 # brew "thefuck"
 
 # vim tools

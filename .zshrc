@@ -50,6 +50,13 @@ plugins=(
   zsh-vi-mode
 )
 
+# enable alias finder suggestions on all commands
+zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
+zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
+zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
+zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
+
+
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 # pasteinit() {
 #   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
@@ -62,11 +69,11 @@ plugins=(
 # zstyle :bracketed-paste-magic paste-finish pastefinish
 
 # source central scripts
-source ~/.script/spec.sh
-
-source $ZSH/oh-my-zsh.sh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+source $ZSH/oh-my-zsh.sh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+source ~/.script/spec.sh

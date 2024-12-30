@@ -14,15 +14,14 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias hg='history | grep'
-# grc overides for ls
-#   Made possible through contributions from generous benefactors like
-#   `brew install coreutils`
-if $(gls &>/dev/null); then
-  alias ls="gls -F --color"
-  alias l="gls -lAh --color"
-  alias ll="gls -l --color"
-  alias la='gls -A --color'
-fi
+
+alias eza="eza --icons"
+alias lg="eza --long --header --icons --git --git-ignore"
+alias ls="eza -F --color --icons"
+alias l="eza -lAh"
+alias ll="eza --color --reverse --sort=size"
+alias la='eza -A --color'
+alias lt='eza -T --color --level=3'
 
 # Reload
 alias reload!='. ~/.script/re-source.sh' # reload zshrc file
