@@ -65,7 +65,7 @@ alias pcode='code $(find ~/projects -type d -maxdepth 1 | fzf)'
 
 alias docgen="python3 <(curl https://raw.githubusercontent.com/Ollivanders/adam/master/main.py)"
 alias cheese="python3 ~/.script/cheese.py"
-alias org="gh gist edit 'd83ac29f201fd79ecd7e67c7b944ad1b'"
+alias org="gh gist edit '68faaea880a95eb3a3c66c717d1f9224'"
 alias tf="terraform"
 
 alias virmc="${EDITOR} ~/.config/nvim/init.vim"
