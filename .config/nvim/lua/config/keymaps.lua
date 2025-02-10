@@ -38,6 +38,8 @@ end, {
 -- faster save and quit
 map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" })
 
+map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
+
 -- local function diffOpenWithInput()
 --   local user_input = vim.fn.input("Revision to Open: ")
 --   vim.cmd("DiffviewOpen " .. user_input)
