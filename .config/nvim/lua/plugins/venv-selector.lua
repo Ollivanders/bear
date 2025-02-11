@@ -21,4 +21,13 @@ return {
   keys = {
     { ",v", "<cmd>VenvSelect<cr>" },
   },
+  config = function()
+    require("venv-selector").setup({
+      settings = {
+        options = {
+          notify_user_on_venv_activation = false,
+        },
+      },
+    })
+  end,
 }
