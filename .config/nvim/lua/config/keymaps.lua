@@ -40,6 +40,22 @@ map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" }
 
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
+-- floating terminal
+-- map("n", "<leader>fT", function()
+--   Snacks.terminal()
+-- end, { desc = "Terminal (cwd)" })
+-- map("n", "<leader>ft", function()
+--   Snacks.terminal(nil, { cwd = LazyVim.root() })
+-- end, { desc = "Terminal (Root Dir)" })
+-- map("n", "<c-/>", function()
+--   Snacks.terminal(nil, { cwd = LazyVim.root() })
+-- end, { desc = "Terminal (Root Dir)" })
+-- map("n", "<c-_>", function()
+--   Snacks.terminal(nil, { cwd = LazyVim.root() })
+-- end, { desc = "which_key_ignore" })
+
 -- local function diffOpenWithInput()
 --   local user_input = vim.fn.input("Revision to Open: ")
 --   vim.cmd("DiffviewOpen " .. user_input)
