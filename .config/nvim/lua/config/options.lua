@@ -3,3 +3,6 @@
 -- Add any additional options here
 
 -- vim.opt.winbar = "%=%m %f"
+
+vim.o.scrolloff = 0
+vim.o.so = 0

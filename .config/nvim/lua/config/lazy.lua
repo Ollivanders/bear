@@ -54,6 +54,7 @@ require("lazy").setup({
   },
 })
 
+
 -- local Terminal = require("toggleterm.terminal").Terminal
 --
 -- local function close_terminal_on_zero_exit(terminal, _, exit_code)
