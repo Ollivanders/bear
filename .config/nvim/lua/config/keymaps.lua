@@ -1,6 +1,7 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
+
 local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
@@ -40,66 +41,11 @@ map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" }
 
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+map("t", "<Esc>", "<C-\\><C-n>")
 
--- floating terminal
--- map("n", "<leader>fT", function()
---   Snacks.terminal()
--- end, { desc = "Terminal (cwd)" })
--- map("n", "<leader>ft", function()
---   Snacks.terminal(nil, { cwd = LazyVim.root() })
--- end, { desc = "Terminal (Root Dir)" })
--- map("n", "<c-/>", function()
---   Snacks.terminal(nil, { cwd = LazyVim.root() })
--- end, { desc = "Terminal (Root Dir)" })
--- map("n", "<c-_>", function()
---   Snacks.terminal(nil, { cwd = LazyVim.root() })
--- end, { desc = "which_key_ignore" })
+map("n", "<C-/>", function()
+  require("snacks").terminal.toggle(nil, { win = { position = "right" } })
+end, { desc = "Vertical Terminal" })
 
--- local function diffOpenWithInput()
---   local user_input = vim.fn.input("Revision to Open: ")
---   vim.cmd("DiffviewOpen " .. user_input)
--- end
---
--- local function diffOpenFileHistory()
---   local user_input = vim.fn.input("Files to Open: ")
---   vim.cmd("DiffviewFileHistory" .. user_input)
--- end
---
--- -- Key maps
--- require("which-key").add({
---   { "<leader>g", group = "Git" },
---   { "<leader>gf", diffOpenFileHistory, desc = "Open DiffView on Files" },
---   { "<leader>go", diffOpenWithInput, desc = "Open DiffView" },
--- })
--- diffOpenFileHistory with . opens commit wise history of entire codebase.
--- diffOpenFileHistory with % opens commit wise history of current file.
--- diffOpenFileHistory with <any file path> opens commit wise history of that file.
--- diffOpenWithInput with HEAD opens diff of latest commit.
--- diffOpenWithInput with HEAD~3 opens diff of last 3 commits.
--- diffOpenWithInput with master..HEAD opens changes of your feature branch.
-
--- local wk = require("which-key")
--- wk.add({
---   l = {
---     name = "flash",
---     s = {
---       function()
---         require("flash").jump()
---       end,
---       "Flash Jump",
---     },
---     t = {
---       function()
---         require("flash").treesitter()
---       end,
---       "Flash Treesitter",
---     },
---     r = {
---       function()
---         require("flash").treesitter_search()
---       end,
---       "Flash Treesitter Search",
---     },
---   },
--- }, { prefix = "<leader>" })
+-- <Esc><Esc> in terminal mode sends <C-\><C-n> to exit terminal mode, see :h term
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })

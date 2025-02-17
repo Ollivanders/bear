@@ -54,47 +54,47 @@ require("lazy").setup({
   },
 })
 
-local Terminal = require("toggleterm.terminal").Terminal
-
-local function close_terminal_on_zero_exit(terminal, _, exit_code)
-  if exit_code == 0 then
-    terminal:close()
-  end
-end
-
-local lazygit = Terminal:new({
-  cmd = "lazygit",
-  direction = "float",
-  hidden = true,
-  on_exit = close_terminal_on_zero_exit,
-})
-
-local dotfileslazygit = Terminal:new({
-  cmd = "lazygit --git-dir=$HOME/.cfg --work-tree=$HOME",
-  direction = "float",
-  hidden = true,
-  on_exit = close_terminal_on_zero_exit,
-})
-
-local wk = require("which-key")
-
-wk.add({
-  G = {
-    function()
-      local current_dir = vim.fn.getcwd()
-      local config_dir = vim.fn.expand("~/")
-      print(current_dir)
-
-      -- Check if we're in the config directory
-      if current_dir == config_dir then
-        dotfileslazygit:toggle()
-      else
-        lazygit:toggle()
-      end
-    end,
-    "lazygit",
-  },
-}, { prefix = "g" })
+-- local Terminal = require("toggleterm.terminal").Terminal
+--
+-- local function close_terminal_on_zero_exit(terminal, _, exit_code)
+--   if exit_code == 0 then
+--     terminal:close()
+--   end
+-- end
+--
+-- local lazygit = Terminal:new({
+--   cmd = "lazygit",
+--   direction = "float",
+--   hidden = true,
+--   on_exit = close_terminal_on_zero_exit,
+-- })
+--
+-- local dotfileslazygit = Terminal:new({
+--   cmd = "lazygit --git-dir=$HOME/.cfg --work-tree=$HOME",
+--   direction = "float",
+--   hidden = true,
+--   on_exit = close_terminal_on_zero_exit,
+-- })
+--
+-- local wk = require("which-key")
+--
+-- wk.add({
+--   G = {
+--     function()
+--       local current_dir = vim.fn.getcwd()
+--       local config_dir = vim.fn.expand("~/")
+--       print(current_dir)
+--
+--       -- Check if we're in the config directory
+--       if current_dir == config_dir then
+--         dotfileslazygit:toggle()
+--       else
+--         lazygit:toggle()
+--       end
+--     end,
+--     "lazygit",
+--   },
+-- }, { prefix = "g" })
 
 -- TODO: add status line
 -- local actived_venv = function()
