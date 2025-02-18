@@ -10,27 +10,12 @@ diff = auto
 status = auto
 branch = auto
 ui = true
-# [color "branch"]
-#         current = green bold
-#         local = green
-#         remote = yellow
-# [color "diff"]
-#         frag = magenta
-#         meta = yellow
-#         new = green
-#         old = red
-#         newMoved = cyan
-#         oldMoved = blue
-# [color "status"]
-#         added = green reverse
-#         changed = yellow reverse
-#         untracked = red reverse
 
 [core]
 abbrev = 12
 attributesFile = ~/.gitattributes
 autocrlf = input
-editor = code --wait
+editor = nvim
 excludesFile = ~/.gitignore
 pager=cat
 
