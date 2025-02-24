@@ -40,6 +40,19 @@ def get_description(soup: BeautifulSoup):
     print(description)
 
 
+def get_cheese_image(cheese_soup):
+    # Find the main cheese image in the page structure
+    img_tag = cheese_soup.find(
+        "img", src=lambda value: value and "/media/img/cheese/" in value
+    )
+
+    if img_tag:
+        image_url = img_tag.get("src")
+        image_alt = img_tag.get("alt", "")
+        return {"url": image_url, "alt": image_alt}
+    return None
+
+
 def get_cheese_of_the_day():
     main_url = "https://www.cheese.com/"
 
@@ -70,12 +83,9 @@ def get_cheese_of_the_day():
     # print(f"Description: {cheese_description}")
 
     # Find all img tags with src containing "cheese-suggestion"
-    img_tag = cheese_soup.find(
-        "img",
-        src=lambda value: value and "cheese-suggestion" in value,
-    )
+    img_tag = get_cheese_image(cheese_soup)
 
-    cheese_suggestion_url = img_tag["src"]
+    cheese_suggestion_url = img_tag["url"]
     cheese_img_path = (
         cheese_suggestion_url
         if cheese_suggestion_url.startswith("http")
