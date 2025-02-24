@@ -72,3 +72,6 @@ alias tf="terraform"
 alias virmc="${EDITOR} ~/.config/nvim/init.vim"
 alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
 alias n="nvim"
+
+alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
+
