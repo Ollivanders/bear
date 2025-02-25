@@ -54,6 +54,7 @@ require("lazy").setup({
   },
 })
 
+vim.opt.colorcolumn = "100"
 
 -- local Terminal = require("toggleterm.terminal").Terminal
 --
