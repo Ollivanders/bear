@@ -8,7 +8,7 @@ map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, si
 map("n", "<leader>fp", ":NeovimProjectDiscover", { desc = "Project Discover" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
--- map({ "n", "x" }, ";", ":")
+map({ "n", "x" }, ";", ":")
 
 -- Quit all opened buffers
 map("n", "<leader>Q", "<cmd>qa!<cr>", { silent = true, desc = "quit nvim" })
@@ -36,6 +36,19 @@ end, {
   desc = "reload init.lua",
 })
 
+vim.keymap.del("n", "<leader>/")
+map("n", "<leader>/", function()
+  -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
+  -- Uses ripgrep args (rg) for live_grep
+  -- Command examples:
+  -- -i "Data"  # case insensitive
+  -- -g "!*.md" # ignore md files
+  -- -w # whole word
+  -- -e # regex
+  -- see 'man rg' for more
+  require("telescope").extensions.live_grep_args.live_grep_args() -- see arguments given in extensions config
+end, { desc = "Live Grep (Args)" })
+
 -- faster save and quit
 map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" })
 
@@ -44,6 +57,10 @@ map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini sta
 map("t", "<Esc>", "<C-\\><C-n>")
 
 map("n", "<C-/>", function()
+  require("snacks").terminal.toggle(nil, { win = { position = "right" } })
+end, { desc = "Vertical Terminal" })
+
+map("n", "<C-_>", function()
   require("snacks").terminal.toggle(nil, { win = { position = "right" } })
 end, { desc = "Vertical Terminal" })
 
