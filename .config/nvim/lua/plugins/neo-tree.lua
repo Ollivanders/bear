@@ -7,7 +7,7 @@ return {
         show_hidden_count = true,
         hide_dotfiles = false,
         hide_gitignored = true,
-        hide_by_name = {
+        never_show = {
           ".git",
           ".DS_Store",
           " __pycache__",
@@ -15,8 +15,8 @@ return {
           ".pytest_cache",
           ".ruff_cache",
           ".ropeproject",
+          ".venv",
         },
-        never_show = {},
       },
     },
   },
