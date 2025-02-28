@@ -37,7 +37,7 @@ end, {
 })
 
 vim.keymap.del("n", "<leader>/")
-map("n", "<leader>/", function()
+map("n", "<leader>s/", function()
   -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
   -- Uses ripgrep args (rg) for live_grep
   -- Command examples:
