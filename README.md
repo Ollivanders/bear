@@ -1,4 +1,4 @@
-<img src="./.docs/osSwirl.png" alt="drawing" style="width:300px;float: right"/>
+<img src="./.docs/bearinring.jpg" alt="drawing" style="width:300px;float: right"/>
 
 # BEAR - bare GIT dotfiles manager
 ## The Dankest Dotfiles
@@ -15,7 +15,15 @@ Swipe that misery away, reinstall from here and you will be frolicking with unic
 
 [Follows bare repo layout](https://www.atlassian.com/git/tutorials/dotfiles).
 
-# Installation
+## Design Choices
+
+- Use Brew where ever possible
+- neovim treated as primary editor
+- ./.script for OS based script running
+- ./.homebin for global scripts 
+
+
+## Installation
 
 ````
 git clone --bare https://github.com/Ollivanders/bear.git .cfg
