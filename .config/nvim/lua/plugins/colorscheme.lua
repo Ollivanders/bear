@@ -18,7 +18,7 @@ return {
             "bufferline", -- better used if background of `neo-tree` or `nvim-tree` is cleared
             "term",
           },
-          filter = "classic",
+          filter = "machine",
         }
       )
     end

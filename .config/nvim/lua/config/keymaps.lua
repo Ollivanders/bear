@@ -102,4 +102,8 @@ function open_split_buffer_goto_definition()
   -- Call lsp
   vim.lsp.buf.definition()
 end
+
 map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in sep. win" })
+
+map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+map("n", "<c-n>", "<Plug>(YankyNextEntry)")

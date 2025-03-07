@@ -14,7 +14,9 @@ config.inactive_pane_hsb = {
 }
 
 config.window_decorations = "RESIZE"
-config.color_scheme = "Batman"
+config.color_scheme = "Darkside"
+config.font_size = 12
+
 config.font = wezterm.font("JetBrains Mono")
 config.window_background_opacity = 0.92
 
@@ -22,7 +24,8 @@ config.adjust_window_size_when_changing_font_size = false
 config.hide_tab_bar_if_only_one_tab = true
 
 config.window_frame = {
-  font = wezterm.font({ family = "Noto Sans", weight = "Regular" }),
+  font = wezterm.font({ family = "Noto Sans", weight = "Bold" }),
+  font_size = 12,
 }
 
 config.keys = {
