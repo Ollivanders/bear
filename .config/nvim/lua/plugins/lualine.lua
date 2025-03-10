@@ -34,9 +34,9 @@ return {
           },
           {
             "filename",
-            file_status = true, -- Displays file status (readonly status, modified status)
+            file_status = true,     -- Displays file status (readonly status, modified status)
             newfile_status = false, -- Display new file status (new file means no write after created)
-            path = 1, -- 0: Just the filename
+            path = 1,               -- 0: Just the filename
             -- 1: Relative path
             -- 2: Absolute path
             -- 3: Absolute path, with tilde as the home directory
@@ -45,10 +45,10 @@ return {
             shorting_target = 40, -- Shortens path to leave 40 spaces in the window
             -- for other components. (terrible name, any suggestions?)
             symbols = {
-              modified = "[+]", -- Text to show when the file is modified.
-              readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+              modified = "[+]",      -- Text to show when the file is modified.
+              readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
               unnamed = "[No Name]", -- Text to show for unnamed buffers.
-              newfile = "[New]", -- Text to show for newly created file before first write
+              newfile = "[New]",     -- Text to show for newly created file before first write
             },
           },
         },
@@ -64,9 +64,9 @@ return {
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           {
             "filename",
-            file_status = true, -- Displays file status (readonly status, modified status)
+            file_status = true,     -- Displays file status (readonly status, modified status)
             newfile_status = false, -- Display new file status (new file means no write after created)
-            path = 1, -- 0: Just the filename
+            path = 1,               -- 0: Just the filename
             -- 1: Relative path
             -- 2: Absolute path
             -- 3: Absolute path, with tilde as the home directory
@@ -75,10 +75,10 @@ return {
             shorting_target = 40, -- Shortens path to leave 40 spaces in the window
             -- for other components. (terrible name, any suggestions?)
             symbols = {
-              modified = "[+]", -- Text to show when the file is modified.
-              readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+              modified = "[+]",      -- Text to show when the file is modified.
+              readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
               unnamed = "[No Name]", -- Text to show for unnamed buffers.
-              newfile = "[New]", -- Text to show for newly created file before first write
+              newfile = "[New]",     -- Text to show for newly created file before first write
             },
           },
         },
@@ -88,8 +88,11 @@ return {
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch", "diff" },
-
+        lualine_b = {
+          {
+            function() return '📂 ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") end,
+          },
+          "branch", "diff" },
         lualine_c = {
           {
             "diagnostics",
@@ -109,21 +112,21 @@ return {
             timeout = 500,
           },
           Snacks.profiler.status(),
-        -- stylua: ignore
-        {
-          function() return require("noice").api.status.command.get() end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-          color = function() return { fg = Snacks.util.color("Statement") } end,
-        },
-        -- stylua: ignore
-        {
-          function() return require("noice").api.status.mode.get() end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-          color = function() return { fg = Snacks.util.color("Constant") } end,
-        },
-        -- stylua: ignore
-        {
-          function() return "  " .. require("dap").status() end,
+          -- stylua: ignore
+          {
+            function() return require("noice").api.status.command.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+            color = function() return { fg = Snacks.util.color("Statement") } end,
+          },
+          -- stylua: ignore
+          {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = function() return { fg = Snacks.util.color("Constant") } end,
+          },
+          -- stylua: ignore
+          {
+            function() return "  " .. require("dap").status() end,
             cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
             color = function() return { fg = Snacks.util.color("Debug") } end,
           },
@@ -155,7 +158,7 @@ return {
         lualine_y = {
           {
             "tabs",
-            tab_max_length = 40, -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
+            tab_max_length = 40,            -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
             max_length = vim.o.columns / 3, -- Maximum width of tabs component.
             -- Note:
             -- It can also be a function that returns
@@ -169,13 +172,18 @@ return {
             -- 2: shows the full path
             -- 3: shows the full path and shorten $HOME to ~
           },
-          { "progress", separator = " ", padding = { left = 1, right = 0 } },
+          { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
           { "location", padding = { left = 0, right = 1 } },
         },
         lualine_z = {
           function()
             return " " .. os.date("%R")
           end,
+          {
+            'datetime',
+            -- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
+            style = 'iso'
+          }
         },
       },
       extensions = { "neo-tree", "lazy", "fzf" },
