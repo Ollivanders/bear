@@ -106,3 +106,13 @@ map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in 
 
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
+
+-- copy file path
+map('n', '<leader>yp', function()
+  vim.fn.setreg('+', vim.fn.expand('%:p'))
+end, { desc = 'Copy file path' })
+
+-- copy relative file path
+map('n', '<leader>yP', function()
+  vim.fn.setreg('+', vim.fn.expand('p'))
+end, { desc = 'Copy Relative file path' })
