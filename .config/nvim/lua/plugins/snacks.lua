@@ -8,9 +8,9 @@ return {
     dashboard = {
       enabled = true,
       width = 60,
-      row = nil, -- dashboard position. nil for center
-      col = nil, -- dashboard position. nil for center
-      pane_gap = 4, -- empty columns between vertical panes
+      row = nil,                                                                   -- dashboard position. nil for center
+      col = nil,                                                                   -- dashboard position. nil for center
+      pane_gap = 4,                                                                -- empty columns between vertical panes
       autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
       -- These settings are used by some built-in sections
       preset = {
@@ -24,7 +24,8 @@ return {
         keys = {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "r", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = "git", key = "g", desc = "Git Root Dir", action = ":lua Snacks.lazygit( { cwd = LazyVim.root.git() })" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           {
             icon = " ",
@@ -39,12 +40,12 @@ return {
         },
         -- Used by the `header` section
         header = [[
- _____ _      _     _____ _   _  ___   _   _______ ___________  _____ 
+ _____ _      _     _____ _   _  ___   _   _______ ___________  _____
 |  _  | |    | |   |_   _| | | |/ _ \ | \ | |  _  \  ___| ___ \/  ___|
-| | | | |    | |     | | | | | / /_\ \|  \| | | | | |__ | |_/ /\ `--. 
+| | | | |    | |     | | | | | / /_\ \|  \| | | | | |__ | |_/ /\ `--.
 | | | | |    | |     | | | | | |  _  || . ` | | | |  __||    /  `--. \
 \ \_/ / |____| |_____| |_\ \_/ / | | || |\  | |/ /| |___| |\ \ /\__/ /
- \___/\_____/\_____/\___/ \___/\_| |_/\_| \_/___/ \____/\_| \_|\____/ 
+ \___/\_____/\_____/\___/ \___/\_| |_/\_| \_/___/ \____/\_| \_|\____/
                                                             ]],
       },
       sections = {

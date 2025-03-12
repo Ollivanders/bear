@@ -51,6 +51,24 @@ rebase = true
 autostash = true
 autosquash = true
 
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    side-by-side = true
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    hyperlinks = true
+    ; TODO: git-remote for neovim open
+    ; hyperlinks-file-link-format = "nvim://file/{path}:{line}"
+
+
+[merge]
+    conflictstyle = zdiff3
+
 [user]
 	name = Ollivanders
   email = ollivander64@gmail.com
