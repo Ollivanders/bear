@@ -5,7 +5,9 @@
 local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
-map("n", "<leader>fp", ":NeovimProjectDiscover", { desc = "Project Discover" })
+
+map("n", "<leader>gm", ":DiffviewOpen origin/main", { desc = "Diffview origin/main" })
+map("n", "<leader>gr", ":DiffviewFileHistory", { desc = "Diff file history" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
 map({ "n", "x" }, ";", ":")
@@ -94,14 +96,14 @@ function open_split_buffer_goto_definition()
     end
   else
     vim.cmd("vsplit")
-    target_win = current_win
+    vim.cmd('wincmd p')
   end
 
   -- Set buffer for new window
   vim.api.nvim_win_set_buf(target_win, current_buf)
 
   -- Copy cursor position to new window for lsp defintion
-  vim.api.nvim_win_set_cursor(target_win, current_cursor_pos)
+  vim.api.nvim_win_set_cursor(target_win, vim.api.nvim_win_get_cursor(0))
 
   -- Focus new window
   vim.api.nvim_set_current_win(target_win)
@@ -125,3 +127,6 @@ end, { desc = 'Copy file path' })
 map('n', '<leader>yP', function()
   vim.fn.setreg('+', vim.fn.expand('p'))
 end, { desc = 'Copy Relative file path' })
+
+local floating_menu = require("neo-gitmoji").open_floating
+vim.keymap.set('n', '<leader>gj', function() floating_menu() end, {})

@@ -15,7 +15,7 @@ ui = true
 abbrev = 12
 attributesFile = ~/.gitattributes
 autocrlf = input
-editor = nvim
+editor = vim
 excludesFile = ~/.gitignore
 pager=cat
 

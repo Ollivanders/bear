@@ -24,7 +24,7 @@ return {
         keys = {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "r", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "t", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = "git", key = "g", desc = "Git Root Dir", action = ":lua Snacks.lazygit( { cwd = LazyVim.root.git() })" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           {
@@ -39,17 +39,19 @@ return {
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
         header = [[
- _____ _      _     _____ _   _  ___   _   _______ ___________  _____ 
+ _____ _      _     _____ _   _  ___   _   _______ ___________  _____
 |  _  | |    | |   |_   _| | | |/ _ \ | \ | |  _  \  ___| ___ \/  ___|
-| | | | |    | |     | | | | | / /_\ \|  \| | | | | |__ | |_/ /\ `--. 
+| | | | |    | |     | | | | | / /_\ \|  \| | | | | |__ | |_/ /\ `--.
 | | | | |    | |     | | | | | |  _  || . ` | | | |  __||    /  `--. \
 \ \_/ / |____| |_____| |_\ \_/ / | | || |\  | |/ /| |___| |\ \ /\__/ /
- \___/\_____/\_____/\___/ \___/\_| |_/\_| \_/___/ \____/\_| \_|\____/ 
+ \___/\_____/\_____/\___/ \___/\_| |_/\_| \_/___/ \____/\_| \_|\____/
                                                             ]],
       },
+
       sections = {
         { section = "header" },
-        { section = "keys", gap = 1, padding = 1 },
+        { section = "startup", padding = 2 },
+        { section = "keys", gap = 0, padding = 2 },
         { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 2 },
         { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
         {
@@ -59,13 +61,12 @@ return {
           enabled = function()
             return Snacks.git.get_root() ~= nil
           end,
-          cmd = "hub status --short --branch --renames",
+          cmd = "git --no-pager diff --stat -B -M -C",
           height = 5,
           padding = 1,
           ttl = 5 * 60,
           indent = 3,
-        },
-        { section = "startup" },
+        }
       },
     },
   },
