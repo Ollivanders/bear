@@ -36,6 +36,9 @@ end, {
   desc = "reload init.lua",
 })
 
+-- TODO:
+-- .gitignore  alt-i
+-- hidden files alt-h
 map("n", "<leader>s/", function()
   -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
   -- Uses ripgrep args (rg) for live_grep
@@ -46,7 +49,13 @@ map("n", "<leader>s/", function()
   -- -e # regex
   -- see 'man rg' for more
   require("telescope").extensions.live_grep_args.live_grep_args() -- see arguments given in extensions config
-end, { desc = "Live Grep (Args)" })
+end, { desc = "Live Grep" })
+
+vim.keymap.set("n", "<leader>gw", require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
+  { desc = "Live grep word under cursor" })
+vim.keymap.set("n", "<leader>gv", require("telescope-live-grep-args.shortcuts").grep_visual_selection,
+  { desc = "Live grep visual selection" })
+
 
 -- faster save and quit
 map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" })

@@ -15,7 +15,7 @@ config.inactive_pane_hsb = {
 
 config.window_decorations = "RESIZE"
 config.color_scheme = "Darkside"
-config.font_size = 12
+config.font_size = 14
 
 config.font = wezterm.font("JetBrains Mono")
 config.window_background_opacity = 0.92
@@ -25,7 +25,7 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.window_frame = {
   font = wezterm.font({ family = "Noto Sans", weight = "Bold" }),
-  font_size = 12,
+  font_size = 13,
 }
 
 config.keys = {
@@ -45,7 +45,7 @@ config.keys = {
 local function segments_for_right_status(window)
   return {
     window:active_workspace(),
-    wezterm.strftime("%a %b %-d %H:%M"),
+    wezterm.strftime("%a %b %-d %H:%M:%S"),
     wezterm.hostname(),
   }
 end
