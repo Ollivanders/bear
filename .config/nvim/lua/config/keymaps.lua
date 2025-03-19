@@ -17,12 +17,12 @@ map("n", "<leader>Q", "<cmd>qa!<cr>", { silent = true, desc = "quit nvim" })
 
 -- insert a blank line below or above current line (do not move the cursor),
 -- see https://stackoverflow.com/a/16136133/6064933
-map("n", "<space>o", "printf('m`%so<esc>``', v:count1)", {
+map("n", "go", "printf('m`%so<esc>``', v:count1)", {
   expr = true,
   desc = "insert line below",
 })
 
-map("n", "<space>O", "printf('m`%sO<esc>``', v:count1)", {
+map("n", "gO", "printf('m`%sO<esc>``', v:count1)", {
   expr = true,
   desc = "insert line above",
 })
@@ -58,9 +58,6 @@ vim.keymap.set("n", "<leader>gw", require("telescope-live-grep-args.shortcuts").
 vim.keymap.set("n", "<leader>gv", require("telescope-live-grep-args.shortcuts").grep_visual_selection,
   { desc = "Live grep visual selection" })
 
-
--- faster save and quit
-map("n", "<leader>w", "<cmd>update<cr>", { silent = true, desc = "save buffer" })
 
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
@@ -117,7 +114,6 @@ map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in 
 
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
-
 -- copy file path
 map('n', '<leader>yp', function()
   vim.fn.setreg('+', vim.fn.expand('%:p'))

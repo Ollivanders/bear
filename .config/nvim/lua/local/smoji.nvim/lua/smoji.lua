@@ -105,7 +105,7 @@ M.select = function()
         -- vim.cmd("startinsert!")
         -- vim.fn.setreg(reg, old_val)
       else
-        vim.cmd("normal! i" .. emoji)
+        vim.cmd("normal!" .. emoji)
       end
     end
   end)
