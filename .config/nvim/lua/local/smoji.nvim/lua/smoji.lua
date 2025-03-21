@@ -1,83 +1,70 @@
 -- based on "zakissimo/smoji.nvim",
 local M = {}
 
-M.prompt = "Select emoji:"
+M.prompt = "Select : "
 
 M.items = {
-  "📦 NEW:- :new: - New feature",
-  "🎨 FORMAT:- :art: - Improve structure / format of the code.",
+  "📦PACKAGE:- :package: - update compiled packages",
+  "🎨FORMAT:- :art: - Improve structure / format of the code.",
   "⚡️IMPROVE:- :zap: - Improve performance.",
-  "🔥 REMOVE: - :fire: - Remove code or files.",
-  "🐛 FIX: - :bug: - Fix a bug.",
-  "🚑️ CRITICAL: - :ambulance: - Critical hotfix.",
-  "📝 DOCS: - :memo: - Add or update documentation.",
-  "🚀 RELEASE: - :rocket: - Deploy stuff.",
-  "✅ DONE: - :white_check_mark: - Add, update, or pass tests.",
-  "🚧 WIP: - :construction: - Work in progress.",
-  "➕ ADD: - :heavy_plus_sign: - Add a dependency.",
-  "💥 BREAKING:  - :boom: - Introduce breaking changes.",
+  "🔥REMOVE: - :fire: - Remove code or files.",
+  "🐛FIX: - :bug: - Fix a bug.",
+  "🚑️CRITICAL: - :ambulance: - Critical hotfix.",
+  "📝DOCS: - :memo: - Add or update documentation.",
+  "🚀RELEASE: - :rocket: - Deploy stuff.",
+  "✅DONE: - :white_check_mark: - Add, update, or pass tests.",
+  "🚧WIP: - :construction: - Work in progress.",
+  "➕ADD: - :heavy_plus_sign: - Add a dependency.",
+  "💥BREAKING:  - :boom: - Introduce breaking changes.",
   "♻️ REFACTOR:  - :recycle: - Refactor code.",
   "🔒️LOCK- :lock: - Fix security issues.",
   "⬆️ UPGRADE: - :arrow_up: - Upgrade dependencies.",
-  "📌 PIN: - :pushpin: - Pin dependencies to specific versions.",
-  "💸 MONEY: - :money_with_wings: - Add sponsorships or money related infrastructure.",
-  -- "✨ - :sparkles: - Introduce new features.",
-  -- "💄 - :lipstick: - Add or update the UI and style files.",
-  -- "🎉 - :tada: - Begin a project.",
-  -- "🔐 - :closed_lock_with_key: - Add or update secrets.",
-  -- "🔖 - :bookmark: - Release / Version tags.",
-  -- "🚨 - :rotating_light: - Fix compiler / linter warnings.",
-  -- "💚 - :green_heart: - Fix CI Build.",
-  -- "⬇️ - :arrow_down: - Downgrade dependencies.",
-  -- "👷 - :construction_worker: - Add or update CI build system.",
-  -- "📈 - :chart_with_upwards_trend: - Add or update analytics or track code.",
-  -- "➖ - :heavy_minus_sign: - Remove a dependency.",
-  -- "🔧 - :wrench: - Add or update configuration files.",
-  -- "🔨 - :hammer: - Add or update development scripts.",
-  -- "🌐 - :globe_with_meridians: - Internationalization and localization.",
-  -- "✏️ - :pencil2: - Fix typos.",
-  -- "💩 - :poop: - Write bad code that needs to be improved.",
-  -- "⏪️ - :rewind: - Revert changes.",
-  -- "🔀 - :twisted_rightwards_arrows: - Merge branches.",
-  -- "📦️ - :package: - Add or update compiled files or packages.",
-  -- "👽️ - :alien: - Update code due to external API changes.",
-  -- "🚚 - :truck: - Move or rename resources (e.g.: files, paths, routes).",
-  -- "📄 - :page_facing_up: - Add or update license.",
-  -- "🍱 - :bento: - Add or update assets.",
-  -- "♿️ - :wheelchair: - Improve accessibility.",
-  -- "💡 - :bulb: - Add or update comments in source code.",
-  -- "🍻 - :beers: - Write code drunkenly.",
-  -- "💬 - :speech_balloon: - Add or update text and literals.",
-  -- "🗃️ - :card_file_box: - Perform database related changes.",
-  -- "🔊 - :loud_sound: - Add or update logs.",
-  -- "🔇 - :mute: - Remove logs.",
-  -- "👥 - :busts_in_silhouette: - Add or update contributor(s).",
-  -- "🚸 - :children_crossing: - Improve user experience / usability.",
-  -- "🏗️ - :building_construction: - Make architectural changes.",
-  -- "📱 - :iphone: - Work on responsive design.",
-  -- "🤡 - :clown_face: - Mock things.",
-  -- "🥚 - :egg: - Add or update an easter egg.",
-  -- "🙈 - :see_no_evil: - Add or update a .gitignore file.",
-  -- "📸 - :camera_flash: - Add or update snapshots.",
-  -- "⚗️ - :alembic: - Perform experiments.",
-  -- "🔍️ - :mag: - Improve SEO.",
-  -- "🏷️ - :label: - Add or update types.",
-  -- "🌱 - :seedling: - Add or update seed files.",
-  -- "🚩 - :triangular_flag_on_post: - Add, update, or remove feature flags.",
-  -- "🥅 - :goal_net: - Catch errors.",
-  -- "💫 - :dizzy: - Add or update animations and transitions.",
-  -- "🗑️ - :wastebasket: - Deprecate code that needs to be cleaned up.",
-  -- "🛂 - :passport_control: - Work on code related to authorization, roles and permissions.",
-  -- "🩹 - :adhesive_bandage: - Simple fix for a non-critical issue.",
-  -- "🧐 - :monocle_face: - Data exploration/inspection.",
-  -- "⚰️ - :coffin: - Remove dead code.",
-  -- "🧪 - :test_tube: - Add a failing test.",
-  -- "👔 - :necktie: - Add or update business logic.",
-  -- "🩺 - :stethoscope: - Add or update healthcheck.",
-  -- "🧱 - :bricks: - Infrastructure related changes.",
-  -- "🧑‍💻 - :technologist: - Improve developer experience.",
-  -- "🧵 - :thread: - Add or update code related to multithreading or concurrency.",
-  -- "🦺 - :safety_vest: - Add or update code related to validation.",
+  "📌PIN: - :pushpin: - Pin dependencies to specific versions.",
+  "💸MONEY: - :money_with_wings: - Add sponsorships or money related infrastructure.",
+  "✨NEW: - :sparkles: - Introduce new features.",
+  "💄UI: - :lipstick: - Add or update the UI and style files.",
+  "🎉BEGIN: - :tada: - Begin a project.",
+  "🔐SECRET: - :closed_lock_with_key: - Add or update secrets.",
+  "🔖TAG: - :bookmark: - Release / Version tags.",
+  "🚨COMPILER: - :rotating_light: - Fix compiler / linter warnings.",
+  "💚CI: - :green_heart: - Fix CI Build.",
+  "⬇️DOWNGRADE: - :arrow_down: - Downgrade dependencies.",
+  "👷BUILD: - :construction_worker: - Add or update CI build system.",
+  "📈ANALYICS: - :chart_with_upwards_trend: - Add or update analytics or track code.",
+  "➖DELETE: - :heavy_minus_sign: - Remove a dependency.",
+  "🔧CONFIG: - :wrench: - Add or update configuration files.",
+  "🔨SCRIPT: - :hammer: - Add or update development scripts.",
+  "✏️TYPO: - :pencil2: - Fix typos.",
+  "⏪️REVERT: - :rewind: - Revert changes.",
+  "🔀MERGE: - :twisted_rightwards_arrows: - Merge branches.",
+  "👽️EXTERNAL: - :alien: - Update code due to external API changes.",
+  "🚚MOVE: - :truck: - Move or rename resources (e.g.: files, paths, routes).",
+  "📄LICENSE: - :page_facing_up: - Add or update license.",
+  "♿️ACCESSIBILITY: - :wheelchair: - Improve accessibility.",
+  "💡COMMENTS: - :bulb: - Add or update comments in source code.",
+  "🗃️DATA: - :card_file_box: - Perform database related changes.",
+  "🔊LOGS: - :loud_sound: - Add or update logs.",
+  "🔇REMOVE_LOGS: - :mute: - Remove logs.",
+  "👥CONTRIBUTOR: - :busts_in_silhouette: - Add or update contributor(s).",
+  "🚸UX: - :children_crossing: - Improve user experience / usability.",
+  "🏗️DESIGN: - :building_construction: - Make architectural changes.",
+  "🤡MOCK: - :clown_face: - Mock things.",
+  "🙈GIT_IGNORE: - :see_no_evil: - Add or update a .gitignore file.",
+  "📸SNAPSHOT: - :camera_flash: - Add or update snapshots.",
+  "⚗️EXPERIEMENT: - :alembic: - Perform experiments.",
+  "🏷️TYPES: - :label: - Add or update types.",
+  "🚩FEATURE_FLAG - :triangular_flag_on_post: - Add, update, or remove feature flags.",
+  "🥅CATCH_ERROR: - :goal_net: - Catch errors.",
+  "🗑️DEPRECATE: - :wastebasket: - Deprecate code that needs to be cleaned up.",
+  "🛂AUTH: - :passport_control: - Work on code related to authorization, roles and permissions.",
+  "🩹PATCH: - :adhesive_bandage: - Simple fix for a non-critical issue.",
+  "🧐INSPECT: - :monocle_face: - Data exploration/inspection.",
+  "⚰️HIDE: - :coffin: - Remove dead code.",
+  "🧪TESTER: - :test_tube: - Add a failing test.",
+  "🩺HEALTH: - :stethoscope: - Add or update healthcheck.",
+  "🧱INFRA: - :bricks: - Infrastructure related changes.",
+  "🧵THREADING: - :thread: - Add or update code related to multithreading or concurrency.",
+  "🦺VALIDATION: - :safety_vest: - Add or update code related to validation.",
 }
 
 M.select = function()
@@ -89,24 +76,24 @@ M.select = function()
   }, function(choice)
     if choice == nil then
       vim.print("No choice made!")
-    else
-      local s = vim.split(choice, "-")
-      local emoji = s[1]
+      return
+    end
 
-      vim.fn.setreg("+", emoji)
-      vim.fn.setreg('"', emoji)
-      if vim.bo.buftype == "terminal" then
-        print("terminal")
-        print(emoji)
-        local reg = "0"
-        local old_val = vim.fn.getreg(reg)
-        vim.fn.setreg(reg, emoji)
-        -- vim.cmd('normal! "0p')
-        -- vim.cmd("startinsert!")
-        -- vim.fn.setreg(reg, old_val)
-      else
-        vim.cmd("normal!" .. emoji)
-      end
+    local s = vim.split(choice, "-")
+    local emoji = s[1]
+
+    vim.fn.setreg("+", emoji)
+    vim.fn.setreg('"', emoji)
+
+    if vim.bo.buftype == "terminal" then
+      local reg = "0"
+      local old_val = vim.fn.getreg(reg)
+      vim.fn.setreg(reg, emoji)
+      -- vim.cmd('normal! "0p')
+      -- vim.cmd("startinsert!")
+      -- vim.fn.setreg(reg, old_val)
+    else
+      vim.cmd("normal!" .. emoji)
     end
   end)
 end
