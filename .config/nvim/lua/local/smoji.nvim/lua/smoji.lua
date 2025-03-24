@@ -65,6 +65,9 @@ M.items = {
   "🧱INFRA: - :bricks: - Infrastructure related changes.",
   "🧵THREADING: - :thread: - Add or update code related to multithreading or concurrency.",
   "🦺VALIDATION: - :safety_vest: - Add or update code related to validation.",
+  "🧬EXPERIMENTAL: - :genetics: - Experiment with core change",
+  "🔺CHANGE: - :change: - Change component",
+  "🌶️SPICY: - :spicy: - Spicy change",
 }
 
 M.select = function()
