@@ -32,10 +32,10 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "monokai-pro" } },
+  -- install = { colorscheme = { "monokai-pro" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
-    notify = true,  -- notify on update
+    notify = false, -- notify on update
   },                -- automatically check for plugin updates
   performance = {
     rtp = {
@@ -53,5 +53,7 @@ require("lazy").setup({
     },
   },
 })
+
+
 
 vim.opt.colorcolumn = "100"
