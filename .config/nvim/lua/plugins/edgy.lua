@@ -2,7 +2,7 @@ return {
   "folke/edgy.nvim",
   init = function()
     vim.opt.laststatus = 3
-    vim.opt.splitkeep = "screen"
+    vim.opt.splitkeep = "topline"
   end,
   event = "VeryLazy",
   keys = {
@@ -62,6 +62,7 @@ return {
             return vim.b[buf].neo_tree_source == "filesystem"
           end,
           size = { height = 0.7 },
+          pinned = true,
         },
         {
           title = "Git",
@@ -71,7 +72,7 @@ return {
           end,
           size = { height = 0.15 },
           pinned = true,
-          colapsed = false,
+          colapsed = true,
           open = "Neotree position=right git_status",
         },
         {
@@ -81,7 +82,7 @@ return {
             return vim.b[buf].neo_tree_source == "buffers"
           end,
           pinned = true,
-          colapsed = false,
+          colapsed = true,
           size = { height = 0.15 },
           open = "Neotree position=top buffers",
         },
