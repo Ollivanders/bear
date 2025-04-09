@@ -53,15 +53,26 @@ map("n", "<leader>s/", function()
   require("telescope").extensions.live_grep_args.live_grep_args() -- see arguments given in extensions config
 end, { desc = "Live Grep" })
 
-vim.keymap.set("n", "<leader>gw", require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
-  { desc = "Live grep word under cursor" })
-vim.keymap.set("n", "<leader>gv", require("telescope-live-grep-args.shortcuts").grep_visual_selection,
-  { desc = "Live grep visual selection" })
-
+vim.keymap.set(
+  "n",
+  "<leader>gw",
+  require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
+  { desc = "Live grep word under cursor" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>gv",
+  require("telescope-live-grep-args.shortcuts").grep_visual_selection,
+  { desc = "Live grep visual selection" }
+)
 
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
 map("t", "<Esc>", "<C-\\><C-n>")
+
+-- map("n", "<C-\\>", function()
+--   require("snacks").terminal.toggle(nil, { win = { position = "bottom" } })
+-- end, { desc = "Bottom Terminal" })
 
 map("n", "<C-/>", function()
   require("snacks").terminal.toggle(nil, { win = { position = "right" } })
@@ -93,7 +104,7 @@ function open_split_buffer_goto_definition()
     end
   else
     vim.cmd("vsplit")
-    vim.cmd('wincmd p')
+    vim.cmd("wincmd p")
   end
 
   -- Set buffer for new window
@@ -115,16 +126,14 @@ map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in 
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 -- copy file path
-map('n', '<leader>yp', function()
-  vim.fn.setreg('+', vim.fn.expand('%:p'))
-end, { desc = 'Copy file path' })
+map("n", "<leader>yp", function()
+  vim.fn.setreg("+", vim.fn.expand("%:p"))
+end, { desc = "Copy file path" })
 
 -- copy relative file path
-map('n', '<leader>yP', function()
-  vim.fn.setreg('+', vim.fn.expand('p'))
-end, { desc = 'Copy Relative file path' })
-
-local floating_menu = require("neo-gitmoji").open_floating
+map("n", "<leader>yP", function()
+  vim.fn.setreg("+", vim.fn.expand("p"))
+end, { desc = "Copy Relative file path" })
 
 require("goto-preview").setup({
   width = 120, -- Width of the floating window
@@ -138,19 +147,16 @@ require("goto-preview").setup({
   post_close_hook = nil, -- A function taking two arguments, a buffer and a window to be ran as a hook.
   references = { -- Configure the telescope UI for slowing the references cycling window.
     provider = "telescope", -- telescope|fzf_lua|snacks|mini_pick|default
-    telescope = require("telescope.themes").get_dropdown({ hide_preview = false })
+    telescope = require("telescope.themes").get_dropdown({ hide_preview = false }),
   },
   -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
-  focus_on_open = true,                                        -- Focus the floating window when opening it.
-  dismiss_on_move = false,                                     -- Dismiss the floating window when moving the cursor.
-  force_close = true,                                          -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
-  bufhidden = "wipe",                                          -- the bufhidden option to set on the floating window. See :h bufhidden
-  stack_floating_preview_windows = true,                       -- Whether to nest floating windows
-  same_file_float_preview = true,                              -- Whether to open a new floating window for a reference within the current file
+  focus_on_open = true, -- Focus the floating window when opening it.
+  dismiss_on_move = false, -- Dismiss the floating window when moving the cursor.
+  force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+  bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
+  stack_floating_preview_windows = true, -- Whether to nest floating windows
+  same_file_float_preview = true, -- Whether to open a new floating window for a reference within the current file
   preview_window_title = { enable = true, position = "left" }, -- Whether to set the preview window title as the filename
-  zindex = 1,                                                  -- Starting zindex for the stack of floating windows
-  vim_ui_input = true,                                         -- Whether to override vim.ui.input with a goto-preview floating window
-
+  zindex = 1, -- Starting zindex for the stack of floating windows
+  vim_ui_input = true, -- Whether to override vim.ui.input with a goto-preview floating window
 })
-
-vim.keymap.set('n', '<leader>gj', function() floating_menu() end, {})
