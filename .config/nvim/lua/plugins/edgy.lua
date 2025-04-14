@@ -2,7 +2,7 @@ return {
   "folke/edgy.nvim",
   init = function()
     vim.opt.laststatus = 3
-    vim.opt.splitkeep = "topline"
+    vim.opt.splitkeep = "screen"
   end,
   event = "VeryLazy",
   keys = {

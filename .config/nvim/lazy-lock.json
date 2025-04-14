@@ -38,7 +38,6 @@
   "mini.pairs": { "branch": "main", "commit": "69864a2efb36c030877421634487fd90db1e4298" },
   "mini.surround": { "branch": "main", "commit": "5aab42fcdcf31fa010f012771eda5631c077840a" },
   "monokai-pro.nvim": { "branch": "master", "commit": "872f774303f79416000e8049630052f4124d9534" },
-  "neo-gitmoji.nvim": { "branch": "main", "commit": "d3d7d6ec4b030c994ffc1d14848fa49ad67f00f6" },
   "neo-tree.nvim": { "branch": "main", "commit": "73d63376352ac731379892e27ac7b3d9449148e3" },
   "nightfox.nvim": { "branch": "main", "commit": "ba47d4b4c5ec308718641ba7402c143836f35aa9" },
   "noice.nvim": { "branch": "main", "commit": "0427460c2d7f673ad60eb02b35f5e9926cf67c59" },
