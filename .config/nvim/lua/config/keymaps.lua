@@ -76,10 +76,6 @@ map("n", "<C-/>", function()
   require("snacks").terminal.toggle(nil, { win = { position = "right" } })
 end, { desc = "Vertical Terminal" })
 
-map("n", "<C-_>", function()
-  require("snacks").terminal.toggle(nil, { win = { position = "right" } })
-end, { desc = "Vertical Terminal" })
-
 -- <Esc><Esc> in terminal mode sends <C-\><C-n> to exit terminal mode, see :h term
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
 

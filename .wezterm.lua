@@ -39,7 +39,8 @@ config.keys = {
     mods = 'CTRL',
     action = wezterm.action.TogglePaneZoomState,
   },
-
+  { key = '-', mods = 'CTRL', action = wezterm.action.DisableDefaultAssignment },
+  { key = '=', mods = 'CTRL', action = wezterm.action.DisableDefaultAssignment },
 }
 
 local function segments_for_right_status(window)
