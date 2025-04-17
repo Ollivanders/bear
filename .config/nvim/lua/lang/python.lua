@@ -1,4 +1,4 @@
-local M = {
+return {
   {
     "alexpasmantier/pymple.nvim",
     event = "VeryLazy",
@@ -237,5 +237,3 @@ local M = {
     end,
   },
 }
-
-return M
