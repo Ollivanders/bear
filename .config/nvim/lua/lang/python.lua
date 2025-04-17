@@ -1,6 +1,7 @@
 local M = {
   {
     "alexpasmantier/pymple.nvim",
+    event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
@@ -24,9 +25,11 @@ local M = {
   },
   {
     "nvim-neotest/nvim-nio",
+    event = "VeryLazy",
   },
   {
     "mfussenegger/nvim-dap",
+    event = "VeryLazy",
     recommended = true,
     dependencies = {
       "rcarriga/nvim-dap-ui",
@@ -183,6 +186,7 @@ local M = {
   },
   {
     "mfussenegger/nvim-dap-python",
+    event = "VeryLazy",
     ft = "python",
     dependencies = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
     keys = {
@@ -215,6 +219,7 @@ local M = {
   },
   {
     "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
     config = function()
       local dap = require("dap")
