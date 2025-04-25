@@ -4,15 +4,12 @@
 
 set -e
 
-if [ -z ${DOTFILES+x} ]; then
-  source script/general.sh
-else
-  source ${DOTFILES}/script/general.sh
-fi
+source $HOME/.script/general.sh
 cd "$(dirname "$0")"
-QUICK=false
 source ~/.aliases/dirs.bzsh
-PARENT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+
+QUICK=false
+
 USING_ZSH=true
 RUN='0'
 STEP=1
@@ -20,9 +17,9 @@ STEP=1
 #------------------------------------------------------------------------------
 # Intro
 function intro() {
-  cat docs/logo.txt
+  cat $HOME/.docs/logo.txt
   echo
-  echo -e "  \e${FONTTITLE} Welcome to your tasty $OSTYPE setup \e[0m"
+  echo -e "  Welcome to your tasty $OSTYPE setup "
   echo
 
   echo 'You will recieve a prompt at most decisions.'
@@ -190,8 +187,9 @@ function setup_zsh() {
       #------------------------------------------------------------------------------
       # Init zsh themes and external libraries
       echo "Hang tight while we install some external libraries"
-      git submodule init
-      git submodule update
+      alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+      cfg submodule init
+      cfg submodule update
 
       info "change" "manually after running 'p10k configure' and logging out to init ZSH"
       user "Would you like to use a default .p10k.zsh with a default configuration?"
