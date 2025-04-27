@@ -84,3 +84,6 @@ eval "$(pyenv init - zsh)"
 
 source ~/.script/spec.sh
 
+
+# bun completions
+[ -s "/Users/ollivander/.bun/_bun" ] && source "/Users/ollivander/.bun/_bun"

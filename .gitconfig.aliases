@@ -123,6 +123,7 @@ ca = commit -a --verbose
 cm = commit -m
 cam = commit -a -m
 
+clo = clone
 co = checkout
 cob = checkout -b
 ac = add -A && commit -m
