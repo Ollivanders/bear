@@ -4,7 +4,7 @@
 # Settings for both bash and zsh
 
 # all of our zsh and bash files
-config_files=(~/.aliases/*.bzsh)
+config_files=(~/.aliases/*.zsh)
 
 for file in "${config_files[@]}"; do
   source $file

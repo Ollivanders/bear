@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
 #
-# Run all dotfiles installers.
+# all installers
 
 set -e
 
-cd "$(dirname $0)"/..
-
-# find the installers and run them iteratively
-find . -maxdepth 2 -name install.sh | while read installer; do
-    echo "installing ${installer}"
-    sh -c "${installer}"
-done
+# nvm
+curl -o- https://raw.githubuse//rcontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash

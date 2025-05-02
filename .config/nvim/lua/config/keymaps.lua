@@ -6,7 +6,7 @@ local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
 
-map("n", "<leader>gm", ":DiffviewOpen origin/main", { desc = "Diffview origin/main" })
+map("n", "<leader>gm", ":DiffviewOpen origin/master", { desc = "Diffview origin/master" })
 map("n", "<leader>gr", ":DiffviewFileHistory", { desc = "Diff file history" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
@@ -60,7 +60,7 @@ vim.keymap.set(
   { desc = "Live grep word under cursor" }
 )
 vim.keymap.set(
-  "n",
+  "v",
   "<leader>gv",
   require("telescope-live-grep-args.shortcuts").grep_visual_selection,
   { desc = "Live grep visual selection" }
@@ -119,15 +119,18 @@ map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in 
 
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
--- copy file path
+
 map("n", "<leader>yp", function()
   vim.fn.setreg("+", vim.fn.expand("%:p"))
 end, { desc = "Copy file path" })
 
--- copy relative file path
-map("n", "<leader>yP", function()
-  vim.fn.setreg("+", vim.fn.expand("p"))
+vim.keymap.set("n", "<leader>yr", function()
+  vim.fn.setreg("+", vim.fn.expand("%:."))
 end, { desc = "Copy Relative file path" })
+
+vim.keymap.set("n", "<leader>yd", function()
+  vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
+end, { desc = "Copy directory of current buffer (absolute path)" })
 
 require("goto-preview").setup({
   width = 120, -- Width of the floating window

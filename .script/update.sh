@@ -12,3 +12,5 @@ else
   echo "Sorry ${OSTYPE} unsupported"
   exit 0
 fi
+
+~/.script/softwareInstall.sh
