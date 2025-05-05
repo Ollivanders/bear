@@ -62,7 +62,7 @@ unsetopt correct
 # pasteinit() {
 #   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
 #   zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
-# }
+# }:Telescope harpoon marks
 # pastefinish() {
 #   zle -N self-insert $OLD_SELF_INSERT
 # }

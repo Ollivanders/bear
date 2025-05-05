@@ -157,3 +157,5 @@ require("goto-preview").setup({
   zindex = 1, -- Starting zindex for the stack of floating windows
   vim_ui_input = true, -- Whether to override vim.ui.input with a goto-preview floating window
 })
+
+map("n", "<leader>th", ":Telescope harpoon marks", { desc = "Harpoon telescope" })
