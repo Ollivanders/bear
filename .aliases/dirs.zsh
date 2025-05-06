@@ -1,0 +1,12 @@
+##################
+# Useful dir specification
+##################
+
+# set so it can vary by OS
+export HOME_DIR="${HOME}"
+
+export PROJECTS_DIR="${HOME_DIR}/projects"
+export SCRATCH_DIR="${HOME_DIR}/scratch"
+export REPOS_DIR="${HOME_DIR}/repos"
+export SCRATCH_DIR="${HOME_DIR}/scratch"
+export DESKTOP_DIR="${HOME_DIR}/Desktop/"
