@@ -47,6 +47,7 @@ plugins=(
   gitfast
   git
   terraform
+  vi-mode
 )
 
 # enable alias finder suggestions on all commands
@@ -74,7 +75,6 @@ unsetopt correct
 
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 
 source ~/.script/spec.sh
 

@@ -1,4 +1,4 @@
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(zoxide init zsh)"
 
 export PYENV_ROOT="$HOME/.pyenv"
