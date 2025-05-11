@@ -11,12 +11,14 @@ return {
       live_grep_args = {
         auto_quoting = true, -- enable/disable auto-quoting
         -- define mappings, e.g.
-        mappings = {         -- extend mappings
+        mappings = { -- extend mappings
           i = {
-            -- "k - quote, l - ignore libs, t - ignore test, <space> - fuzzy refine"
-            ["<C-k>"] = lga_actions.quote_prompt(),
-            ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g \"*libs*\"" }),
-            ["<C-j>"] = lga_actions.quote_prompt({ postfix = " -g \"!*test*\"" }),
+            ["<C-j>"] = require("telescope.actions").cycle_history_next,
+            ["<C-k>"] = require("telescope.actions").cycle_history_prev,
+
+            ["<C-q>"] = lga_actions.quote_prompt(),
+            ["<C-l>"] = lga_actions.quote_prompt({ postfix = ' -g "*libs*"' }),
+            ["<C-t>"] = lga_actions.quote_prompt({ postfix = ' -g "!*test*"' }),
             ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
             -- freeze the current list and start a fuzzy search in the frozen list
             ["<C-f>"] = lga_actions.to_fuzzy_refine,
@@ -26,7 +28,7 @@ return {
         -- theme = "dropdown", -- use dropdown theme
         -- theme = { }, -- use own theme spec
         -- layout_config = { mirror=true }, -- mirror preview pane
-      }
+      },
     }
 
     telescope.setup(opts)
