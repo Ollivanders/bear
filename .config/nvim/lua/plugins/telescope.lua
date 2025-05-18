@@ -13,6 +13,7 @@ return {
         -- define mappings, e.g.
         mappings = { -- extend mappings
           i = {
+            ["<C-h>"] = "which_key",
             ["<C-j>"] = require("telescope.actions").cycle_history_next,
             ["<C-k>"] = require("telescope.actions").cycle_history_prev,
 

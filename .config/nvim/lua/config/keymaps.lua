@@ -134,6 +134,29 @@ end, { desc = "Copy directory of current buffer (absolute path)" })
 
 map("n", "<leader>lr", ":LspRestart")
 
+map("n", "<leader>rf", function()
+  require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+end, { desc = "Search Replace Current file" })
+
+map("n", "<leader>rw", function()
+  require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })
+end, { desc = "Search Replace Current word" })
+
+map({ "n", "x" }, "<leader>rv", function()
+  require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
+end, { desc = "Search Replace Current file" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("my-grug-far-custom-keybinds", { clear = true }),
+  pattern = { "grug-far" },
+  callback = function()
+    vim.keymap.set("n", "<c-f>", function()
+      local state = unpack(require("grug-far").get_instance(0):toggle_flags({ "--fixed-strings" }))
+      vim.notify("grug-far: toggled --fixed-strings " .. (state and "ON" or "OFF"))
+    end, { buffer = true })
+  end,
+})
+
 require("goto-preview").setup({
   width = 120, -- Width of the floating window
   height = 15, -- Height of the floating window
