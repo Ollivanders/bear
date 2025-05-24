@@ -132,18 +132,18 @@ map("n", "<leader>yd", function()
   vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
 end, { desc = "Copy directory of current buffer (absolute path)" })
 
-map("n", "<leader>lr", ":LspRestart")
+map("n", "<leader>rl", ":LspRestart")
 
 map("n", "<leader>rf", function()
-  require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+  require("grug-far").open({ prefills = { flags = "-F --hidden", paths = vim.fn.expand("%") } })
 end, { desc = "Search Replace Current file" })
 
 map("n", "<leader>rw", function()
-  require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })
+  require("grug-far").open({ prefills = { flags = "-F --hidden", search = vim.fn.expand("<cword>") } })
 end, { desc = "Search Replace Current word" })
 
 map({ "n", "x" }, "<leader>rv", function()
-  require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
+  require("grug-far").with_visual_selection({ prefills = { flags = "-F --hidden", paths = vim.fn.expand("%") } })
 end, { desc = "Search Replace Current file" })
 
 vim.api.nvim_create_autocmd("FileType", {

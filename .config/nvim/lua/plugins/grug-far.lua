@@ -3,8 +3,7 @@ return {
   opts = { headerMaxWidth = 80 },
   cmd = "GrugFar",
   config = function()
-    require("grug-far").setup({
-    })
+    require("grug-far").setup({})
   end,
   keys = {
     {
@@ -15,7 +14,8 @@ return {
         grug.open({
           transient = true,
           prefills = {
-            filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+            flags = "-F -ihidden",
+            -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
           },
         })
       end,
