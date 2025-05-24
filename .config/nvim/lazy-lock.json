@@ -58,6 +58,7 @@
   "pymple.nvim": { "branch": "main", "commit": "6a0a0f047c7f8a7f1f39e48c2c2e713369a13e61" },
   "render-markdown.nvim": { "branch": "main", "commit": "df64d5d5432e13026a79384ec4e2bab185fd4eb5" },
   "rustaceanvim": { "branch": "master", "commit": "277a6611da8736e8d8da1c7d988f5cc134596c41" },
+  "smart-splits.nvim": { "branch": "master", "commit": "5ef94ca23b28148187846fc46f10184aad4d17b0" },
   "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "626998e5c1b71c130d8bc6cf7abb6709b98287bb" },
   "telescope-live-grep-args.nvim": { "branch": "master", "commit": "b80ec2c70ec4f32571478b501218c8979fab5201" },

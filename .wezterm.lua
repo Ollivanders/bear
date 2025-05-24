@@ -38,7 +38,80 @@ config.set_environment_variables = {
 
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1000 }
 
+-- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
+local function is_vim(pane)
+  -- this is set by the plugin, and unset on ExitPre in Neovim
+  return pane:get_user_vars().IS_NVIM == 'true'
+end
+
+-- if you *ARE* lazy-loading smart-splits.nvim (not recommended)
+-- you have to use this instead, but note that this will not work
+-- in all cases (e.g. over an SSH connection). Also note that
+-- `pane:get_foreground_process_name()` can have high and highly variable
+-- latency, so the other implementation of `is_vim()` will be more
+-- performant as well.
+local function is_vim(pane)
+  -- This gsub is equivalent to POSIX basename(3)
+  -- Given "/foo/bar" returns "bar"
+  -- Given "c:\\foo\\bar" returns "bar"
+  local process_name = string.gsub(pane:get_foreground_process_name(), '(.*[/\\])(.*)', '%2')
+  return process_name == 'nvim' or process_name == 'vim'
+end
+
+local direction_keys = {
+  h = 'Left',
+  j = 'Down',
+  k = 'Up',
+  l = 'Right',
+}
+
+local function split_nav(resize_or_move, key)
+  return {
+    key = key,
+    mods = resize_or_move == 'resize' and 'META' or 'CTRL',
+    action = wt.action_callback(function(win, pane)
+      if is_vim(pane) then
+        -- pass the keys through to vim/nvim
+        win:perform_action({
+          SendKey = { key = key, mods = resize_or_move == 'resize' and 'META' or 'CTRL' },
+        }, pane)
+      else
+        if resize_or_move == 'resize' then
+          win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
+        else
+          win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
+        end
+      end
+    end),
+  }
+end
+
 config.keys = {
+    {
+        key = "F12",
+        action = wt.action_callback(function(_, pane)
+            local tab = pane:tab()
+            local panes = tab:panes_with_info()
+            if #panes == 1 then
+                pane:split({
+                    direction = "Right",
+                    size = 0.4,
+                })
+            elseif not panes[1].is_zoomed then
+                panes[1].pane:activate()
+                tab:set_zoomed(true)
+            elseif panes[1].is_zoomed then
+                tab:set_zoomed(false)
+                panes[2].pane:activate()
+            end
+        end),
+    },
+
+  {
+    key = 'T',
+    mods = 'CTRL',
+    action = wt.action.TogglePaneZoomState,
+  },
 	{
 		key = ",",
 		mods = "SUPER",
@@ -104,6 +177,16 @@ config.keys = {
 			timeout_milliseconds = 1000,
 		}),
 	},
+    -- move between split panes
+    split_nav('move', 'h'),
+    split_nav('move', 'j'),
+    split_nav('move', 'k'),
+    split_nav('move', 'l'),
+    -- resize panes
+    split_nav('resize', 'h'),
+    split_nav('resize', 'j'),
+    split_nav('resize', 'k'),
+    split_nav('resize', 'l'),
 }
 config.key_tables = {
 	-- Defines the keys that are active in our resize-pane mode.
