@@ -56,7 +56,8 @@ zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
 zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 
-unsetopt correct
+unsetopt CORRECT
+unsetopt CORRECT_ALL
 
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh

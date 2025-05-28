@@ -14,5 +14,4 @@ customCommands:
         key: "Message"
 
     command: git commit -m "[$(git rev-parse --abbrev-ref HEAD | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+'")] {{.Form.Message}}"
-    subprocess: true
     description: "Prefix commit message"

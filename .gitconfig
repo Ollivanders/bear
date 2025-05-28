@@ -1,6 +1,6 @@
-# Local/private config goes in the include
 [include]
 path = ~/.gitconfig.aliases
+path = ~/.gitconfig.local
 
 [hub]
 protocol = https
@@ -65,11 +65,6 @@ autosquash = true
     ; TODO: git-remote for neovim open
     ; hyperlinks-file-link-format = "nvim://file/{path}:{line}"
 
-
 [merge]
     conflictstyle = zdiff3
-
-[user]
-	name = Ollivanders
-  email = ollivander64@gmail.com
 

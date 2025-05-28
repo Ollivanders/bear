@@ -14,7 +14,7 @@ return {
         grug.open({
           transient = true,
           prefills = {
-            flags = "-F -ihidden",
+            flags = "-F -hidden",
             -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
           },
         })
