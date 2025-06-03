@@ -13,11 +13,21 @@ return {
         local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
         grug.open({
           transient = true,
+          instanceName = "Main",
           prefills = {
             flags = "-F --hidden",
             -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
           },
         })
+      end,
+      mode = { "n", "v" },
+      desc = "Search and Replace",
+    },
+    {
+      "<leader>rt",
+      function()
+        local grug = require("grug-far")
+        grug.toggle_instance({ instanceName = "far", staticTitle = "Find and Replace" })
       end,
       mode = { "n", "v" },
       desc = "Search and Replace",

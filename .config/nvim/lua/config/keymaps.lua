@@ -172,15 +172,15 @@ require("goto-preview").setup({
     telescope = require("telescope.themes").get_dropdown({ hide_preview = false }),
   },
   -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
-  focus_on_open = true, -- Focus the floating window when opening it.
-  dismiss_on_move = false, -- Dismiss the floating window when moving the cursor.
-  force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
-  bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
-  stack_floating_preview_windows = true, -- Whether to nest floating windows
-  same_file_float_preview = true, -- Whether to open a new floating window for a reference within the current file
+  focus_on_open = true,                                        -- Focus the floating window when opening it.
+  dismiss_on_move = false,                                     -- Dismiss the floating window when moving the cursor.
+  force_close = true,                                          -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+  bufhidden = "wipe",                                          -- the bufhidden option to set on the floating window. See :h bufhidden
+  stack_floating_preview_windows = true,                       -- Whether to nest floating windows
+  same_file_float_preview = true,                              -- Whether to open a new floating window for a reference within the current file
   preview_window_title = { enable = true, position = "left" }, -- Whether to set the preview window title as the filename
-  zindex = 1, -- Starting zindex for the stack of floating windows
-  vim_ui_input = true, -- Whether to override vim.ui.input with a goto-preview floating window
+  zindex = 1,                                                  -- Starting zindex for the stack of floating windows
+  vim_ui_input = true,                                         -- Whether to override vim.ui.input with a goto-preview floating window
 })
 
 map("n", "<leader>th", ":Telescope harpoon marks", { desc = "Harpoon telescope" })
