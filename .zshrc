@@ -18,6 +18,9 @@ bindkey "^[[A" up-line-or-beginning-search   # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 autoload -U compinit && compinit
 
+INSERT_MODE_INDICATOR="%F{yellow}+%f"
+bindkey -M viins 'jj' vi-cmd-mode
+
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to enable command auto-correction.
