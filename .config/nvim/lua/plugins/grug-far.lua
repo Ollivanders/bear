@@ -14,6 +14,7 @@ return {
         grug.open({
           transient = true,
           instanceName = "Main",
+          staticTitle = "Toggle",
           prefills = {
             flags = "-F --hidden",
             -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
@@ -27,7 +28,7 @@ return {
       "<leader>rt",
       function()
         local grug = require("grug-far")
-        grug.toggle_instance({ instanceName = "far", staticTitle = "Find and Replace" })
+        grug.toggle_instance({ instanceName = "Main", staticTitle = "Toggle" })
       end,
       mode = { "n", "v" },
       desc = "Search and Replace",
