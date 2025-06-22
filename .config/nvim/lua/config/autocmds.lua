@@ -23,3 +23,14 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "opencl"
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("grug-far-keybindings", { clear = true }),
+  pattern = { "grug-far" },
+  callback = function()
+    vim.keymap.set("n", "<C-enter>", function()
+      require("grug-far").get_instance(0):open_location()
+      require("grug-far").get_instance(0):close()
+    end, { buffer = true })
+  end,
+})
