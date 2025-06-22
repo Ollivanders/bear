@@ -175,16 +175,13 @@ map({ "n", "x" }, "<leader>rv", function()
   }))
 end, { desc = "Search Replace Current file" })
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("my-grug-far-custom-keybinds", { clear = true }),
-  pattern = { "grug-far" },
-  callback = function()
-    vim.keymap.set("n", "<c-f>", function()
-      local state = unpack(require("grug-far").get_instance(0):toggle_flags({ "--fixed-strings" }))
-      vim.notify("grug-far: toggled --fixed-strings " .. (state and "ON" or "OFF"))
-    end, { buffer = true })
-  end,
-})
+map({ "n", "x" }, "<leader>rd", function()
+  local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h:t")
+  local search = "source = .*" .. dir_name .. '"'
+  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+    prefills = { search = search },
+  }))
+end, { desc = "Search Replace Directory name" })
 
 require("goto-preview").setup({
   width = 120, -- Width of the floating window

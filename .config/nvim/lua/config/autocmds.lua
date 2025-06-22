@@ -51,3 +51,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     vim.cmd("TerraformValidate")
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("my-grug-far-custom-keybinds", { clear = true }),
+  pattern = { "grug-far" },
+  callback = function()
+    vim.keymap.set("n", "<c-f>", function()
+      local state = unpack(require("grug-far").get_instance(0):toggle_flags({ "-F" }))
+      vim.notify("grug-far: toggled -F" .. (state and "ON" or "OFF"))
+    end, { buffer = true })
+
+    vim.keymap.set("n", "<c-h>", function()
+      local state = unpack(require("grug-far").get_instance(0):toggle_flags({ "--hidden" }))
+      vim.notify("grug-far: toggled --hidden" .. (state and "ON" or "OFF"))
+    end, { buffer = true })
+  end,
+})
