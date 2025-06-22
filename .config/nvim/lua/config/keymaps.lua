@@ -6,8 +6,8 @@ local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
 
-map("n", "<leader>gm", ":DiffviewOpen origin/master", { desc = "Diffview origin/master" })
-map("n", "<leader>gr", ":DiffviewFileHistory", { desc = "Diff file history" })
+map("n", "<leader>gm", ":DiffviewOpen origin/master", { silent = true, desc = "Diffview origin/master" })
+map("n", "<leader>gr", ":DiffviewFileHistory", { silent = true, desc = "Diff file history" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
 -- map({ "n", "x" }, ";", ":")
@@ -177,11 +177,14 @@ end, { desc = "Search Replace Current file" })
 
 map({ "n", "x" }, "<leader>rd", function()
   local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h:t")
-  local search = "source = .*" .. dir_name .. '"'
+  local search = ".*" .. dir_name .. '"'
   require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-    prefills = { search = search },
+    prefills = {
+      flags = "",
+      search = search,
+    },
   }))
-end, { desc = "Search Replace Directory name" })
+end, { desc = "Search Replace Terraform Module" })
 
 require("goto-preview").setup({
   width = 120, -- Width of the floating window
