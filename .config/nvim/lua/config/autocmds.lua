@@ -17,3 +17,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.env.MYVIMRC,
   command = "silent source %",
 })
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.ocl",
+  callback = function()
+    vim.bo.filetype = "opencl"
+  end,
+})

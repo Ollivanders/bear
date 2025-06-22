@@ -1,7 +1,8 @@
 terraform_plan_with_unlock() {
   echo "Running terraform plan..."
-  lock_id=$(terraform plan 2>&1 | grep -oE "Lock info: .+ID: ([a-zA-Z0-9-]+)" | grep -oE "([a-zA-Z0-9-]+)$")
-  
+  lock_id=$(terraform plan 2>&1 | grep -P 'ID:\s+\d+' | awk -F: '{gsub(/^[ \t]+/, "", $2); print $2}')
+  echo $lock_id
+
   if [ -n "$lock_id" ]; then
     echo "Lock detected. Lock ID: $lock_id"
     echo "Forcing unlock..."
