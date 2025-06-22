@@ -80,6 +80,12 @@ return {
         -- When using a function, the `items` argument are the default keymaps.
         ---@type snacks.dashboard.Item[]
         keys = {
+          {
+            icon = "  ",
+            key = "e",
+            desc = "Explorer",
+            action = ":lua require('neo-tree.command').execute( {toggle=True, dir=LazyVim.root()} )",
+          },
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "t", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
