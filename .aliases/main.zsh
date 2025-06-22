@@ -7,6 +7,7 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cfgs='cfg status'
+alias cfgd='cfg diff'
 alias cfgu='cfg add ~/.config/nvim/ && cfg add -u && cfg commit -m "update" && cfg push'
 
 # Search, find, grep and other locating

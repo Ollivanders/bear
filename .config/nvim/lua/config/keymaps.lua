@@ -119,6 +119,7 @@ map("n", "gS", open_split_buffer_goto_definition, { desc = "Go to Definition in 
 
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
+map("n", "<leader>bw", ":WipeWindowlessBufs<CR>", { silent = true, desc = "Wipe window less buffers" })
 
 map("n", "<leader>yp", function()
   vim.fn.setreg("+", vim.fn.expand("%:p"))
@@ -230,7 +231,7 @@ map("n", "<leader><leader>j", require("smart-splits").swap_buf_down)
 map("n", "<leader><leader>k", require("smart-splits").swap_buf_up)
 map("n", "<leader><leader>l", require("smart-splits").swap_buf_right)
 
--- map("n", "<leader>ti", ":!terraform init<CR>", opts)
--- map("n", "<leader>tv", ":!terraform validate<CR>", opts)
--- map("n", "<leader>tp", ":!terraform plan<CR>", opts)
--- map("n", "<leader>ta", ":!terraform apply <CR>", opts)
+map("n", "<leader>tp", ":TerraformPlan", { silent = true, desc = "Terraform Plan" })
+map("n", "<leader>te", ":TerraformExplore", { silent = true, desc = "Terraform Explore" })
+map("n", "<leader>tv", ":TerraformValidate", { silent = true, desc = "Terraform Validate" })
+map("n", "<leader>ti", ":TerraformInit", { silent = true, desc = "Terraform init" })

@@ -1,5 +1,5 @@
 ##################
-# Useful dir specification
+# peWindowlessBufsUseful dir specification
 ##################
 
 # set so it can vary by OS
