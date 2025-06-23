@@ -143,8 +143,16 @@ local grug_far_open_cfg = {
   staticTitle = "Toggle",
 }
 
+function close_toggle_instance()
+  local inst = require("grug-far.instances").get_instance("Toggle" or 0)
+  if inst then
+    inst:close()
+  end
+end
+
 map("n", "<leader>rf", function()
-  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+  close_toggle_instance()
+  require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
     prefills = {
       paths = vim.fn.expand("%"),
     },
@@ -152,33 +160,35 @@ map("n", "<leader>rf", function()
 end, { desc = "Search Replace Current file" })
 
 map("n", "<leader>rw", function()
-  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+  close_toggle_instance()
+  require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
     prefills = { search = vim.fn.expand("<cword>") },
   }))
 end, { desc = "Search Replace Current word" })
 
 map({ "n", "x" }, "<leader>rp", function()
+  close_toggle_instance()
   local search = vim.fn.getreg("*")
   -- surround with \b if "word" search (such as when pressing `*`)
   if search and vim.startswith(search, "\\<") and vim.endswith(search, "\\>") then
     search = "\\b" .. search:sub(3, -3) .. "\\b"
   end
 
-  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+  require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
     prefills = { search = search },
   }))
 end, { desc = "Search using @/ register value or visual selection" })
 
 map({ "n", "x" }, "<leader>rv", function()
-  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-    prefills = { paths = vim.fn.expand("%") },
-  }))
-end, { desc = "Search Replace Current file" })
+  close_toggle_instance()
+  require("grug-far").with_visual_selection(grug_far_open_cfg)
+end, { desc = "Search Replace within range " })
 
 map({ "n", "x" }, "<leader>rd", function()
+  close_toggle_instance()
   local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h:t")
   local search = ".*" .. dir_name .. '"'
-  require("grug-far").open(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+  require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
     prefills = {
       flags = "",
       search = search,

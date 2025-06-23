@@ -61,7 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.notify("grug-far: toggled -F" .. (state and "ON" or "OFF"))
     end, { buffer = true })
 
-    vim.keymap.set("n", "<c-h>", function()
+    vim.keymap.set("n", "<c-a>", function()
       local state = unpack(require("grug-far").get_instance(0):toggle_flags({ "--hidden" }))
       vim.notify("grug-far: toggled --hidden" .. (state and "ON" or "OFF"))
     end, { buffer = true })
