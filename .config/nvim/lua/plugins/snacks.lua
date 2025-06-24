@@ -81,7 +81,7 @@ return {
         ---@type snacks.dashboard.Item[]
         keys = {
           {
-            icon = "  ",
+            icon = "📁",
             key = "e",
             desc = "Explorer",
             action = ":lua require('neo-tree.command').execute( {toggle=True, dir=LazyVim.root()} )",
