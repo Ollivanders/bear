@@ -1,6 +1,8 @@
 return {
   "okuuva/auto-save.nvim",
-  version = "^1.0.0",
   cmd = "ASToggle",
-  event = { "InsertLeave", "TextChanged" },
+  event = { "WinLeave", "InsertLeave", "TextChanged" },
+  opts = {
+  noautocmd = true,
+}
 }
