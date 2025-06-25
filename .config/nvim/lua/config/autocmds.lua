@@ -67,3 +67,17 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = true })
   end,
 })
+
+vim.api.nvim_create_autocmd("WinLeave", {
+  pattern = "*.py",
+  callback = function()
+    require("conform").format({ async = true, lsp_fallback = true })
+  end,
+})
+
+vim.api.nvim_create_autocmd("WinLeave", {
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
+})
