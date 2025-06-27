@@ -1,34 +1,14 @@
 return {
   "yetone/avante.nvim",
-  -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-  -- ⚠️ must add this setting! ! !
   build = function()
-    -- conditionally use the correct build system for the current OS
-    if vim.fn.has("win32") == 1 then
-      return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-    else
-      return "make"
-    end
+    return "make"
   end,
   event = "VeryLazy",
-  version = false, -- Never set this value to "*"! Never!
+  version = false,
   ---@module 'avante'
   ---@type avante.Config
   opts = {
-    -- add any opts here
-    -- for example
     provider = "copilot",
-    -- providers = {
-    --   copilot = {
-    --     endpoint = "https://api.anthropic.com",
-    --     model = "claude-sonnet-4-20250514",
-    --     timeout = 30000, -- Timeout in milliseconds
-    --       extra_request_body = {
-    --         temperature = 0.75,
-    --         max_tokens = 20480,
-    --       },
-    --   },
-    -- },
   },
   dependencies = {
     "nvim-lua/plenary.nvim",

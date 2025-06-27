@@ -3,6 +3,6 @@ return {
   cmd = "ASToggle",
   event = { "WinLeave", "InsertLeave", "TextChanged" },
   opts = {
-  noautocmd = true,
-}
+    noautocmd = true,
+  },
 }
