@@ -54,7 +54,7 @@ brew "ruff", link: false
 brew "rust"
 brew "rust-analyzer"
 brew "sshpass"
-brew "terraform"
+brew "tenv"
 brew "terraform-ls"
 brew "tig"
 brew "tmux"
