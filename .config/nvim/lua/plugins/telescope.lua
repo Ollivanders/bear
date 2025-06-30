@@ -62,4 +62,9 @@ return {
       },
     },
   },
+  init = function()
+    local map = vim.keymap.set
+
+    map("n", "<leader>th", ":Telescope harpoon marks", { desc = "Harpoon telescope" })
+  end,
 }
