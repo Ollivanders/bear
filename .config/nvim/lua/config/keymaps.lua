@@ -6,7 +6,7 @@ local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
 
-map("n", "<leader>gm", ":DiffviewOpen origin/master", { silent = true, desc = "Diffview origin/master" })
+map("n", "<leader>gm", ":DiffviewOpen origin/master<CR>", { silent = true, desc = "Diffview origin/master" })
 map("n", "<leader>gr", ":DiffviewFileHistory", { silent = true, desc = "Diff file history" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
@@ -131,4 +131,4 @@ map("n", "<leader>yd", function()
   vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
 end, { desc = "Copy directory of current buffer (absolute path)" })
 
-map("n", "<leader>rl", ":LspRestart")
+map("n", "<leader>rl", ":LspRestart<CR>", {silent = true})
