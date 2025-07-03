@@ -37,7 +37,7 @@ local M = {
         })
       end,
       mode = { "n", "v" },
-      desc = "Search and Replace Main",
+      desc = "S/R Main",
     },
     {
       "<leader>rt",
@@ -51,16 +51,20 @@ local M = {
         })
       end,
       mode = { "n", "v" },
-      desc = "Search and Replace Toggle",
+      desc = "S/R Toggle",
     },
     {
       "<leader>rv",
       function()
         close_toggle_instance()
-        require("grug-far").with_visual_selection(grug_far_open_cfg)
+        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+          prefills = {
+            paths = vim.fn.expand("%"),
+          },
+        }))
       end,
       mode = { "n", "v" },
-      desc = "Search Replace visual selection",
+      desc = "S/R visual selection",
     },
     {
       "<leader>rd",
@@ -76,7 +80,7 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "Search Replace Terraform Module",
+      desc = "S/R Terraform Module",
     },
     {
       "<leader>rp",
@@ -93,7 +97,7 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "Search using @/ register value or visual selection",
+      desc = "S/R using @/ register value",
     },
     {
       "<leader>rw",
@@ -104,7 +108,7 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "Search Replace Current Word",
+      desc = "S/R Current Word",
     },
     {
       "<leader>rf",
@@ -117,7 +121,22 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "Search Replace Current file",
+      desc = "S/R Current file",
+    },
+    {
+      "<leader>rr",
+      function()
+        local inst_toggle = require("grug-far.instances").get_instance("Toggle" or 0 )
+        local inst_main = require("grug-far.instances").get_instance( "Main" or 0)
+        if inst_main then
+          inst_main:search()
+        end
+        if inst_toggle then
+          inst_toggle:search()
+        end
+      end,
+      mode = { "n", "v" },
+      desc = "S/R Refresh",
     },
   },
 }
