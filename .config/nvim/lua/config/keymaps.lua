@@ -131,4 +131,4 @@ map("n", "<leader>yd", function()
   vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
 end, { desc = "Copy directory of current buffer (absolute path)" })
 
-map("n", "<leader>lr", ":LspRestart<CR>", {silent = true})
+map("n", "<leader>lr", ":LspRestart<CR>", { silent = true })
