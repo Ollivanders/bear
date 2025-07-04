@@ -2,10 +2,7 @@ alias tlogin="tsh login --proxy=socrates.teleport.sh --auth=okta"
 alias ttoken="tctl tokens add --type=node"
 alias tshs="tsh ls --search"
 alias tkill="export PROCCESSES=\$(ps -ef | grep 'tsh proxy ssh' | grep -v 'grep tsh proxy ssh' | awk '{print \$2}'); kill \$PROCCESSES ; unset PROCCESSES"
-
-tshf() {
-  tssh "$(tsh ls | fzf | awk '{print $1}')"
-}
+alias tshf="tsh ls | fzf > selected | cut -d' ' -f1 | pbcopy"
 
 function tshl() {
   CLOUD_PROVIDER=""
@@ -63,3 +60,4 @@ function frscp() {
   echo "tsh scp oliver.baxandall@$1:/home/oliver.baxandall/$2 $2"
   tsh scp oliver.baxandall@$1:/home/oliver.baxandall/$2 $2
 }
+
