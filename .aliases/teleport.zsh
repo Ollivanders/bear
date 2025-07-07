@@ -61,3 +61,7 @@ function frscp() {
   tsh scp oliver.baxandall@$1:/home/oliver.baxandall/$2 $2
 }
 
+function pdb() {
+  echo "tsh db connect --db-user=rds-readonly --db-name=postgres $1"
+  tsh db connect --db-user=rds-readonly --db-name=postgres $1
+}

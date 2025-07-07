@@ -131,4 +131,11 @@ map("n", "<leader>yd", function()
   vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
 end, { desc = "Copy directory of current buffer (absolute path)" })
 
+map("n", "<leader>yD", function()
+  local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
+  local cwd = vim.fn.getcwd()
+  local rel_path = vim.fn.fnamemodify(buf_dir, ":." .. cwd)
+  vim.fn.setreg("+", rel_path)
+end, { desc = "Copy directory of current buffer (relative path)" })
+
 map("n", "<leader>lr", ":LspRestart<CR>", { silent = true })
