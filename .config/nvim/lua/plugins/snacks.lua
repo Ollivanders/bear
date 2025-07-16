@@ -105,6 +105,8 @@ return {
           { icon = " ", key = "s", desc = "Restore Session", section = "session" },
           -- { icon = " ", key = "x", desc = "Extras", section = ":LazyExtras" },
           { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+          { icon = "📚", key = "y", desc = "Typing Test", action = ":Typr" },
+          { icon = "📊", key = "Y", desc = "Typing Stats", action = ":TyprStats" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
         header = [[

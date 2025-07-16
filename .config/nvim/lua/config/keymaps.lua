@@ -139,3 +139,5 @@ map("n", "<leader>yD", function()
 end, { desc = "Copy directory of current buffer (relative path)" })
 
 map("n", "<leader>lr", ":LspRestart<CR>", { silent = true })
+
+map("n", "<leader>tt", ":Typr<CR>", { silent = true })
