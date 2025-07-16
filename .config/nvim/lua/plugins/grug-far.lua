@@ -64,7 +64,7 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "S/R visual selection, current file",
+      desc = "S/R visual selection,",
     },
     {
       "<leader>rv",
@@ -151,9 +151,10 @@ local M = {
       "<leader>rc",
       function()
         close_toggle_instance()
+        local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
         require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
           prefills = {
-            paths = vim.fn.getcwd(),
+            paths = dir_name,
           },
         }))
       end,
