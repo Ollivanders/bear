@@ -54,19 +54,6 @@ local M = {
       desc = "S/R Toggle",
     },
     {
-      "<leader>re",
-      function()
-        close_toggle_instance()
-        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            paths = vim.fn.expand("%"),
-          },
-        }))
-      end,
-      mode = { "n", "v" },
-      desc = "S/R visual selection,",
-    },
-    {
       "<leader>rv",
       function()
         close_toggle_instance()
@@ -117,7 +104,6 @@ local M = {
         }))
       end,
       mode = { "n", "v" },
-      desc = "S/R Current Word",
     },
     {
       "<leader>rf",
@@ -129,8 +115,21 @@ local M = {
           },
         }))
       end,
-      mode = { "n", "v" },
+      mode = { "n" },
       desc = "S/R Current file",
+    },
+    {
+      "<leader>rf",
+      function()
+        close_toggle_instance()
+        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+          prefills = {
+            paths = vim.fn.expand("%"),
+          },
+        }))
+      end,
+      mode = { "v" },
+      desc = "S/R Visual, Current file",
     },
     {
       "<leader>rr",
@@ -158,8 +157,22 @@ local M = {
           },
         }))
       end,
-      mode = { "n", "v" },
+      mode = { "n" },
       desc = "S/R Current Dir",
+    },
+    {
+      "<leader>rc",
+      function()
+        close_toggle_instance()
+        local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
+        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+          prefills = {
+            paths = dir_name,
+          },
+        }))
+      end,
+      mode = {  "v" },
+      desc = "S/R Visual, Current Dir",
     }
   },
 }
