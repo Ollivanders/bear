@@ -54,7 +54,7 @@ local M = {
       desc = "S/R Toggle",
     },
     {
-      "<leader>rv",
+      "<leader>re",
       function()
         close_toggle_instance()
         require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
@@ -62,6 +62,15 @@ local M = {
             paths = vim.fn.expand("%"),
           },
         }))
+      end,
+      mode = { "n", "v" },
+      desc = "S/R visual selection, current file",
+    },
+    {
+      "<leader>rv",
+      function()
+        close_toggle_instance()
+        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {}))
       end,
       mode = { "n", "v" },
       desc = "S/R visual selection",
@@ -126,8 +135,8 @@ local M = {
     {
       "<leader>rr",
       function()
-        local inst_toggle = require("grug-far.instances").get_instance("Toggle" or 0 )
-        local inst_main = require("grug-far.instances").get_instance( "Main" or 0)
+        local inst_toggle = require("grug-far.instances").get_instance("Toggle" or 0)
+        local inst_main = require("grug-far.instances").get_instance("Main" or 0)
         if inst_main then
           inst_main:search()
         end
@@ -138,6 +147,19 @@ local M = {
       mode = { "n", "v" },
       desc = "S/R Refresh",
     },
+    {
+      "<leader>rc",
+      function()
+        close_toggle_instance()
+        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
+          prefills = {
+            paths = vim.fn.getcwd(),
+          },
+        }))
+      end,
+      mode = { "n", "v" },
+      desc = "S/R Current Dir",
+    }
   },
 }
 return M
