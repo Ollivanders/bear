@@ -6,9 +6,13 @@
 # all of our zsh and bash files
 config_files=(~/.aliases/*.zsh)
 
+
+source "${HOME}/.aliases/env.zsh"
+source "${HOME}/.aliases/dirs.zsh"
 for file in "${config_files[@]}"; do
   source $file
 done
+
 
 function add_dir_to_path() {
   # add subdirecDocuments/projects/dotfiles/bintories from bin to path
