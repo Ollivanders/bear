@@ -2,7 +2,7 @@ alias white-background='printf %b '\''\e]11;#FFFFFF\a\'\'''
 alias black-background='printf %b '\''\e]11;#000000\a\'\'''
 alias red-background='printf %b '\''\e]11;#660000\a\'\'''
 alias orange-background='printf %b '\''\e]11;#4d2e00\a\'\'
-alias tlogin="tsh login --proxy=socrates.teleport.sh --auth=okta"
+alias tlogin="tsh login --proxy=${TELEPORT_HOST} --auth=okta"
 alias ttoken="tctl tokens add --type=node"
 alias tshs="tsh ls --search"
 alias tkill="export PROCCESSES=\$(ps -ef | grep 'tsh proxy ssh' | grep -v 'grep tsh proxy ssh' | awk '{print \$2}'); kill \$PROCCESSES ; unset PROCCESSES"
@@ -38,8 +38,8 @@ function tshl() {
 function tssh() {
   echo "if unsuccessful, run: tsh ssh $1"
   #tsh ssh -A oliver.baxandall@$1
-  echo "ssh oliver.baxandall@${1}.socrates.teleport.sh  -A"
-  ssh -t oliver.baxandall@${1}.socrates.teleport.sh -A 'bash -o vi'
+  echo "ssh oliver.baxandall@${1}.${TELEPORT_HOST}  -A"
+  ssh -t oliver.baxandall@${1}.${TELEPORT_HOST} -A 'bash -o vi'
   if [[ $2 = "c" ]]; then
     echo "tsh ssh oliver.baxandall@$1"
     tsh ssh -A oliver.baxandall 'bash -o vi'
@@ -54,6 +54,11 @@ function adb() {
 function gdb() {
   echo "tsh db connect --db-user=cloudsql-readonly@talos-ava-prod.iam --db-name=${2} $1"
   tsh db connect --db-user=cloudsql-readonly@talos-ava-prod.iam --db-name=$2 $1
+}
+
+function filetoscp() {
+  echo "tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/$2"
+  tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/
 }
 
 function toscp() {
