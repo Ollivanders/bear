@@ -1,3 +1,7 @@
+alias white-background='printf %b '\''\e]11;#FFFFFF\a\'\'''
+alias black-background='printf %b '\''\e]11;#000000\a\'\'''
+alias red-background='printf %b '\''\e]11;#660000\a\'\'''
+alias orange-background='printf %b '\''\e]11;#4d2e00\a\'\'
 alias tlogin="tsh login --proxy=socrates.teleport.sh --auth=okta"
 alias ttoken="tctl tokens add --type=node"
 alias tshs="tsh ls --search"
@@ -30,10 +34,6 @@ function tshl() {
   echo "tsh ls ${ARGS}"
   tsh ls "${ARGS}"
 }
-alias white-background='printf %b '\''\e]11;#FFFFFF\a\'\'''
-alias black-background='printf %b '\''\e]11;#000000\a\'\'''
-alias red-background='printf %b '\''\e]11;#660000\a\'\'''
-alias orange-background='printf %b '\''\e]11;#4d2e00\a\'\'
 
 function tssh() {
   echo "if unsuccessful, run: tsh ssh $1"
@@ -70,3 +70,4 @@ function pdb() {
   echo "tsh db connect --db-user=rds-readonly --db-name=postgres $1"
   tsh db connect --db-user=rds-readonly --db-name=postgres $1
 }
+

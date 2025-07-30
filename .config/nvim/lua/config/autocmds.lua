@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*.ocl",
   callback = function()
-    vim.bo.filetype = "opencl"
+    vim.bo.filetype = "ocl"
   end,
 })
 
@@ -74,6 +74,7 @@ vim.api.nvim_create_autocmd("WinLeave", {
     require("conform").format({ async = true, lsp_fallback = true })
   end,
 })
+
 
 -- vim.api.nvim_create_autocmd("WinLeave", {
 --   pattern = "*",
