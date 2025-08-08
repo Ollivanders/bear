@@ -1,18 +1,14 @@
 syntax keyword oclKeyword context inv def pre post and or not implies
 syntax match oclOperator "::\\|->\\|=\\|<>\\|<=\\|>=\\|<\\|>"
-syntax match oclComment "--.*$"
 
 syntax keyword octopusKeyword include entity system
-syntax match octopusComment "//.*"
 
 
 highlight default link oclKeyword Keyword
 highlight default link oclOperator Operator
-highlight default link oclComment Comment
 
 highlight link octopusKeyword Keyword
 syntax keyword octopusType int float string
-highlight link octopusComment Comment
 syn keyword oclKeyword let if then else endif init derive
 
 syn keyword oclContextKeyword context nextgroup=oclSelector
@@ -48,9 +44,6 @@ syn match oclReal /-?[1-9][0-9]\.[0-9]*/
 syn keyword oclBoolean true false
 syn region oclString start=+"+ skip=+\\"+ end=+"+
 syn region oclString start=+'+ skip=+\\'+ end=+'+
-syn region oclComment start='--' end=/$/ oneline
-
-hi link oclComment Comment
 
 hi link oclString Constant
 hi link oclBoolean Constant

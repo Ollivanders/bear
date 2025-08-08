@@ -7,7 +7,9 @@ local map = vim.keymap.set
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
 
 map("n", "<leader>gm", ":DiffviewOpen origin/master<CR>", { silent = true, desc = "Diffview origin/master" })
-map("n", "<leader>gr", ":DiffviewFileHistory", { silent = true, desc = "Diff file history" })
+map("n", "<leader>gr", ":DiffviewFileHistory<CR>", { silent = true, desc = "Diff file history" })
+map("n", "<leader>gr", ":DiffviewFileHistory<CR>", { silent = true, desc = "Diff current branch" })
+map("n", "<leader>gf", ":DiffviewFileHistory %<CR>", { silent = true, desc = "Diff current file" })
 
 -- Save key strokes (now we do not need to press shift to enter command mode).
 -- map({ "n", "x" }, ";", ":")

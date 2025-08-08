@@ -67,7 +67,7 @@ local M = {
       function()
         close_toggle_instance()
         local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h:t")
-        local search = "source .*=.*/" .. dir_name .. '"'
+        local search = "source .*=.*/modules/" .. dir_name .. '"'
         require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
           prefills = {
             flags = "",
