@@ -37,12 +37,11 @@ function tshl() {
 
 function tssh() {
   echo "if unsuccessful, run: tsh ssh $1"
-  #tsh ssh -A oliver.baxandall@$1
-  echo "ssh oliver.baxandall@${1}.${TELEPORT_HOST}  -A"
-  ssh -t oliver.baxandall@${1}.${TELEPORT_HOST} -A 'bash -o vi'
+  echo "ssh ${USER}@${1}.${TELEPORT_HOST}  -A"
+  ssh -t ${USER}${1}.${TELEPORT_HOST} -A 'bash -o vi'
   if [[ $2 = "c" ]]; then
-    echo "tsh ssh oliver.baxandall@$1"
-    tsh ssh -A oliver.baxandall 'bash -o vi'
+    echo "tsh ssh ${USER}@$1"
+    tsh ssh -A ${USER} 'bash -o vi'
   fi
 }
 
@@ -51,24 +50,19 @@ function adb() {
   tsh db connect --db-user=rds-readonly --db-name=$2 $1
 }
 
-function gdb() {
-  echo "tsh db connect --db-user=cloudsql-readonly@talos-ava-prod.iam --db-name=${2} $1"
-  tsh db connect --db-user=cloudsql-readonly@talos-ava-prod.iam --db-name=$2 $1
-}
-
 function filetoscp() {
-  echo "tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/$2"
-  tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/
+  echo "tsh scp $2 ${USER}@$1:/home/${USER}/$2"
+  tsh scp $2 ${USER}@$1:/home/${USER}/
 }
 
 function toscp() {
-  echo "tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/$2"
-  tsh scp $2 oliver.baxandall@$1:/home/oliver.baxandall/$2
+  echo "tsh scp $2 ${USER}@$1:/home/${USER}/$2"
+  tsh scp $2 ${USER}@$1:/home/${USER}/$2
 }
 
 function frscp() {
-  echo "tsh scp oliver.baxandall@$1:/home/oliver.baxandall/$2 $2"
-  tsh scp oliver.baxandall@$1:/home/oliver.baxandall/$2 $2
+  echo "tsh scp ${USER}@$1:/home/${USER}/$2 $2"
+  tsh scp ${USER}@$1:/home/${USER}/$2 $2
 }
 
 function pdb() {
