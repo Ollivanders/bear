@@ -55,6 +55,7 @@ alias cdesk="cd ~/Desktop"
 alias p="cd ${PROJECTS_DIR}"
 alias ch="cd ~/"
 alias cscratch="cd $SCRATCH_DIR"
+alias cs="cd $SCRATCH_DIR"
 alias gupdate="dot -u"
 
 # Additional apps, scripts and plugins

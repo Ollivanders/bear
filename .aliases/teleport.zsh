@@ -8,8 +8,9 @@ alias tshs="tsh ls --search"
 alias tkill="export PROCCESSES=\$(ps -ef | grep 'tsh proxy ssh' | grep -v 'grep tsh proxy ssh' | awk '{print \$2}'); kill \$PROCCESSES ; unset PROCCESSES"
 alias tshf="tsh ls | fzf > selected | cut -d' ' -f1 | pbcopy"
 alias tshd="tsh ls -v | fzf -m"
+TELEPORT_HOSTS_PATH="${HOME}/.cache/teleport_hosts.txt"
 
-function tshl() {
+function tsh_ls() {
   CLOUD_PROVIDER=""
   ENV=""
 
@@ -70,3 +71,22 @@ function pdb() {
   tsh db connect --db-user=rds-readonly --db-name=postgres $1
 }
 
+function tshls() {
+  tsh ls -v >$TELEPORT_HOSTS_PATH
+  echo "Synced TELEPORT_HOSTS ${TELEPORT_HOSTS_PATH}"
+}
+
+function tshl() {
+  for uuid in $(cat $TELEPORT_HOSTS_PATH | fzf -m | awk '{print $2}'); do
+      if tssh "$uuid"; then
+          break
+      else
+          echo "Failed to connect to $uuid, trying next..."
+      fi
+  done
+}
+
+function tshr() {
+  tshls
+  tshl
+}
