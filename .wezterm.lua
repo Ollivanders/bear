@@ -4,13 +4,17 @@ local mux = wt.mux
 local act = wt.action
 
 wt.on("gui-startup", function()
-	local tab, pane, window = mux.spawn_window({})
-	window:gui_window():maximize()
+  local tab, pane, window = mux.spawn_window({})
+  window:gui_window():maximize()
 end)
 
+config.show_new_tab_button_in_tab_bar = false
+config.show_tabs_in_tab_bar = true
+config.tab_and_split_indices_are_zero_based = false
+
 config.inactive_pane_hsb = {
-	saturation = 0.8,
-	brightness = 0.7,
+  saturation = 0.8,
+  brightness = 0.7,
 }
 
 config.window_decorations = "RESIZE"
@@ -29,11 +33,11 @@ config.adjust_window_size_when_changing_font_size = false
 config.hide_tab_bar_if_only_one_tab = true
 
 config.window_frame = {
-	font = wt.font({ family = "Noto Sans", weight = "Bold" }),
-	font_size = 13,
+  font = wt.font({ family = "Noto Sans", weight = "Bold" }),
+  font_size = 13,
 }
 config.set_environment_variables = {
-	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH") .. ":/usr/local/bin/",
+  PATH = "/opt/homebrew/bin:" .. os.getenv("PATH") .. ":/usr/local/bin/",
 }
 
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1000 }
@@ -87,212 +91,221 @@ local function split_nav(resize_or_move, key)
 end
 
 config.keys = {
-    {
-        key = "F12",
-        action = wt.action_callback(function(_, pane)
-            local tab = pane:tab()
-            local panes = tab:panes_with_info()
-            if #panes == 1 then
-                pane:split({
-                    direction = "Right",
-                    size = 0.4,
-                })
-            elseif not panes[1].is_zoomed then
-                panes[1].pane:activate()
-                tab:set_zoomed(true)
-            elseif panes[1].is_zoomed then
-                tab:set_zoomed(false)
-                panes[2].pane:activate()
-            end
-        end),
-    },
-
+  {
+    key = "F12",
+    action = wt.action_callback(function(_, pane)
+      local tab = pane:tab()
+      local panes = tab:panes_with_info()
+      if #panes == 1 then
+        pane:split({
+          direction = "Right",
+          size = 0.4,
+        })
+      elseif not panes[1].is_zoomed then
+        panes[1].pane:activate()
+        tab:set_zoomed(true)
+      elseif panes[1].is_zoomed then
+        tab:set_zoomed(false)
+        panes[2].pane:activate()
+      end
+    end),
+  },
+  {
+    key = '@',
+    mods = "CTRL|SHIFT",
+    action = wt.action.QuickSelect,
+  },
   {
     key = 'T',
     mods = 'CTRL',
     action = wt.action.TogglePaneZoomState,
   },
-	{
-		key = ",",
-		mods = "SUPER",
-		action = wt.action.SpawnCommandInNewTab({
-			cwd = wt.home_dir,
-			args = { "nvim", wt.config_file },
-		}),
-	},
-	{
-		key = "LeftArrow",
-		mods = "OPT",
-		action = wt.action.SendString("\x1bb"),
-	},
-	{
-		key = "RightArrow",
-		mods = "OPT",
-		action = wt.action.SendString("\x1bw"),
-	},
-	{
-		key = "!",
-		mods = "CTRL|SHIFT",
-		action = wt.action_callback(function(win, pane)
-			local tab, window = pane:move_to_new_window()
-		end),
-	},
-	{
-		key = "w",
-		mods = "CMD",
-		action = wt.action.CloseCurrentPane({ confirm = true }),
-	},
-	{ key = "-", mods = "CTRL", action = wt.action.DisableDefaultAssignment },
-	{ key = "=", mods = "CTRL", action = wt.action.DisableDefaultAssignment },
-	{
-		key = ",",
-		mods = "LEADER",
-		action = act.PromptInputLine({
-			description = "Enter new name for tab",
-			action = wt.action_callback(function(window, pane, line)
-				if line then
-					window:active_tab():set_title(line)
-				end
-			end),
-		}),
-	},
-	{
-		key = "w",
-		mods = "LEADER",
-		action = act.ShowTabNavigator,
-	},
-	{
-		key = "r",
-		mods = "LEADER",
-		action = act.ActivateKeyTable({
-			name = "resize_pane",
-			one_shot = false,
-		}),
-	},
-	{
-		key = "a",
-		mods = "LEADER",
-		action = act.ActivateKeyTable({
-			name = "activate_pane",
-			timeout_milliseconds = 1000,
-		}),
-	},
-    -- move between split panes
-    split_nav('move', 'h'),
-    split_nav('move', 'j'),
-    split_nav('move', 'k'),
-    split_nav('move', 'l'),
-    -- resize panes
-    split_nav('resize', 'h'),
-    split_nav('resize', 'j'),
-    split_nav('resize', 'k'),
-    split_nav('resize', 'l'),
+  {
+    key = ",",
+    mods = "SUPER",
+    action = wt.action.SpawnCommandInNewTab({
+      cwd = wt.home_dir,
+      args = { "nvim", wt.config_file },
+    }),
+  },
+  {
+    key = "LeftArrow",
+    mods = "OPT",
+    action = wt.action.SendString("\x1bb"),
+  },
+  {
+    key = "RightArrow",
+    mods = "OPT",
+    action = wt.action.SendString("\x1bw"),
+  },
+  {
+    key = "!",
+    mods = "CTRL|SHIFT",
+    action = wt.action_callback(function(win, pane)
+      local tab, window = pane:move_to_new_window()
+    end),
+  },
+  {
+    key = "w",
+    mods = "CMD",
+    action = wt.action.CloseCurrentPane({ confirm = true }),
+  },
+  { key = "-", mods = "CTRL", action = wt.action.DisableDefaultAssignment },
+  { key = "=", mods = "CTRL", action = wt.action.DisableDefaultAssignment },
+  {
+    key = ",",
+    mods = "LEADER",
+    action = act.PromptInputLine({
+      description = "Enter new name for tab",
+      action = wt.action_callback(function(window, pane, line)
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    }),
+  },
+  {
+    key = "w",
+    mods = "LEADER",
+    action = act.ShowTabNavigator,
+  },
+  {
+    key = "r",
+    mods = "LEADER",
+    action = act.ActivateKeyTable({
+      name = "resize_pane",
+      one_shot = false,
+    }),
+  },
+  {
+    key = "a",
+    mods = "LEADER",
+    action = act.ActivateKeyTable({
+      name = "activate_pane",
+      timeout_milliseconds = 1000,
+    }),
+  },
+  -- move between split panes
+  split_nav('move', 'h'),
+  split_nav('move', 'j'),
+  split_nav('move', 'k'),
+  split_nav('move', 'l'),
+  -- resize panes
+  split_nav('resize', 'h'),
+  split_nav('resize', 'j'),
+  split_nav('resize', 'k'),
+  split_nav('resize', 'l'),
 }
 config.key_tables = {
-	-- Defines the keys that are active in our resize-pane mode.
-	-- Since we're likely to want to make multiple adjustments,
-	-- we made the activation one_shot=false. We therefore need
-	-- to define a key assignment for getting out of this mode.
-	-- 'resize_pane' here corresponds to the name="resize_pane" in
-	-- the key assignments above.
-	resize_pane = {
-		{ key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
-		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+  -- Defines the keys that are active in our resize-pane mode.
+  -- Since we're likely to want to make multiple adjustments,
+  -- we made the activation one_shot=false. We therefore need
+  -- to define a key assignment for getting out of this mode.
+  -- 'resize_pane' here corresponds to the name="resize_pane" in
+  -- the key assignments above.
+  resize_pane = {
+    { key = "LeftArrow",  action = act.AdjustPaneSize({ "Left", 1 }) },
+    { key = "h",          action = act.AdjustPaneSize({ "Left", 1 }) },
 
-		{ key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
-		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+    { key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
+    { key = "l",          action = act.AdjustPaneSize({ "Right", 1 }) },
 
-		{ key = "UpArrow", action = act.AdjustPaneSize({ "Up", 1 }) },
-		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+    { key = "UpArrow",    action = act.AdjustPaneSize({ "Up", 1 }) },
+    { key = "k",          action = act.AdjustPaneSize({ "Up", 1 }) },
 
-		{ key = "DownArrow", action = act.AdjustPaneSize({ "Down", 1 }) },
-		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+    { key = "DownArrow",  action = act.AdjustPaneSize({ "Down", 1 }) },
+    { key = "j",          action = act.AdjustPaneSize({ "Down", 1 }) },
 
-		-- Cancel the mode by pressing escape
-		{ key = "Escape", action = "PopKeyTable" },
-	},
+    -- Cancel the mode by pressing escape
+    { key = "Escape",     action = "PopKeyTable" },
+  },
 
-	-- Defines the keys that are active in our activate-pane mode.
-	-- 'activate_pane' here corresponds to the name="activate_pane" in
-	-- the key assignments above.
-	activate_pane = {
-		{ key = "LeftArrow", action = act.ActivatePaneDirection("Left") },
-		{ key = "h", action = act.ActivatePaneDirection("Left") },
+  -- Defines the keys that are active in our activate-pane mode.
+  -- 'activate_pane' here corresponds to the name="activate_pane" in
+  -- the key assignments above.
+  activate_pane = {
+    { key = "LeftArrow",  action = act.ActivatePaneDirection("Left") },
+    { key = "h",          action = act.ActivatePaneDirection("Left") },
 
-		{ key = "RightArrow", action = act.ActivatePaneDirection("Right") },
-		{ key = "l", action = act.ActivatePaneDirection("Right") },
+    { key = "RightArrow", action = act.ActivatePaneDirection("Right") },
+    { key = "l",          action = act.ActivatePaneDirection("Right") },
 
-		{ key = "UpArrow", action = act.ActivatePaneDirection("Up") },
-		{ key = "k", action = act.ActivatePaneDirection("Up") },
+    { key = "UpArrow",    action = act.ActivatePaneDirection("Up") },
+    { key = "k",          action = act.ActivatePaneDirection("Up") },
 
-		{ key = "DownArrow", action = act.ActivatePaneDirection("Down") },
-		{ key = "j", action = act.ActivatePaneDirection("Down") },
-	},
+    { key = "DownArrow",  action = act.ActivatePaneDirection("Down") },
+    { key = "j",          action = act.ActivatePaneDirection("Down") },
+  },
 }
 
 local function segments_for_right_status(window)
-	return {
-		window:active_workspace(),
-		wt.strftime("%a %b %-d %H:%M:%S"),
-		wt.hostname(),
-	}
+  local bat = ''
+  for _, b in ipairs(wt.battery_info()) do
+    bat = '🔋 ' .. string.format('%.0f%%', b.state_of_charge * 100)
+  end
+  return {
+    window:active_workspace(),
+    wt.strftime("%a %b %-d %H:%M:%S"),
+    wt.hostname(),
+    bat,
+  }
 end
 
 wt.on("update-right-status", function(window, pane)
-	local name = window:active_key_table()
-	if name then
-		name = "TABLE: " .. name
-	end
-	window:set_right_status(name or "")
+  local name = window:active_key_table()
+  if name then
+    name = "TABLE: " .. name
+  end
+  window:set_right_status(name or "")
 end)
 
 wt.on("update-status", function(window, _)
-	local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
-	local segments = segments_for_right_status(window)
+  local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+  local segments = segments_for_right_status(window)
 
-	local color_scheme = window:effective_config().resolved_palette
-	-- Note the use of wezterm.color.parse here, this returns
-	-- a Color object, which comes with functionality for lightening
-	-- or darkening the colour (amongst other things).
-	local bg = wt.color.parse(color_scheme.background)
-	local fg = color_scheme.foreground
+  local color_scheme = window:effective_config().resolved_palette
+  -- Note the use of wezterm.color.parse here, this returns
+  -- a Color object, which comes with functionality for lightening
+  -- or darkening the colour (amongst other things).
+  local bg = wt.color.parse(color_scheme.background)
+  local fg = color_scheme.foreground
 
-	-- Each powerline segment is going to be coloured progressively
-	-- darker/lighter depending on whether we're on a dark/light colour
-	-- scheme. Let's establish the "from" and "to" bounds of our gradient.
-	local gradient_to, gradient_from = bg
-	gradient_from = gradient_to:lighten(0.2)
+  -- Each powerline segment is going to be coloured progressively
+  -- darker/lighter depending on whether we're on a dark/light colour
+  -- scheme. Let's establish the "from" and "to" bounds of our gradient.
+  local gradient_to, gradient_from = bg
+  gradient_from = gradient_to:lighten(0.2)
 
-	-- Yes, WezTerm supports creating gradients, because why not?! Although
-	-- they'd usually be used for setting high fidelity gradients on your terminal's
-	-- background, we'll use them here to give us a sample of the powerline segment
-	-- colours we need.
-	local gradient = wt.color.gradient(
-		{
-			orientation = "Horizontal",
-			colors = { gradient_from, gradient_to },
-		},
-		#segments -- only gives us as many colours as we have segments.
-	)
+  -- Yes, WezTerm supports creating gradients, because why not?! Although
+  -- they'd usually be used for setting high fidelity gradients on your terminal's
+  -- background, we'll use them here to give us a sample of the powerline segment
+  -- colours we need.
+  local gradient = wt.color.gradient(
+    {
+      orientation = "Horizontal",
+      colors = { gradient_from, gradient_to },
+    },
+    #segments -- only gives us as many colours as we have segments.
+  )
 
-	-- We'll build up the elements to send to wezterm.format in this table.
-	local elements = {}
+  -- We'll build up the elements to send to wezterm.format in this table.
+  local elements = {}
 
-	for i, seg in ipairs(segments) do
-		local is_first = i == 1
+  for i, seg in ipairs(segments) do
+    local is_first = i == 1
 
-		if is_first then
-			table.insert(elements, { Background = { Color = "none" } })
-		end
-		table.insert(elements, { Foreground = { Color = gradient[i] } })
-		table.insert(elements, { Text = SOLID_LEFT_ARROW })
+    if is_first then
+      table.insert(elements, { Background = { Color = "none" } })
+    end
+    table.insert(elements, { Foreground = { Color = gradient[i] } })
+    table.insert(elements, { Text = SOLID_LEFT_ARROW })
 
-		table.insert(elements, { Foreground = { Color = fg } })
-		table.insert(elements, { Background = { Color = gradient[i] } })
-		table.insert(elements, { Text = " " .. seg .. " " })
-	end
+    table.insert(elements, { Foreground = { Color = fg } })
+    table.insert(elements, { Background = { Color = gradient[i] } })
+    table.insert(elements, { Text = " " .. seg .. " " })
+  end
 
-	window:set_right_status(wt.format(elements))
+  window:set_right_status(wt.format(elements))
 end)
 
 return config

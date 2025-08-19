@@ -80,6 +80,7 @@ function tshl() {
   for uuid in $(cat $TELEPORT_HOSTS_PATH | fzf -m | awk '{print $2}'); do
       if tssh "$uuid"; then
           break
+          echo $uuid
       else
           echo "Failed to connect to $uuid, trying next..."
       fi
