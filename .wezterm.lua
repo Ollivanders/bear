@@ -23,21 +23,16 @@ local function choose_project()
     title = "Projects",
     choices = choices,
     fuzzy = true,
-    action = wt.action_callback(function(child_window, child_pane, id, label)
-      -- "label" may be empty if nothing was selected. Don't bother doing anything
-      -- when that happens.
+    action = wt.action_callback(function(window, pane, id, label)
       if not label then return end
+      local name = label:match("([^/]+)$")
 
-      -- The SwitchToWorkspace action will switch us to a workspace if it already exists,
-      -- otherwise it will create it for us.
-      child_window:perform_action(wt.action.SwitchToWorkspace {
-        -- We'll give our new workspace a nice name, like the last path segment
-        -- of the directory we're opening up.
-        name = label:match("([^/]+)$"),
-        -- Here's the meat. We'll spawn a new terminal with the current working
-        -- directory set to the directory that was picked.
-        spawn = { cwd = label },
-      }, child_pane)
+      wt.log_info('you selected ', id, label)
+      window:perform_action(
+        wt.action.SpawnCommandInNewTab({
+          cwd = label,
+          args = {  "nvim" },
+        }), pane)
     end),
   }
 end
@@ -58,7 +53,7 @@ config.inactive_pane_hsb = {
 
 config.window_decorations = "RESIZE"
 config.color_scheme = "Darkside"
-config.font_size = 13
+config.font_size = 16
 
 config.use_fancy_tab_bar = true
 config.font = wt.font("JetBrains Mono")
