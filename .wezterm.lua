@@ -3,6 +3,45 @@ local config = wt.config_builder()
 local mux = wt.mux
 local act = wt.action
 
+local project_dir = wt.home_dir .. "/projects"
+
+local function project_dirs()
+  local projects = { wt.home_dir }
+  for _, dir in ipairs(wt.glob(project_dir .. '/*')) do
+    table.insert(projects, dir)
+  end
+  return projects
+end
+
+local function choose_project()
+  local choices = {}
+  for _, value in ipairs(project_dirs()) do
+    table.insert(choices, { label = value })
+  end
+
+  return wt.action.InputSelector {
+    title = "Projects",
+    choices = choices,
+    fuzzy = true,
+    action = wt.action_callback(function(child_window, child_pane, id, label)
+      -- "label" may be empty if nothing was selected. Don't bother doing anything
+      -- when that happens.
+      if not label then return end
+
+      -- The SwitchToWorkspace action will switch us to a workspace if it already exists,
+      -- otherwise it will create it for us.
+      child_window:perform_action(wt.action.SwitchToWorkspace {
+        -- We'll give our new workspace a nice name, like the last path segment
+        -- of the directory we're opening up.
+        name = label:match("([^/]+)$"),
+        -- Here's the meat. We'll spawn a new terminal with the current working
+        -- directory set to the directory that was picked.
+        spawn = { cwd = label },
+      }, child_pane)
+    end),
+  }
+end
+
 wt.on("gui-startup", function()
   local tab, pane, window = mux.spawn_window({})
   window:gui_window():maximize()
@@ -26,11 +65,22 @@ config.font = wt.font("JetBrains Mono")
 config.window_background_opacity = 0.9
 -- config.macos_window_background_blur = 2
 
+config.colors = {
+  tab_bar = {
+    active_tab = {
+      fg_color = '#073642',
+      bg_color = '#2aa198'
+    }
+  }
+}
+
 config.enable_tab_bar = true
 config.tab_max_width = 40
 config.switch_to_last_active_tab_when_closing_tab = true
 config.adjust_window_size_when_changing_font_size = false
 config.hide_tab_bar_if_only_one_tab = true
+config.pane_focus_follows_mouse = true
+config.scrollback_lines = 5000
 
 config.window_frame = {
   font = wt.font({ family = "Noto Sans", weight = "Bold" }),
@@ -165,6 +215,22 @@ config.keys = {
     }),
   },
   {
+    key = ';',
+    mods = 'LEADER',
+    action = act.ActivatePaneDirection('Prev'),
+  },
+  {
+    key = ':',
+    mods = 'LEADER',
+    action = act.ActivatePaneDirection('Next'),
+  },
+  {
+    -- |
+    key = '{',
+    mods = 'LEADER|SHIFT',
+    action = act.PaneSelect { mode = 'SwapWithActiveKeepFocus' }
+  },
+  {
     key = "w",
     mods = "LEADER",
     action = act.ShowTabNavigator,
@@ -184,6 +250,16 @@ config.keys = {
       name = "activate_pane",
       timeout_milliseconds = 1000,
     }),
+  },
+  {
+    key = 'p',
+    mods = 'LEADER',
+    action = choose_project(),
+  },
+  {
+    key = 'f',
+    mods = 'LEADER',
+    action = wt.action.ShowLauncherArgs { flags = 'FUZZY|WORKSPACES' },
   },
   -- move between split panes
   split_nav('move', 'h'),
@@ -245,7 +321,7 @@ local function segments_for_right_status(window)
   end
   return {
     window:active_workspace(),
-    wt.strftime("%a %b %-d %H:%M:%S"),
+    wt.strftime("%a %b %-d %H:%M"),
     wt.hostname(),
     bat,
   }
