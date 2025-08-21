@@ -41,16 +41,15 @@ plugins=(
   extract
   docker
   history-substring-search
-  # zsh-autocomplete
   zsh-autosuggestions
   zsh-syntax-highlighting
   git-open
   git-auto-fetch
   git-extras
   gitfast
-  git
   terraform
   vi-mode
+  nvm
 )
 
 # enable alias finder suggestions on all commands
@@ -58,30 +57,17 @@ zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
 zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
 zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
+zstyle ':omz:plugins:nvm' lazy yes
 
 unsetopt CORRECT
 unsetopt CORRECT_ALL
 
-
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
-# pasteinit() {
-#   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-#   zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
-# }:Telescope harpoon marks
-# pastefinish() {
-#   zle -N self-insert $OLD_SELF_INSERT
-# }
-# zstyle :bracketed-paste-magic paste-init pasteinit
-# zstyle :bracketed-paste-magic paste-finish pastefinish
-
-# source central scripts
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
 
 
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 source ~/.script/spec.sh
