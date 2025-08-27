@@ -76,6 +76,22 @@ vim.api.nvim_create_autocmd("WinLeave", {
 })
 
 
+vim.api.nvim_create_autocmd("WinEnter", {
+  once = true,  -- ensures it only runs once
+  callback = function()
+    local project = "p: " .. vim.fs.basename(vim.fn.getcwd())
+    vim.fn.system({ "wezterm", "cli", "set-tab-title", project })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "VimLeave" }, {
+  callback = function()
+    -- Setting title to empty string causes wezterm to revert to its
+    -- default behavior of setting the tab title automatically
+    vim.fn.system({ "wezterm", "cli", "set-tab-title", "" })
+  end,
+})
+
 -- vim.api.nvim_create_autocmd("WinLeave", {
 --   pattern = "*",
 --   callback = function(args)

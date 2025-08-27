@@ -6,7 +6,7 @@ local act = wt.action
 local project_dir = wt.home_dir .. "/projects"
 
 local function project_dirs()
-  local projects = { wt.home_dir }
+  local projects = { wt.home_dir, wt.home_dir .. '/scratch' }
   for _, dir in ipairs(wt.glob(project_dir .. '/*')) do
     table.insert(projects, dir)
   end
@@ -31,7 +31,7 @@ local function choose_project()
       window:perform_action(
         wt.action.SpawnCommandInNewTab({
           cwd = label,
-          args = {  "nvim" },
+          -- args = {  "nvim" },
         }), pane)
     end),
   }
@@ -45,6 +45,7 @@ end)
 config.show_new_tab_button_in_tab_bar = false
 config.show_tabs_in_tab_bar = true
 config.tab_and_split_indices_are_zero_based = false
+config.send_composed_key_when_left_alt_is_pressed = true
 
 config.inactive_pane_hsb = {
   saturation = 0.8,
@@ -68,7 +69,7 @@ config.colors = {
     }
   }
 }
-
+config.ssh_backend = "Ssh2" 
 config.enable_tab_bar = true
 config.tab_max_width = 40
 config.switch_to_last_active_tab_when_closing_tab = true
@@ -226,7 +227,7 @@ config.keys = {
     action = act.PaneSelect { mode = 'SwapWithActiveKeepFocus' }
   },
   {
-    key = "w",
+    key = "t",
     mods = "LEADER",
     action = act.ShowTabNavigator,
   },
@@ -255,6 +256,13 @@ config.keys = {
     key = 'f',
     mods = 'LEADER',
     action = wt.action.ShowLauncherArgs { flags = 'FUZZY|WORKSPACES' },
+  },
+{
+    key = 'w',
+    mods = 'LEADER',
+    action = wt.action_callback(function(win, pane)
+      local tab, window = pane:move_to_new_window()
+    end),
   },
   -- move between split panes
   split_nav('move', 'h'),
