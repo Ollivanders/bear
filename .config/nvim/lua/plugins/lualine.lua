@@ -176,13 +176,10 @@ return {
           { "location", padding = { left = 0, right = 1 } },
         },
         lualine_z = {
-          function()
-            return " " .. os.date("%R")
-          end,
           {
             'datetime',
             -- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
-            style = 'iso'
+            style = '%a %b %-d %H:%M:%S'
           }
         },
       },

@@ -3,7 +3,7 @@ alias twl="terraform workspace list"
 alias tfa="terraform apply"
 alias tfp="terraform plan"
 alias tfi="terraform init"
-alias tfo="terraform outputs"
+alias tfo="terraform output"
 
 tfUnlock() {
   echo "Running terraform plan..."
