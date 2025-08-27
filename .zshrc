@@ -49,7 +49,6 @@ plugins=(
   gitfast
   terraform
   vi-mode
-  nvm
 )
 
 # enable alias finder suggestions on all commands
@@ -66,6 +65,7 @@ unsetopt CORRECT_ALL
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

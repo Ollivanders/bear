@@ -27,7 +27,7 @@ return {
     "nvim-neotest/nvim-nio",
     event = "VeryLazy",
   },
-  {
+ {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",
     recommended = true,
