@@ -57,7 +57,8 @@ local M = {
       "<leader>rv",
       function()
         close_toggle_instance()
-        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {}))
+        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg,
+          { paths = vim.fn.expand("%") }))
       end,
       mode = { "n", "v" },
       desc = "S/R visual selection",
@@ -171,7 +172,7 @@ local M = {
           },
         }))
       end,
-      mode = {  "v" },
+      mode = { "v" },
       desc = "S/R Visual, Current Dir",
     }
   },

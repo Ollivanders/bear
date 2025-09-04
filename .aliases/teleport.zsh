@@ -54,7 +54,7 @@ function adb() {
 
 function filetoscp() {
   echo "tsh scp $2 ${USER}@$1:/home/${USER}/$2"
-  tsh scp $2 ${USER}@$1:/home/${USER}/
+  tsh scp -r $2 ${USER}@$1:/home/${USER}/
 }
 
 function toscp() {
