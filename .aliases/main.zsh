@@ -62,6 +62,7 @@ alias gupdate="dot -u"
 # eval '$(thefuck --alias fuck)'
 
 alias dotenv='export $(xargs -L 1 <.env)'
+alias grt='cd $(git rev-parse --show-toplevel)'
 
 alias pc='cd $(find ~/projects -type d -maxdepth 1 | fzf)'
 alias po='nvim $(find ~/projects -type d -maxdepth 1 | fzf)'
