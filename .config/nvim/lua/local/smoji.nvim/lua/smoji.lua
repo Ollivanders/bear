@@ -69,6 +69,7 @@ M.items = {
   "🧬EXPERIMENTAL: - :genetics: - Experiment with core change",
   "🔺CHANGE: - :change: - Change component",
   "🌶️SPICY: - :spicy: - Spicy change",
+  "🧹DECOM:- :broom: - decom something",
 }
 
 M.select = function()
