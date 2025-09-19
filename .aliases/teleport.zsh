@@ -37,13 +37,11 @@ function tsh_ls() {
 }
 
 function tssh() {
-  echo "if unsuccessful, run: tsh ssh $1"
-  echo "ssh ${USER}@${1}.${TELEPORT_HOST}  -A"
-  ssh -t ${USER}@${1}.${TELEPORT_HOST} #-A 'bash -o vi'
+  echo "ssh-ing to $1"
+  ssh -t ${USER}@${1}.${TELEPORT_HOST} -o ConnectTimeout=5 #-A 'bash -o vi'
   # wezterm ssh -t ${USER}@${1}.${TELEPORT_HOST} #-A 'bash -o vi'
   if [[ $2 = "c" ]]; then
-    echo "tsh ssh ${USER}@$1"
-    tsh ssh -A ${USER} 'bash -o vi'
+    tsh ssh -A ${USER} 'bash -o vi' -o ConnectTimeout=5
   fi
 }
 
