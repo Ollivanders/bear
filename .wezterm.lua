@@ -51,8 +51,9 @@ local function get_currently_playing()
     'tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'
   }
   stored_playback = stdout
+  wt.time.call_after(5, get_currently_playing)
 end
-wt.time.call_after(5, get_currently_playing)
+get_currently_playing()
 
 wt.on("gui-startup", function()
   local tab, pane, window = mux.spawn_window({})
