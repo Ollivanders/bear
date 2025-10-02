@@ -42,99 +42,17 @@ local function wait(throttle, last_update)
   return current_time - last_update < throttle
 end
 
--- https://github.com/adriankarlen/bar.wezterm/blob/main/plugin/init.lua
-local last_update = 0
-local stored_playback = ""
 
----gets the currently playing song from spotify
----@param throttle number
----@return string
-local function get_currently_playing( throttle)
-  if wait(throttle, last_update) then
-    return stored_playback
-  end
-  local ok, stdout, stderr = wt.run_child_process{
+local stored_playback = ""
+local function get_currently_playing()
+  local ok, stdout, stderr = wt.run_child_process {
     "/usr/bin/osascript",
     "-e",
     'tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'
   }
   stored_playback = stdout
-  last_update = os.time()
-  return stdout
 end
-
--- https://github.com/michaelbrusegard/tabline.wez/blob/cb21fe8684c12671f5e0d3bd6d201927add6e137/plugin/tabline/components/window/cpu.lua
-local function cpu(_, opts)
-  local current_time = os.time()
-  if current_time - last_update_time < opts.throttle then
-    return last_result
-  end
-  local success, result
-  if string.match(wt.target_triple, 'windows') ~= nil then
-    if opts.use_pwsh then
-      success, result = wt.run_child_process {
-        'powershell.exe',
-        '-Command',
-        'Get-CimInstance Win32_Processor | Select-Object -ExpandProperty LoadPercentage',
-      }
-    else
-      success, result = wt.run_child_process {
-        'cmd.exe',
-        '/C',
-        'wmic cpu get loadpercentage',
-      }
-    end
-  elseif string.match(wt.target_triple, 'linux') ~= nil then
-    success, result = wt.run_child_process {
-      'bash',
-      '-c',
-      "LC_NUMERIC=C awk '/^cpu / {print ($2+$4)*100/($2+$4+$5)}' /proc/stat",
-    }
-  elseif string.match(wt.target_triple, 'darwin') ~= nil then
-    success, result = wt.run_child_process {
-      'bash',
-      '-c',
-      'ps -A -o %cpu | LC_NUMERIC=C awk \'{s+=$1} END {print s ""}\'',
-    }
-  end
-
-  if not success or not result then
-    return ''
-  end
-
-  local cpu
-  if string.match(wt.target_triple, 'windows') ~= nil then
-    if opts.use_pwsh then
-      cpu = tonumber(result:match('%d+%.?%d*') or '0')
-    else
-      cpu = result:match('%d+')
-    end
-  else
-    cpu = result:gsub('^%s*(.-)%s*$', '%1')
-  end
-
-  if string.match(wt.target_triple, 'darwin') ~= nil then
-    success, result = wt.run_child_process {
-      'sysctl',
-      '-n',
-      'hw.ncpu',
-    }
-    if success then
-      local num_cores = tonumber(result)
-      local cpu_num = tonumber(cpu)
-      if num_cores and cpu_num then
-        cpu = cpu_num / num_cores
-      end
-    end
-  end
-
-  cpu = string.format('%.2f%%', cpu)
-
-  last_update_time = current_time
-  last_result = cpu
-
-  return cpu
-end
+wt.time.call_after(5, get_currently_playing)
 
 wt.on("gui-startup", function()
   local tab, pane, window = mux.spawn_window({})
@@ -427,7 +345,7 @@ local function segments_for_right_status(window)
     wt.strftime("%a %b %-d %H:%M"),
     wt.hostname(),
     bat,
-    get_currently_playing(15),
+    stored_playback,
   }
 end
 
