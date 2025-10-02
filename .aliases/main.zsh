@@ -83,3 +83,5 @@ alias path='echo -e ${PATH//:/\\n}'
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; sudo gem cleanup'
 alias pwdc='pwd | copy'
+
+alias spotify_current='osascript -e '\''tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'\'''
