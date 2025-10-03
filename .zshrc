@@ -71,3 +71,9 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source ~/.script/spec.sh
+
+
+# ${UserConfigDir}/zsh/.zshrc
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
