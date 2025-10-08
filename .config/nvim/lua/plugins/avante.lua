@@ -8,7 +8,7 @@ return {
   ---@module 'avante'
   ---@type avante.Config
   opts = {
-    provider = "openai",
+    provider = "copilot/claude-sonnet-4",
     providers = {
       copilot = { },
       openai = { },
