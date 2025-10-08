@@ -1,7 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    { "nvim-lua/plenary.nvim" },
+    { "nvim-lua/plenary.nvim", lazy = true },
     { "nvim-telescope/telescope-live-grep-args.nvim" },
   },
   config = function(_, opts)
