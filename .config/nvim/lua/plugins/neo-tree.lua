@@ -2,9 +2,18 @@ return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
     sources = { "filesystem", "buffers", "git_status" },
+    source_selector = {
+      winbar = false,
+      statusline = false
+    },
     open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "edgy" },
     filesystem = {
       filtered_items = {
+        bind_to_cwd = true,
+        cwd_target = {
+          sidebar = "global",
+          current = "global",
+        },
         visible = true,
         show_hidden_count = true,
         hide_dotfiles = false,
@@ -73,6 +82,36 @@ return {
     window = {
       mappings = {
         ["Y"] = "copy_selector",
+        -- set root dir for neovim
+        ["q"] = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+
+          -- If a file is selected, use its parent directory
+          if node.type ~= "directory" then
+            path = vim.fs.dirname(path)
+          end
+
+          -- Sanity check
+          if vim.fn.isdirectory(path) == 0 then
+            vim.notify("Not a directory: " .. path, vim.log.levels.ERROR, { title = "Neo-tree" })
+            return
+          end
+
+          -- Update Neo-tree root and Neovim cwd (project-wide)
+          vim.fn.chdir(path)
+          vim.notify("Project root & cwd set to: " .. path, vim.log.levels.INFO, { title = "Neo-tree" })
+        end,
+        ["Q"] = function(_)
+          -- Try to detect a project root (prefers .git)
+          local bufpath = vim.api.nvim_buf_get_name(0)
+          local git_root = vim.fs.dirname(vim.fs.find(".git", { upward = true, path = bufpath })[1] or "")
+          local root = (#git_root > 0) and git_root or vim.loop.cwd()
+
+          assert(root ~= nil, "Root directory cannot be nil")
+          vim.fn.chdir(root)
+          vim.notify("Reset root & cwd to: " .. root, vim.log.levels.INFO, { title = "Neo-tree" })
+        end,
       },
     },
   },

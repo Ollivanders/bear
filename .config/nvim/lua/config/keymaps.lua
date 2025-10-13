@@ -144,6 +144,17 @@ map("n", "<leader>lr", ":LspRestart<CR>", { silent = true })
 
 map("n", "<leader>tt", ":Typr<CR>", { silent = true })
 
+map("n", "<leader>j", function()
+  require("mini.files").open(vim.uv.cwd(), true)
+end, { desc = "Open mini.files (cwd)" })
+map("n", "<leader>j", function()
+  require("mini.files").open(vim.uv.cwd(), true)
+end, { desc = "Open mini.files (cwd)" })
+
+map("n", "<leader>k", function()
+  require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+end, { desc = "Open mini.files (Directory of Current File)" })
+
 -- smart-splits
 map("n", "<A-h>", require("smart-splits").resize_left)
 map("n", "<A-j>", require("smart-splits").resize_down)
