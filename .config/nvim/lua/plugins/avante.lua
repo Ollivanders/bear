@@ -1,8 +1,6 @@
 return {
   "yetone/avante.nvim",
-  build = function()
-    return "make"
-  end,
+  build = "make",
   event = "VeryLazy",
   version = false,
   ---@module 'avante'
@@ -10,8 +8,13 @@ return {
   opts = {
     provider = "copilot/claude-sonnet-4",
     providers = {
-      copilot = { },
-      openai = { },
+      copilot = {
+        timeout = 30000,
+      },
+      openai = {
+        timeout = 30000,
+
+      },
     }
   },
   dependencies = {
