@@ -40,34 +40,6 @@ end, {
   desc = "reload init.lua",
 })
 
--- TODO:
--- .gitignore  alt-i
--- hidden files alt-h
-map("n", "<leader>s/", function()
-  -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
-  -- Uses ripgrep args (rg) for live_grep
-  -- Command examples:
-  -- -i "Data"  # case insensitive
-  -- -g "!*.md" # ignore md files
-  -- -w # whole word
-  -- -e # regex
-  -- see 'man rg' for more
-  require("telescope").extensions.live_grep_args.live_grep_args() -- see arguments given in extensions config
-end, { desc = "Live Grep" })
-
-vim.keymap.set(
-  "n",
-  "<leader>gw",
-  require("telescope-live-grep-args.shortcuts").grep_word_under_cursor,
-  { desc = "Live grep word under cursor" }
-)
-vim.keymap.set(
-  "v",
-  "<leader>gv",
-  require("telescope-live-grep-args.shortcuts").grep_visual_selection,
-  { desc = "Live grep visual selection" }
-)
-
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
 -- map("n", "<C-\\>", function()
@@ -75,8 +47,35 @@ map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini sta
 -- end, { desc = "Bottom Terminal" })
 
 map("n", "<C-/>", function()
-  require("snacks").terminal.toggle(nil, { win = { position = "right" } })
-end, { desc = "Vertical Terminal" })
+  require("snacks").terminal.toggle(nil, {
+    count = 1,
+    win = { position = "right" },
+  })
+end, { desc = "Terminal (Right)" })
+
+-- Bottom terminal (#2)
+map("n", "<C-_>", function()
+  require("snacks").terminal.toggle(nil, {
+    count = 2, 
+    win = { position = "bottom" },
+  })
+end, { desc = "Terminal (Bottom)" })
+
+-- vim.keymap.set("n", "<leader>ts", function()
+--   require("snacks").terminal.open(nil, {
+--     count = vim.v.count1,            -- allow 1,2,... to make new ones
+--     win = { position = "right" },    -- vertical split
+--   })
+-- end, { desc = "New vertical terminal" })
+--
+-- vim.keymap.set("n", "<leader>tS", function()
+--   require("snacks").terminal.open(nil, {
+--     count = vim.v.count1,
+--     win = { position = "bottom" },   -- horizontal split
+--   })
+-- end, { desc = "New horizontal terminal" })
+
+
 
 -- <Esc><Esc> in terminal mode sends <C-\><C-n> to exit terminal mode, see :h term
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
@@ -142,8 +141,6 @@ end, { desc = "Copy directory of current buffer (relative path)" })
 
 map("n", "<leader>lr", ":LspRestart<CR>", { silent = true })
 
-map("n", "<leader>tt", ":Typr<CR>", { silent = true })
-
 map("n", "<leader>j", function()
   require("mini.files").open(vim.uv.cwd(), true)
 end, { desc = "Open mini.files (cwd)" })
@@ -160,14 +157,16 @@ map("n", "<A-h>", require("smart-splits").resize_left)
 map("n", "<A-j>", require("smart-splits").resize_down)
 map("n", "<A-k>", require("smart-splits").resize_up)
 map("n", "<A-l>", require("smart-splits").resize_right)
+
 -- moving between splits
-map("n", "<C-h>", require("smart-splits").move_cursor_left)
-map("n", "<C-j>", require("smart-splits").move_cursor_down)
-map("n", "<C-k>", require("smart-splits").move_cursor_up)
-map("n", "<C-l>", require("smart-splits").move_cursor_right)
-map("n", "<C-\\>", require("smart-splits").move_cursor_previous)
+-- map("n", "<C-h>", require("smart-splits").move_cursor_left)
+-- map("n", "<C-j>", require("smart-splits").move_cursor_down)
+-- map("n", "<C-k>", require("smart-splits").move_cursor_up)
+-- map("n", "<C-l>", require("smart-splits").move_cursor_right)
+-- map("n", "<C-\\>", require("smart-splits").move_cursor_previous)
+
 -- swapping buffers between windows
-map("n", "<leader><leader>h", require("smart-splits").swap_buf_left)
-map("n", "<leader><leader>j", require("smart-splits").swap_buf_down)
-map("n", "<leader><leader>k", require("smart-splits").swap_buf_up)
-map("n", "<leader><leader>l", require("smart-splits").swap_buf_right)
+map("n", "<leader>ph", require("smart-splits").swap_buf_left)
+map("n", "<leader>pj", require("smart-splits").swap_buf_down)
+map("n", "<leader>pk", require("smart-splits").swap_buf_up)
+map("n", "<leader>pl", require("smart-splits").swap_buf_right)

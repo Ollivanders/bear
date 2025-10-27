@@ -9,6 +9,10 @@ return {
         bashls = {
           filetypes = { "sh", "zsh" },
         },
+        ruby_lsp = {
+          mason = false,
+          cmd = { vim.fn.expand("~/.rbenv/shims/ruby") },
+        },
       },
     },
   },

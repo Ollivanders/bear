@@ -6,7 +6,7 @@ local act = wt.action
 local project_dir = wt.home_dir .. "/projects"
 
 local function project_dirs()
-  local projects = { wt.home_dir, wt.home_dir .. '/scratch' }
+  local projects = { wt.home_dir, wt.home_dir .. '/scratch', wt.home_dir .. '/nvim/config' }
   for _, dir in ipairs(wt.glob(project_dir .. '/*')) do
     table.insert(projects, dir)
   end
@@ -141,6 +141,11 @@ local function split_nav(resize_or_move, key)
 end
 
 config.keys = {
+  {
+    key = "o",
+    mods = "CTRL",
+    action = wt.action { PaneSelect = {} }
+  },
   {
     key = "F12",
     action = wt.action_callback(function(_, pane)

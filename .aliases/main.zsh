@@ -57,6 +57,7 @@ alias ch="cd ~/"
 alias cscratch="cd $SCRATCH_DIR"
 alias cs="cd $SCRATCH_DIR"
 alias gupdate="dot -u"
+alias ca="cursor-agent"
 
 # Additional apps, scripts and plugins
 # eval '$(thefuck --alias fuck)'
@@ -75,7 +76,8 @@ alias tf="terraform"
 
 alias virmc="${EDITOR} ~/.config/nvim/init.vim"
 alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
-alias n="nvim"
+alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load({ last = true }) end)"'
+alias nc='cd ~/ && nvim ~/.config/nvim -c "lua vim.schedule(function() require(\"persistence\").load({ last = true }) end)"'
 
 alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
 

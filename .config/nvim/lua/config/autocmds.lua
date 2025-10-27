@@ -98,3 +98,4 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
 --     require("conform").format({ bufnr = args.buf })
 --   end,
 -- })
+-- Automatically load the last session on startup if no files were passed

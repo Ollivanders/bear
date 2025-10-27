@@ -57,3 +57,4 @@ require("lazy").setup({
 vim.opt.colorcolumn = "100"
 vim.g.root_spec = { "manual" }
 vim.opt.clipboard = "unnamedplus"
+

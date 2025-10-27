@@ -62,13 +62,36 @@ return {
         },
       },
     },
+    picker = {
+      sources = {
+        explorer = {
+          hidden = true,
+          -- ignored = true,
+        },
+        files = {
+          hidden = true,
+          -- ignored = true,
+        },
+      },
+    },
+    winpicker = {
+      enabled = true,
+      ui = {
+        width = 0.3,        -- percentage of screen width
+        height = 0.3,       -- percentage of screen height
+        border = "rounded", -- "single", "double", "rounded", "none"
+        row = 0.5,          -- center vertically (0 = top, 1 = bottom)
+        col = 0.5,          -- center horizontally (0 = left, 1 = right)
+        title = "Pick a window",
+      },
+    },
     ---@class snacks.dashboard.Config
     dashboard = {
-      enabled = true,
+      enabled = false,
       width = 60,
-      row = nil, -- dashboard position. nil for center
-      col = nil, -- dashboard position. nil for center
-      pane_gap = 4, -- empty columns between vertical panes
+      row = nil,                                                                   -- dashboard position. nil for center
+      col = nil,                                                                   -- dashboard position. nil for center
+      pane_gap = 4,                                                                -- empty columns between vertical panes
       autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
       -- These settings are used by some built-in sections
       preset = {
@@ -105,8 +128,6 @@ return {
           { icon = " ", key = "s", desc = "Restore Session", section = "session" },
           -- { icon = " ", key = "x", desc = "Extras", section = ":LazyExtras" },
           { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-          { icon = "📚", key = "y", desc = "Typing Test", action = ":Typr" },
-          { icon = "📊", key = "Y", desc = "Typing Stats", action = ":TyprStats" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
         header = [[
