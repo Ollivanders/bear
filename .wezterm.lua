@@ -406,56 +406,20 @@ local function get_tab_title(tab)
   end
 
   local pane = tab.active_pane
-  local cwd_uri = pane.current_working_dir
-  print(pane)
-  print(pane.foreground_process_name)
-  title = cwd_uri
-
-  local home = wt.home_dir
-  if home and cwd then
-    cwd = cwd:gsub("^" .. home, "~")
+  title = pane.title
+  if string.find(title, "nvim") then
+    return "nvim"
   end
-  local cwd_name = cwd and cwd:match("([^/\\]+)[/\\]?$")
   return title
 end
 
-wt.on("format-tab-title", function(tab)
-  local pane = tab.active_pane
-  -- Get the basename of the current working directory
-  local cwd_name = wezterm.basename(pane.current_working_dir)
-
-  -- Get the title provided by the shell command (if any)
-  local title = pane.title
-
-  -- Prioritize a custom title, otherwise use the directory name
-  if title and title ~= "wezterm" then
-    return title
-  else
-    return cwd_name
+wt.on("format-tab-title",
+  function(tab, tabs, panes, config, hover, max_width)
+    local title = get_tab_title(tab)
+    return {
+      { Text = ' ' .. title .. '*' },
+    }
   end
-end)
-
--- wt.on(
---   'format-tab-title',
---   function(tab, tabs, panes, config, hover, max_width)
---     local title = get_tab_title(tab)
---     print(title)
---     return {
---       { Text = ' ' .. title .. ' ' },
---     }
---
---     -- if tab.is_active then
---     --   return {
---     --     { Text = ' ' .. title .. ' ' },
---     --   }
---     -- end
---     -- if tab.is_last_active then
---     --   return {
---     --     { Background = { Color = 'green' } },
---     --     { Text = ' ' .. title .. '*' },
---     --   }
---     -- end
---   end
--- )
+)
 
 return config
