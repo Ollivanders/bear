@@ -54,7 +54,6 @@ return {
             "renamer",
             "notify",
             "nvim-tree",
-            "neo-tree",
             "bufferline",
             "term",
           },

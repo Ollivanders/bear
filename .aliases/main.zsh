@@ -79,6 +79,7 @@ alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
 alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load() end)"'
 alias nn='nvim'
 alias nc='cd ~/ && nvim ~/.config/nvim'
+alias lg="lazygit"
 
 alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
 
