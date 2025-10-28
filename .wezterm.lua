@@ -143,7 +143,7 @@ end
 config.keys = {
   {
     key = "o",
-    mods = "CTRL",
+    mods = "CTRL|SHIFT",
     action = wt.action { PaneSelect = {} }
   },
   {

@@ -10,4 +10,4 @@ vim.o.so = 0
 vim.opt.textwidth = 100
 vim.lsp.buf.definition({ reuse_win = true })
 -- vim.opt.laststatus = 3
--- vim.opt.splitkeep = "screen"
+vim.opt.spell = true

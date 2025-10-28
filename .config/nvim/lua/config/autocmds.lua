@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd("WinLeave", {
 
 
 vim.api.nvim_create_autocmd("WinEnter", {
-  once = true,  -- ensures it only runs once
+  once = true, -- ensures it only runs once
   callback = function()
     local project = "p: " .. vim.fs.basename(vim.fn.getcwd())
     vim.fn.system({ "wezterm", "cli", "set-tab-title", project })
@@ -91,11 +91,22 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
     vim.fn.system({ "wezterm", "cli", "set-tab-title", "" })
   end,
 })
-
--- vim.api.nvim_create_autocmd("WinLeave", {
---   pattern = "*",
---   callback = function(args)
---     require("conform").format({ bufnr = args.buf })
---   end,
--- })
--- Automatically load the last session on startup if no files were passed
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MiniFilesBufferCreate",
+  callback = function(args)
+    local buf_id = args.data.buf_id
+    local open_in_window_picker = function()
+      local mini_files = require("mini.files")
+      local fs_entry = mini_files.get_fs_entry()
+      if fs_entry ~= nil and fs_entry.fs_type == "file" then
+        local picked_window_id = require("window-picker").pick_window()
+        if not picked_window_id then return end
+        mini_files.set_target_window(picked_window_id)
+      end
+      mini_files.go_in({
+        close_on_file = true,
+      })
+    end
+    vim.keymap.set("n", "l", open_in_window_picker, { buffer = buf_id, desc = "Open in target window" })
+  end,
+})

@@ -76,7 +76,8 @@ alias tf="terraform"
 
 alias virmc="${EDITOR} ~/.config/nvim/init.vim"
 alias ealiases="${EDITOR} ~/.aliases/local.bzsh"
-alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load({ last = true }) end)"'
+alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load() end)"'
+alias nn='nvim'
 alias nc='cd ~/ && nvim ~/.config/nvim -c "lua vim.schedule(function() require(\"persistence\").load({ last = true }) end)"'
 
 alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
