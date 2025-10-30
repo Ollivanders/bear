@@ -5,3 +5,4 @@
 alias gsl="git status"
 alias gs="git status -sb"
 alias gclo="git clone"
+alias gco="git checkout"

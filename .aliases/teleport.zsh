@@ -1,3 +1,4 @@
+alias tf="terraform"
 alias white-background='printf %b '\''\e]11;#FFFFFF\a\'\'''
 alias black-background='printf %b '\''\e]11;#000000\a\'\'''
 alias red-background='printf %b '\''\e]11;#660000\a\'\'''
