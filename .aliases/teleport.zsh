@@ -7,7 +7,7 @@ alias tlogin="tsh login --proxy=${TELEPORT_HOST} --auth=okta"
 alias ttoken="tctl tokens add --type=node"
 alias tshs="tsh ls --search"
 alias tkill="export PROCCESSES=\$(ps -ef | grep 'tsh proxy ssh' | grep -v 'grep tsh proxy ssh' | awk '{print \$2}'); kill \$PROCCESSES ; unset PROCCESSES"
-alias tshf="tsh ls | fzf > selected | cut -d' ' -f1 | pbcopy"
+# alias tshf="tsh ls | fzf > selected | cut -d' ' -f1 | pbcopy"
 alias tshd="tsh ls -v | fzf -m"
 TELEPORT_HOSTS_PATH="${HOME}/.cache/teleport_hosts.txt"
 
@@ -90,5 +90,11 @@ function tshl() {
 function tshr() {
   tshls
   tshl
+}
+
+function tshf() {
+  for vm in $(cat $TELEPORT_HOSTS_PATH | fzf -m ); do
+    echo $vm
+  done
 }
 
