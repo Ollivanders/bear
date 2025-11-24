@@ -1,4 +1,3 @@
-alias tf="terraform"
 alias white-background='printf %b '\''\e]11;#FFFFFF\a\'\'''
 alias black-background='printf %b '\''\e]11;#000000\a\'\'''
 alias red-background='printf %b '\''\e]11;#660000\a\'\'''
@@ -38,12 +37,8 @@ function tsh_ls() {
 }
 
 function tssh() {
-  echo "ssh-ing to $1"
+  echo "ssh -t ${USER}@${1}.${TELEPORT_HOST}"
   ssh -t ${USER}@${1}.${TELEPORT_HOST} -o ConnectTimeout=5 #-A 'bash -o vi'
-  # wezterm ssh -t ${USER}@${1}.${TELEPORT_HOST} #-A 'bash -o vi'
-  if [[ $2 = "c" ]]; then
-    tsh ssh -A ${USER} 'bash -o vi' -o ConnectTimeout=5
-  fi
 }
 
 function adb() {
@@ -79,12 +74,13 @@ function tshls() {
 function tshl() {
   for uuid in $(cat $TELEPORT_HOSTS_PATH | fzf -m | awk '{print $2}'); do
       if tssh "$uuid"; then
-          break
           echo $uuid
+          return 0
       else
           echo "Failed to connect to $uuid, trying next..."
       fi
   done
+  return 1
 }
 
 function tshr() {

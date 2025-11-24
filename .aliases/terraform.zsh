@@ -1,3 +1,4 @@
+alias tf="terraform"
 alias tws="terraform workspace select"
 alias twl="terraform workspace list"
 alias tfa="terraform apply"

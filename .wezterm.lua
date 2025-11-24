@@ -232,7 +232,7 @@ config.keys = {
   {
     -- |
     key = '{',
-    mods = 'LEADER|SHIFT',
+    mods = 'LEADER',
     action = act.PaneSelect { mode = 'SwapWithActiveKeepFocus' }
   },
   {
