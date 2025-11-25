@@ -155,5 +155,11 @@ return {
         },
       },
     },
+    lazygit = {
+      configure = true,
+      win = {
+        style = "lazygit",
+      },
+    }
   },
 }

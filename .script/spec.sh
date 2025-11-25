@@ -4,7 +4,10 @@
 # Settings for both bash and zsh
 
 # all of our zsh and bash files
-config_files=(~/.aliases/*.zsh)
+config_files=(
+  ~/.aliases/*.zsh
+  ~/.completions/*.zsh
+)
 
 
 source "${HOME}/.aliases/env.zsh"

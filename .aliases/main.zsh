@@ -79,6 +79,7 @@ alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load() en
 alias nn='nvim'
 alias nc='cd ~/ && nvim ~/.config/nvim'
 alias lg="lazygit"
+alias co='codex'
 
 alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
 

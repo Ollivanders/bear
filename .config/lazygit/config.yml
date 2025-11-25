@@ -1,4 +1,7 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+gui:
+  # Leave this false so Lazygit doesn't block/hang
+  editInTerminal: false
+
 git:
   paging:
     colorArg: always
@@ -14,3 +17,9 @@ customCommands:
 
     description: "Prefix commit message"
     command: git commit -m "[$(git rev-parse --abbrev-ref HEAD | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+')] {{.Form.Message}}"
+
+os:
+  edit: "nvim {{filename}}"
+  editAtLine: "nvim {{filename}} +{{line}}"
+  editInTerminal: true 
+

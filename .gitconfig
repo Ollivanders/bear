@@ -26,7 +26,7 @@ whitespace = nowarn
 keepBackup = false
 
 [difftool]
-prompt = false
+	prompt = false
 
 [help]
 autocorrect = 1
@@ -68,3 +68,8 @@ autosquash = true
 [merge]
     conflictstyle = zdiff3
 
+[difftool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+
+[diff]
+	tool = nvimdiff

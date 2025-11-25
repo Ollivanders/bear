@@ -7,7 +7,9 @@ return {
     opts = function()
       return {
         window = {
-          open = "alternate",
+          open = "smart",
+          diff = "tab_vsplit",
+          focus = "first",
         },
         integrations = {
           wezterm = true,
