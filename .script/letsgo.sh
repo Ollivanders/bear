@@ -6,7 +6,7 @@ set -e
 
 source $HOME/.script/general.sh
 cd "$(dirname "$0")"
-source ~/.aliases/dirs.bzsh
+source ~/.aliases/dirs.zsh
 
 QUICK=false
 
@@ -71,7 +71,11 @@ function setup_git() {
 
       prompt_line_yn "This good???"
     done
-    sed -e "s/AUTHORNAME/$user/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" gitconfig.local.example >gitconfig.local
+    echo """
+    [user]
+    name = ${user}
+    email = ${email}
+    """ > ${HOME}/.gitconfig.local
     success 'gitconfig'
   else
     echo "Sorry didin't mean to invade the setup, lets keep it classy and move on"
@@ -108,9 +112,7 @@ function setup_dirs() {
 #------------------------------------------------------------------------------
 # OS individual install
 function setup_mac() {
-  info "Installing" "default software and iTerm terminal"
-  ~/.script/macInstall.sh 2>&1
-  info "Configuring" "home brew"
+  info "Configuring" "homebrew and libs"
   ~/.script/installBrew.sh 2>&1
 }
 
@@ -164,7 +166,7 @@ function setup_os() {
     if [[ $line =~ 'y' ]]; then
       setup_mac
       info "Setting" "default settings"
-      ~/.homebin/dotfiles_management/set-defaults.sh 2>&1
+      ~/.script/setMacosDefaults.sh 2>&1
     fi
 
   elif [[ "$OSTYPE" == "win"* ]]; then # Wins (what are you doing)
@@ -188,8 +190,9 @@ function setup_zsh() {
       # Init zsh themes and external libraries
       echo "Hang tight while we install some external libraries"
       alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-      cfg submodule init
-      cfg submodule update
+      
+      /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule init
+      /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update
 
       info "change" "manually after running 'p10k configure' and logging out to init ZSH"
       user "Would you like to use a default .p10k.zsh with a default configuration?"

@@ -3,5 +3,4 @@
 # Script for copying ssh key to clipboard on different OS
 
 copy "cat ~/.ssh/id_rsa.pub"
-
 echo 'Public key'

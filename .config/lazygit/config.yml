@@ -1,12 +1,10 @@
 gui:
   # Leave this false so Lazygit doesn't block/hang
   editInTerminal: false
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never -s --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
-
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never -s --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 customCommands:
   - key: "<c-c>"
     context: "files"
@@ -14,12 +12,9 @@ customCommands:
       - type: "input"
         title: "Add Commit Message - ticket prefix if found"
         key: "Message"
-
     description: "Prefix commit message"
     command: git commit -m "[$(git rev-parse --abbrev-ref HEAD | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+')] {{.Form.Message}}"
-
 os:
   edit: "nvim {{filename}}"
   editAtLine: "nvim {{filename}} +{{line}}"
-  editInTerminal: true 
-
+  editInTerminal: true

@@ -59,9 +59,6 @@ alias cs="cd $SCRATCH_DIR"
 alias gupdate="dot -u"
 alias ca="cursor-agent"
 
-# Additional apps, scripts and plugins
-# eval '$(thefuck --alias fuck)'
-
 alias dotenv='export $(xargs -L 1 <.env)'
 alias grt='cd $(git rev-parse --show-toplevel)'
 
@@ -81,11 +78,16 @@ alias nc='cd ~/ && nvim ~/.config/nvim'
 alias lg="lazygit"
 alias co='codex'
 
-alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
 
 alias path='echo -e ${PATH//:/\\n}'
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; sudo gem cleanup'
+
+alias softwareupdate='sudo softwareupdate -i -a'
+alias update='cfg pull; sudo softwareupdate -i -a; ${HOME}/.script/installBrew.sh; npm install npm -g; npm update -g;'
+alias gemupdate='sudo gem update --system; sudo gem update; sudo gem cleanup'
+alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
+alias bupdate="${HOME}/.script/installBrew.sh"
+
 alias pwdc='pwd | copy'
 
 alias spotify_current='osascript -e '\''tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'\'''
