@@ -47,6 +47,7 @@ plugins=(
   git-auto-fetch
   git-extras
   gitfast
+  nvm
   terraform
   vi-mode
 )
