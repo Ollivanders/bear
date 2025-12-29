@@ -37,18 +37,20 @@ local function choose_project()
   }
 end
 
-local function wait(throttle, last_update)
-  local current_time = os.time()
-  return current_time - last_update < throttle
-end
-
-
 local stored_playback = ""
 local function get_currently_playing()
   local ok, stdout, stderr = wt.run_child_process {
     "/usr/bin/osascript",
     "-e",
-    'tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'
+    [[
+      if application "Spotify" is running then
+        tell application "Spotify"
+          if player state is playing then
+            artist of current track & " – " & name of current track
+          end if
+        end tell
+      end if
+    ]]
   }
   stored_playback = stdout
   wt.time.call_after(5, get_currently_playing)
