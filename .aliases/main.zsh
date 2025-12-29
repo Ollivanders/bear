@@ -83,7 +83,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 alias softwareupdate='sudo softwareupdate -i -a'
-alias update='cfg pull; sudo softwareupdate -i -a; ${HOME}/.script/installBrew.sh; npm install npm -g; npm update -g;'
+alias update='cfg pull; ${HOME}/.script/installBrew.sh; npm install npm -g; npm update -g;'
 alias gemupdate='sudo gem update --system; sudo gem update; sudo gem cleanup'
 alias bd="brew bundle dump --force --file ~/.homebrew/Brewfile"
 alias bupdate="${HOME}/.script/installBrew.sh"
