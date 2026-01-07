@@ -79,10 +79,9 @@ return {
       ui = {
         width = 0.3,        -- percentage of screen width
         height = 0.3,       -- percentage of screen height
-        border = "rounded", -- "single", "double", "rounded", "none"
-        row = 0.5,          -- center vertically (0 = top, 1 = bottom)
-        col = 0.5,          -- center horizontally (0 = left, 1 = right)
-        title = "Pick a window",
+        border = "double", -- "single", "double", "rounded", "none"
+        row = 0.9,          -- center vertically (0 = top, 1 = bottom)
+        col = 0.9,          -- center horizontally (0 = left, 1 = right)
       },
     },
     ---@class snacks.dashboard.Config

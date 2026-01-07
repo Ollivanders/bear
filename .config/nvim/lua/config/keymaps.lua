@@ -6,7 +6,7 @@ local map = vim.keymap.set
 
 map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, silent = true, desc = "resume" })
 
-map("n", "<leader>gc", ":DiffviewOpen", { silent = true, desc = "Diffview Commit" })
+map("n", "<leader>gc", ":DiffviewOpen HEAD<CR>", { silent = true, desc = "Diffview Commit" })
 map("n", "<leader>gm", ":DiffviewOpen origin/master<CR>", { silent = true, desc = "Diffview origin/master" })
 map("n", "<leader>gr", ":DiffviewFileHistory<CR>", { silent = true, desc = "Diff file history" })
 map("n", "<leader>gf", ":DiffviewFileHistory %<CR>", { silent = true, desc = "Diff current file" })

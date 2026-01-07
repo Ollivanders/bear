@@ -5,7 +5,7 @@ return {
       preview = true,
       width_focus = 50,
       width_nofocus = 15,
-      width_preview = 100,
+      width_preview = 80,
     },
     -- never_show = {
     --   ".git",
