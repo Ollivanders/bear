@@ -8,19 +8,6 @@ fi
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search   # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
-autoload -U compinit && compinit
-
-INSERT_MODE_INDICATOR="%F{yellow}+%f"
-bindkey -M viins 'jj' vi-cmd-mode
-
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to enable command auto-correction.
@@ -73,8 +60,13 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.script/spec.sh
 
-
 # ${UserConfigDir}/zsh/.zshrc
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
+
+# VI
+VI_MODE_SET_CURSOR=true
+bindkey -M viins 'jj' vi-cmd-mode
+MODE_INDICATOR="%F{white}+%f"
+INSERT_MODE_INDICATOR="%F{yellow}+%f"
