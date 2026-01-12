@@ -67,3 +67,11 @@ function checkWorkspaceLocks() {
     fi
   done
 }
+
+twss() {
+  local ws
+  ws=$(terraform workspace list 2>/dev/null | sed 's/^[* ]*//' | fzf --prompt="Terraform workspace > ")
+  if [ -n "$ws" ]; then
+    terraform workspace select "$ws"
+  fi
+}

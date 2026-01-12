@@ -13,3 +13,5 @@ alias kgpan='kubectl get pods --all-namespaces -o wide --sort-by="{.spec.nodeNam
 
 alias kcc="kubectl config current-context; kubectl config view --minify -o jsonpath='{..namespace}'; echo ''"
 alias ksc="kubectl config set-context --current --namespace"
+
+alias ku="kubie"

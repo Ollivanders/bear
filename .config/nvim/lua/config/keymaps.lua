@@ -170,3 +170,18 @@ map("n", "<leader>ph", require("smart-splits").swap_buf_left)
 map("n", "<leader>pj", require("smart-splits").swap_buf_down)
 map("n", "<leader>pk", require("smart-splits").swap_buf_up)
 map("n", "<leader>pl", require("smart-splits").swap_buf_right)
+
+map(
+  "n", "<leader>tb", function()
+  -- 0 = never show tabline (hides bufferline)
+  -- 2 = always show tabline (shows bufferline)
+  vim.o.showtabline = (vim.o.showtabline == 0) and 2 or 0
+end, { desc = "Toggle bufferline (tabline)" })
+
+map(
+  "n", "<leader>K",
+  function ()
+    require("kubectl").toggle({tab: boolean})
+  end,
+  { noremap = true, silent = true }
+)
