@@ -133,6 +133,7 @@ function tshl_db() {
               role=$(echo "$roles" | fzf --prompt="role ($db)> ")
           fi
       fi
+      echo $db
 
       if pdb "$db" "$role"; then
           echo $db
@@ -144,7 +145,7 @@ function tshl_db() {
 }
 
 function tshr_db() {
-  tshdbls
-  tshdbl
+  tshls_db
+  tshl_db
 }
 
