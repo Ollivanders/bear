@@ -96,13 +96,13 @@ function tshf() {
   done
 }
 
-
-function tshdbls() {
+function tshls_db() {
+  echo "Syncing teleport dbs"
   tsh db ls -v >$TELEPORT_DBS_PATH
   echo "Synced TELEPORT_DBS ${TELEPORT_DBS_PATH}"
 }
 
-function tshdbl() {
+function tshl_db() {
   local selection dbs
   selection=$(sed '1,2d' $TELEPORT_DBS_PATH | fzf -m) || return 1
   dbs=$(echo "$selection" | awk '{print $1}')
@@ -142,3 +142,9 @@ function tshdbl() {
       fi
   done
 }
+
+function tshr_db() {
+  tshdbls
+  tshdbl
+}
+
