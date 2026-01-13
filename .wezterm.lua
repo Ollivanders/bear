@@ -1,5 +1,7 @@
 local wt = require("wezterm")
 local config = wt.config_builder()
+local io = require 'io'
+local os = require 'os'
 local mux = wt.mux
 local act = wt.action
 
@@ -142,7 +144,41 @@ local function split_nav(resize_or_move, key)
   }
 end
 
+wt.on('trigger-vim-with-scrollback', function(window, pane)
+  -- Retrieve the text from the pane
+  local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
+
+  -- Create a temporary file to pass to vim
+  local name = os.tmpname()
+  local f = io.open(name, 'w+')
+  f:write(text)
+  f:flush()
+  f:close()
+
+  -- Open a new window running vim and tell it to open the file
+  window:perform_action(
+    act.SpawnCommandInNewWindow {
+      args = { 'nvim', name },
+    },
+    pane
+  )
+
+  -- Wait "enough" time for vim to read the file before we remove it.
+  -- The window creation and process spawn are asynchronous wrt. running
+  -- this script and are not awaitable, so we just pick a number.
+  --
+  -- Note: We don't strictly need to remove this file, but it is nice
+  -- to avoid cluttering up the temporary directory.
+  wt.sleep_ms(1000)
+  os.remove(name)
+end)
+
 config.keys = {
+  {
+    key = 'E',
+    mods = 'LEADER',
+    action = act.EmitEvent 'trigger-vim-with-scrollback',
+  },
   {
     key = "o",
     mods = "CTRL|SHIFT",

@@ -11,19 +11,6 @@ vim.api.nvim_create_autocmd("FocusLost", {
   command = "silent! wa",
 })
 
--- reload config file on change
-vim.api.nvim_create_autocmd("BufWritePost", {
-  group = "bufcheck",
-  pattern = vim.env.MYVIMRC,
-  command = "silent source %",
-})
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.ocl",
-  callback = function()
-    vim.bo.filetype = "ocl"
-  end,
-})
-
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("grug-far-keybindings", { clear = true }),
   pattern = { "grug-far" },
