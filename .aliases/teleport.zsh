@@ -10,6 +10,7 @@ alias tkill="export PROCCESSES=\$(ps -ef | grep 'tsh proxy ssh' | grep -v 'grep 
 alias tshd="tsh ls -v | fzf -m"
 TELEPORT_HOSTS_PATH="${HOME}/.cache/teleport_hosts.txt"
 TELEPORT_DBS_PATH="${HOME}/.cache/teleport_dbs.txt"
+ORG_METADATA_PATH="${HOME}/projects/infra/org_metadata.txt"
 
 function tsh_ls() {
   CLOUD_PROVIDER=""
@@ -64,8 +65,9 @@ function adb() {
 
 function pdb() {
   local role=${2:-rds-admin}
-  echo "tsh db connect --db-user=${role} --db-name=postgres $1"
-  tsh db connect --db-user=${role} --db-name=postgres $1
+  local db_name=${3:-postgres}
+  echo "tsh db connect --db-user=${role} --db-name=${db_name} $1"
+  tsh db connect --db-user=${role} --db-name=${db_name} $1
 }
 
 function tshls() {
@@ -149,3 +151,36 @@ function tshr_db() {
   tshl_db
 }
 
+function tshl_db_meta() {
+  local selection db db_name roles role
+
+  selection=$(cat "$ORG_METADATA_PATH" | fzf) || return 1
+  db=$(echo "$selection" | awk -F'\t' '{print $3}')
+  db_name=$(echo "$selection" | awk -F'\t' '{print $2}')
+  [[ -z "$db" ]] && return 1
+
+  roles=$(echo "$selection" | awk -F'\t' '{print $6}')
+  if [[ -n "$roles" ]]; then
+      roles=$(echo "$roles" | sed -e 's/^\[//' -e 's/\]$//' | tr ' ' '\n' | sed '/^$/d')
+      if [[ -n "$TSHDBL_EXCLUDE_ROLES" ]]; then
+          local -a exclude_roles_list
+          exclude_roles_list=(${=TSHDBL_EXCLUDE_ROLES})
+          for exclude_role in $exclude_roles_list; do
+              roles=$(echo "$roles" | grep -v "$exclude_role" || true)
+          done
+      fi
+      roles=$(echo "$roles" | sed '/^$/d')
+      if [[ -n "$roles" ]]; then
+          role=$(echo "$roles" | fzf --prompt="role ($db)> ")
+      fi
+  fi
+  echo $db
+
+  if pdb "$db" "$role" "$db_name"; then
+      echo $db
+      return 0
+  else
+      echo "Failed to connect to $db"
+  fi
+  return 1
+}
