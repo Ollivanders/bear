@@ -40,6 +40,20 @@ local M = {
       desc = "S/R Main",
     },
     {
+      "<leader>rn",
+      function()
+        require("grug-far").toggle_instance({
+          instanceName = "Second",
+          staticTitle = "Second",
+          prefills = {
+            flags = "-F --hidden",
+          },
+        })
+      end,
+      mode = { "n", "v" },
+      desc = "S/R Toggle Second",
+    },
+    {
       "<leader>rt",
       function()
         require("grug-far").toggle_instance({

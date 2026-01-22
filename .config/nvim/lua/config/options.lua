@@ -11,3 +11,10 @@ vim.opt.textwidth = 100
 vim.lsp.buf.definition({ reuse_win = true })
 -- vim.opt.laststatus = 3
 vim.opt.spell = true
+
+vim.g.opencode_opts = {
+  provider = {
+    enabled = "wezterm",
+    wezterm = { }
+  }
+}

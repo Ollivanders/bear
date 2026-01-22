@@ -78,6 +78,8 @@ alias nc='cd ~/ && nvim ~/.config/nvim'
 alias lg="lazygit"
 alias co='codex'
 
+alias au='auggie'
+alias aus='auggie sesson continue'
 
 alias path='echo -e ${PATH//:/\\n}'
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"

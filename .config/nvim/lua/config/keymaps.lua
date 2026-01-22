@@ -120,9 +120,17 @@ map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 map("n", "<leader>bw", ":WipeWindowlessBufs<CR>", { silent = true, desc = "Wipe window less buffers" })
 
+map("n", "<leader>yf", function()
+  vim.fn.setreg("+", vim.fn.expand("%:t"))
+end, { desc = "Copy filename" })
+
 map("n", "<leader>yp", function()
   vim.fn.setreg("+", vim.fn.expand("%:p"))
 end, { desc = "Copy file path" })
+
+vim.keymap.set('n', '<leader>yl', function()
+  vim.fn.setreg('+', vim.fn.expand('%:p') .. ':' .. vim.fn.line('.'))
+end, { desc = "Copy file path and line number" })
 
 map("n", "<leader>yr", function()
   vim.fn.setreg("+", vim.fn.expand("%:."))
@@ -177,4 +185,3 @@ map(
   -- 2 = always show tabline (shows bufferline)
   vim.o.showtabline = (vim.o.showtabline == 0) and 2 or 0
 end, { desc = "Toggle bufferline (tabline)" })
-

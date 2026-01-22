@@ -23,6 +23,7 @@ ZSH_CACHE_DIR="${HOME}/.zsh-cache"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  aliases
   alias-finder
   brew
   extract
