@@ -172,15 +172,19 @@ return {
             -- 2: shows the full path
             -- 3: shows the full path and shorten $HOME to ~
           },
-          { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
         },
         lualine_z = {
           {
-            'datetime',
-            -- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
-            style = '%a %b %-d %H:%M:%S'
-          }
+            "progress",
+            separator = " | ",
+            padding = { left = 1, right = 0 }
+          },
+          { "location", padding = { left = 0, right = 1 } },
+          -- {
+          --   'datetime',
+          --   -- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
+          --   style = '%a %b %-d %H:%M:%S'
+          -- }
         },
       },
       extensions = { "neo-tree", "lazy", "fzf" },

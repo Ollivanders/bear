@@ -64,7 +64,7 @@ function M.segments_for_right_status(window)
 
   return {
     window:active_workspace(),
-    wt.strftime("%a %b %-d %H:%M"),
+    wt.strftime("%a %b %-d %H:%M:%S"),
     wt.hostname(),
     bat,
     stored_playback,
