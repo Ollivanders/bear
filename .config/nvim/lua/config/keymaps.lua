@@ -185,3 +185,9 @@ map(
   -- 2 = always show tabline (shows bufferline)
   vim.o.showtabline = (vim.o.showtabline == 0) and 2 or 0
 end, { desc = "Toggle bufferline (tabline)" })
+
+map("n", "<leader>bA", "<cmd>bufdo edit<CR>", {
+  desc = "Reload all buffers",
+})
+
+map({ "n", "x" }, "<C-P>", '"0P', { noremap = true, silent = true })
