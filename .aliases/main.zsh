@@ -27,9 +27,8 @@ alias la='eza -A --color'
 alias lt='eza -T --color --level=3'
 
 # Reload
-alias reload!='. ~/.script/re-source.sh' # reload zshrc file
-alias rel='reload!'                      # reload zshrc file
-alias reload="exec ${SHELL} -l"          # restart shell
+alias reload!='source ~/.zshrc'
+alias rel='reload!'
 
 # Paths
 alias pwd='echo ${PWD}'
@@ -76,8 +75,8 @@ alias n='nvim -c "lua vim.schedule(function() require(\"persistence\").load() en
 alias nn='nvim'
 alias nc='cd ~/ && nvim ~/.config/nvim'
 alias lg="lazygit"
-alias co='codex'
 
+alias co='codex'
 alias au='auggie'
 alias aus='auggie sesson continue'
 
