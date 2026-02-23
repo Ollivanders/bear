@@ -3,8 +3,13 @@ gui:
   editInTerminal: false
 git:
   pagers:
+    # toggle between diff types with "|"
+    # side by side diff 
     - colorArg: always
-      pager: delta --dark --paging=never -s --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+      pager: delta --dark --paging=never --side-by-side --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    # inline diff
+    - colorArg: always
+      pager: delta --no-gitconfig --dark --paging=never --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 customCommands:
   - key: "<c-c>"
     context: "files"

@@ -40,7 +40,7 @@ config.tab_max_width = 40
 config.switch_to_last_active_tab_when_closing_tab = true
 config.adjust_window_size_when_changing_font_size = false
 config.hide_tab_bar_if_only_one_tab = true
-config.pane_focus_follows_mouse = true
+config.pane_focus_follows_mouse = false
 config.scrollback_lines = 5000
 
 config.window_frame = {
