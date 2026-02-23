@@ -139,6 +139,26 @@ end, { desc = "Copy Relative file path" })
 map("n", "<leader>yd", function()
   vim.fn.setreg("+", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h"))
 end, { desc = "Copy directory of current buffer (absolute path)" })
+vim.keymap.set("v", "<leader>YY", function()
+  local start_line = vim.fn.line("v")
+  local end_line = vim.fn.line(".")
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local filename = vim.fn.expand("%:t")
+  local ref
+
+  if start_line == end_line then
+    ref = string.format("%s#%d", filename, start_line)
+  else
+    ref = string.format("%s#%d-%d", filename, start_line, end_line)
+  end
+
+  vim.fn.setreg("+", ref)
+  print("Copied: " .. ref)
+end, { desc = "Copy file#lines reference" })
+
 
 map("n", "<leader>yD", function()
   local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
