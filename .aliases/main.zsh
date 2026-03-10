@@ -76,6 +76,8 @@ alias nn='nvim'
 alias nc='cd ~/ && nvim ~/.config/nvim'
 alias lg="lazygit"
 
+alias cl='claude'
+alias clr='claude -r'
 alias co='codex'
 alias au='auggie'
 alias aus='auggie sesson continue'
