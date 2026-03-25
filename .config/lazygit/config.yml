@@ -19,7 +19,16 @@ customCommands:
         key: "Message"
     description: "Prefix commit message"
     command: git commit -m "[$(git rev-parse --abbrev-ref HEAD | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+')] {{.Form.Message}}"
+  - key: "U"
+    command: "git push -u origin {{.CheckedOutBranch.Name}}"
+    context: "localBranches"
+    description: "Push and set upstream to origin"
+  - key: "U"
+    command: "git push -u origin {{.CheckedOutBranch.Name}}"
+    context: "files"
+    description: "Push and set upstream to origin"
 os:
   edit: "nvim {{filename}}"
   editAtLine: "nvim {{filename}} +{{line}}"
   editInTerminal: true
+
