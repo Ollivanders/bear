@@ -56,7 +56,7 @@ end, { desc = "Terminal (Right)" })
 -- Bottom terminal (#2)
 map("n", "<C-_>", function()
   require("snacks").terminal.toggle(nil, {
-    count = 2, 
+    count = 2,
     win = { position = "bottom" },
   })
 end, { desc = "Terminal (Bottom)" })
@@ -74,8 +74,6 @@ end, { desc = "Terminal (Bottom)" })
 --     win = { position = "bottom" },   -- horizontal split
 --   })
 -- end, { desc = "New horizontal terminal" })
-
-
 
 -- <Esc><Esc> in terminal mode sends <C-\><C-n> to exit terminal mode, see :h term
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
@@ -128,8 +126,8 @@ map("n", "<leader>yp", function()
   vim.fn.setreg("+", vim.fn.expand("%:p"))
 end, { desc = "Copy file path" })
 
-vim.keymap.set('n', '<leader>yl', function()
-  vim.fn.setreg('+', vim.fn.expand('%:p') .. ':' .. vim.fn.line('.'))
+vim.keymap.set("n", "<leader>yl", function()
+  vim.fn.setreg("+", vim.fn.expand("%:p") .. ":" .. vim.fn.line("."))
 end, { desc = "Copy file path and line number" })
 
 map("n", "<leader>yr", function()
@@ -158,7 +156,6 @@ vim.keymap.set("v", "<leader>YY", function()
   vim.fn.setreg("+", ref)
   print("Copied: " .. ref)
 end, { desc = "Copy file#lines reference" })
-
 
 map("n", "<leader>yD", function()
   local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
@@ -199,8 +196,7 @@ map("n", "<leader>pj", require("smart-splits").swap_buf_down)
 map("n", "<leader>pk", require("smart-splits").swap_buf_up)
 map("n", "<leader>pl", require("smart-splits").swap_buf_right)
 
-map(
-  "n", "<leader>tb", function()
+map("n", "<leader>tb", function()
   -- 0 = never show tabline (hides bufferline)
   -- 2 = always show tabline (shows bufferline)
   vim.o.showtabline = (vim.o.showtabline == 0) and 2 or 0
@@ -211,3 +207,53 @@ map("n", "<leader>bA", "<cmd>bufdo edit<CR>", {
 })
 
 map({ "n", "x" }, "<C-P>", '"0P', { noremap = true, silent = true })
+
+-- map("n", "<leader>gws", function() Snacks.picker.worktrees() end, { desc = "Switch" })
+map("n", "<leader>gwn", function()
+  local telescope = require("telescope")
+  telescope.load_extension("git_worktree")
+  telescope.extensions.git_worktree.create_git_worktree()
+end, { desc = "New" })
+map("n", "<leader>gwr", function()
+  local git_worktree = require("git-worktree")
+  local worktrees = {}
+  local current_path
+
+  for _, line in ipairs(vim.fn.systemlist("git worktree list --porcelain")) do
+    if vim.startswith(line, "worktree ") then
+      current_path = line:sub(#"worktree " + 1)
+    elseif vim.startswith(line, "branch ") and current_path then
+      worktrees[#worktrees + 1] = {
+        path = current_path,
+        branch = line:gsub("^branch refs/heads/", ""),
+      }
+      current_path = nil
+    elseif line == "" and current_path then
+      worktrees[#worktrees + 1] = {
+        path = current_path,
+        branch = "(detached)",
+      }
+      current_path = nil
+    end
+  end
+
+  vim.ui.select(worktrees, {
+    prompt = "Remove worktree",
+    format_item = function(item)
+      return string.format("%s -> %s", item.branch, item.path)
+    end,
+  }, function(choice)
+    if not choice then
+      return
+    end
+
+    git_worktree.delete_worktree(choice.path, false)
+  end)
+end, { desc = "Remove" })
+
+map("n", "<leader>gws", function()
+  local telescope = require("telescope")
+  telescope.load_extension("git_worktree")
+  telescope.extensions.git_worktree.git_worktree()
+  -- telescope.extensions.git_worktree.git_worktree({ path_display = {} })
+end, { desc = "Manage Worktrees" })
