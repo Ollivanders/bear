@@ -56,16 +56,24 @@ function M.split_nav(resize_or_move, key)
   }
 end
 
-function M.segments_for_right_status(window)
+function M.segments_for_right_status(window, pane)
   local bat = ''
   for _, b in ipairs(wt.battery_info()) do
     bat = '🔋 ' .. string.format('%.0f%%', b.state_of_charge * 100)
   end
 
+  local basename = function (s)
+    return string.gsub(s, "(.*[/\\])(.*)", "%2")
+  end
+  --
+  -- local cwd = basename(pane:get_current_working_dir())
+  local cmd = basename(pane:get_foreground_process_name())
+
   return {
-    window:active_workspace(),
+    -- window:active_workspace(),
     wt.strftime("%a %b %-d %H:%M:%S"),
     wt.hostname(),
+    cmd,
     bat,
     stored_playback,
   }

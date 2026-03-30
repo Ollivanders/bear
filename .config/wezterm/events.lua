@@ -51,9 +51,9 @@ M.setup = function()
     window:set_right_status(name or "")
   end)
 
-  wt.on("update-status", function(window, _)
+  wt.on("update-status", function(window, pane)
     local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
-    local segments = funcs.segments_for_right_status(window)
+    local segments = funcs.segments_for_right_status(window, pane)
 
     local color_scheme = window:effective_config().resolved_palette
     -- Note the use of wezterm.color.parse here, this returns
