@@ -8,6 +8,7 @@ map("n", "<leader>sx", require("telescope.builtin").resume, { noremap = true, si
 
 map("n", "<leader>gc", ":DiffviewOpen HEAD<CR>", { silent = true, desc = "Diffview Commit" })
 map("n", "<leader>gm", ":DiffviewOpen origin/master<CR>", { silent = true, desc = "Diffview origin/master" })
+map("n", "<leader>gM", ":DiffviewOpen origin/main<CR>", { silent = true, desc = "Diffview origin/" })
 map("n", "<leader>gr", ":DiffviewFileHistory<CR>", { silent = true, desc = "Diff file history" })
 map("n", "<leader>gf", ":DiffviewFileHistory %<CR>", { silent = true, desc = "Diff current file" })
 
