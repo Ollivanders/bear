@@ -694,6 +694,159 @@ actions.gh.openProfile = () =>
 actions.gh.toggleLangStats = () =>
   document.querySelector(".repository-lang-stats-graph").click()
 
+actions.gh.approvePull = () => {
+  const pull = actions.gh.parsePull()
+  if (pull?.type !== "pull") {
+    Front.showBanner("Not on a pull request page")
+    return
+  }
+
+  void (async () => {
+    const isVisible = (el) =>
+      el &&
+      el.isConnected &&
+      !el.disabled &&
+      window.getComputedStyle(el).display !== "none" &&
+      window.getComputedStyle(el).visibility !== "hidden"
+
+    const normalizedText = (el) =>
+      (el?.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
+
+    const elementText = (el) =>
+      [
+        normalizedText(el),
+        (el?.getAttribute("aria-label") || "").trim().toLowerCase(),
+        (el?.getAttribute("title") || "").trim().toLowerCase(),
+      ]
+        .filter((s) => s.length > 0)
+        .join(" ")
+
+    const findButton = (matcher, root = document) =>
+      [...root.querySelectorAll("button, summary, [role='button']")].find(
+        (el) => isVisible(el) && matcher(el)
+      ) || null
+
+    const isFilesChangedPage = () =>
+      /^\/[^/]+\/[^/]+\/pull\/[^/]+\/(files|changes)\/?$/.test(
+        window.location.pathname
+      )
+
+    const openReviewDialog = async () => {
+      const query = () =>
+        [
+          ...document.querySelectorAll("details-dialog, dialog, [role='dialog']"),
+        ].find((dialog) => {
+          if (!isVisible(dialog)) return false
+          const text = elementText(dialog)
+          return (
+            !!dialog.querySelector(
+              "input[name='reviewEvent'][value='approve'], input[name='reviewEvent'][value='APPROVE']"
+            ) ||
+            text.includes("finish your review")
+          )
+        }) || null
+
+      const reviewButton =
+        [
+          "button[data-hotkey='r']",
+          "button[aria-label*='review' i]",
+          "summary[aria-label*='review' i]",
+          "button[aria-haspopup='dialog']",
+          "summary[aria-haspopup='dialog']",
+        ]
+          .flatMap((selector) => [...document.querySelectorAll(selector)])
+          .find((el) => {
+            if (!isVisible(el)) return false
+            const text = elementText(el)
+            return (
+              text.includes("submit review") ||
+              text.includes("review changes") ||
+              text.includes("add your review") ||
+              text.includes("start a review") ||
+              text.includes("finish your review")
+            )
+          }) ||
+        findButton((el) => {
+          const text = elementText(el)
+          return (
+            text.includes("submit review") ||
+            text.includes("review changes") ||
+            text.includes("add your review") ||
+            text.includes("start a review") ||
+            text.includes("finish your review")
+          )
+        })
+
+      if (!reviewButton) {
+        if (!isFilesChangedPage()) {
+          throw new Error("Open the PR Files changed tab before approving")
+        }
+        throw new Error("Could not find the GitHub review button")
+      }
+
+      reviewButton.click()
+      return util.until(
+        query,
+        (dialog) =>
+          !!dialog &&
+          isVisible(dialog) &&
+          !!dialog.querySelector(
+            "input[name='reviewEvent'][value='approve'], input[name='reviewEvent'][value='APPROVE']"
+          )
+      )
+    }
+
+    const selectApprove = (dialog) => {
+      const approveInput = dialog.querySelector(
+        "input[name='reviewEvent'][value='approve'], input[name='reviewEvent'][value='APPROVE']"
+      )
+      if (approveInput) {
+        const approveLabel =
+          dialog.querySelector(`label[for='${approveInput.id}']`) ||
+          approveInput.closest("label")
+        if (approveLabel) {
+          approveLabel.click()
+        } else {
+          approveInput.click()
+          approveInput.dispatchEvent(new Event("input", { bubbles: true }))
+          approveInput.dispatchEvent(new Event("change", { bubbles: true }))
+        }
+        return
+      }
+
+      const approveLabel = [...dialog.querySelectorAll("label")].find(
+        (el) => normalizedText(el).includes("approve")
+      )
+      if (approveLabel) {
+        approveLabel.click()
+        return
+      }
+
+      throw new Error("Could not find the Approve option")
+    }
+
+    const submitReview = (dialog) => {
+      const submitButton = findButton(
+        (el) => elementText(el).includes("submit review"),
+        dialog
+      )
+      if (!submitButton) {
+        throw new Error("Could not find the Submit review button")
+      }
+      submitButton.click()
+    }
+
+    try {
+      const dialog = await openReviewDialog()
+      selectApprove(dialog)
+      submitReview(dialog)
+      Front.showBanner("Approving pull request")
+    } catch (e) {
+      Front.showBanner(`GitHub approve failed: ${e.message}`)
+    }
+  })()
+}
+
 actions.gh.goParent = () => {
   const segments = window.location.pathname.split("/").filter((s) => s !== "")
   const newPath = (() => {

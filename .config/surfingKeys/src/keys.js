@@ -515,6 +515,11 @@ maps["github.com"] = [
     callback: actions.gh.openPull,
   },
   {
+    alias: "V",
+    description: "Approve current Pull Request",
+    callback: actions.gh.approvePull,
+  },
+  {
     alias: "e",
     description: "View external link",
     callback: () => util.createHints("a[rel=nofollow]"),
