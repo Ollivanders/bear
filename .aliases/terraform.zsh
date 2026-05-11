@@ -79,3 +79,26 @@ function selectWorkspace() {
   fi
 }
 alias twss="selectWorkspace"
+
+tf_targets() {
+  local input
+  input=$(pbpaste)
+
+  local targets
+  targets=$(echo "$input" \
+    | grep -E '^\s+#\s+(module\.|[a-z])' \
+    | grep -E '(will be|must be)' \
+    | sed 's/.*# //' \
+    | sed -E 's/ (will be|must be).*//' \
+    | sort -u \
+    | sed "s/.*/-target='&'/" \
+    | tr '\n' ' ')
+
+  if [ -z "$targets" ]; then
+    echo "No Terraform resources found in clipboard."
+    return 1
+  fi
+
+  echo "$targets" | pbcopy
+  echo "Copied to clipboard"
+}

@@ -1,1 +1,4 @@
 .git/
+.cfg
+**/node_modules/**
+.zsh-cache/.zsh-update

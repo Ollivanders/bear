@@ -67,13 +67,13 @@ function M.segments_for_right_status(window, pane)
   end
   --
   -- local cwd = basename(pane:get_current_working_dir())
-  local cmd = basename(pane:get_foreground_process_name())
+  -- local cmd = basename(pane:get_foreground_process_name())
 
   return {
     -- window:active_workspace(),
     wt.strftime("%a %b %-d %H:%M:%S"),
     wt.hostname(),
-    cmd,
+    -- cmd,
     bat,
     stored_playback,
   }
