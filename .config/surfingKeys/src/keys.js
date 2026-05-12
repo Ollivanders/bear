@@ -666,6 +666,86 @@ maps["claude.ai"] = [
   },
 ]
 
+maps["console.aws.amazon.com"] = [
+  {
+    alias: "s",
+    description: "Switch AWS session",
+    callback: async () => {
+      const btn = document.querySelector('[data-testid="more-menu__awsc-nav-account-menu-button"]')
+      if (!btn) {
+        Front.showBanner("Account menu button not found")
+        return
+      }
+      if (btn.getAttribute("aria-expanded") !== "true") {
+        Hints.dispatchMouseClick(btn)
+        try {
+          // wait for menu to open
+          await util.until(() => btn.getAttribute("aria-expanded") === "true")
+          // then wait for session tiles to populate
+          await util.until(() =>
+            document.querySelector('[data-testid^="awsc-account-menu-other-session-tile"]')
+          )
+        } catch (e) {
+          Front.showBanner("No other sessions found")
+          return
+        }
+      }
+      const links = document.querySelectorAll('[data-testid^="awsc-account-menu-other-session-tile"]')
+      if (!links.length) {
+        Front.showBanner("No other sessions found")
+        return
+      }
+      // close menu before omnibar opens
+      Hints.dispatchMouseClick(btn)
+      const items = Array.from(links).map((link) => {
+        const title = link.querySelector('[class*="key-label-variant"]')?.textContent?.trim() ?? "Unknown"
+        const sessionUrl = new URL(link.href)
+        const newPrefix = sessionUrl.hostname.replace(".console.aws.amazon.com", "")
+        const newRegion = newPrefix.split(".").pop()
+        const url = new URL(window.location.href)
+        url.hostname = `${newPrefix}.console.aws.amazon.com`
+        url.searchParams.set("region", newRegion)
+        return { title, url: url.href }
+      })
+      Front.openOmnibar({ type: "UserURLs", extra: items })
+    },
+  },
+  {
+    alias: "r",
+    description: "Switch AWS region",
+    callback: () => {
+      const regions = [
+        "us-east-1",
+        "us-east-2",
+        "us-west-1",
+        "us-west-2",
+        "ap-south-1",
+        "ap-northeast-1",
+        "ap-northeast-2",
+        "ap-northeast-3",
+        "ap-southeast-1",
+        "ap-southeast-2",
+        "ca-central-1",
+        "eu-central-1",
+        "eu-west-1",
+        "eu-west-2",
+        "eu-west-3",
+        "eu-north-1",
+        "sa-east-1",
+        "me-south-1",
+        "af-south-1",
+      ]
+      const items = regions.map((r) => {
+        const url = new URL(window.location.href)
+        url.searchParams.set("region", r)
+        return { title: r, url: url.href }
+      })
+      Front.openOmnibar({ type: "UserURLs", extra: items })
+    },
+  },
+]
+
+
 const registerDOI = (
   domain,
   provider = actions.doi.providers.meta_citation_doi

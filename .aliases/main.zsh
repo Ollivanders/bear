@@ -78,7 +78,9 @@ alias lg="lazygit"
 
 alias cl='claude'
 alias clr='claude -r'
+alias cla='claude agents'
 alias co='codex'
+alias cor='codex resume'
 alias au='auggie'
 alias aus='auggie sesson continue'
 
