@@ -43,6 +43,20 @@ return {
   {
     "loctvl842/monokai-pro.nvim",
     config = function()
+      local function apply_transparent_window_highlights()
+        local groups = {
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          FloatTitle = { bg = "NONE" },
+          SnacksNormal = { bg = "NONE" },
+          SnacksNormalNC = { bg = "NONE" },
+        }
+
+        for group, opts in pairs(groups) do
+          vim.api.nvim_set_hl(0, group, opts)
+        end
+      end
+
       require("monokai-pro").setup(
         {
           transparent_background = true,
@@ -80,6 +94,14 @@ return {
           end
         }
       )
+
+      local group = vim.api.nvim_create_augroup("TransparentWindows", { clear = true })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = group,
+        pattern = "*",
+        callback = apply_transparent_window_highlights,
+      })
+      apply_transparent_window_highlights()
     end
   },
   {

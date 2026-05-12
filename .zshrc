@@ -49,6 +49,7 @@ zstyle ':omz:plugins:nvm' lazy yes
 
 unsetopt CORRECT
 unsetopt CORRECT_ALL
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#8fa1b3'
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 zstyle :bracketed-paste-magic paste-init pasteinit
