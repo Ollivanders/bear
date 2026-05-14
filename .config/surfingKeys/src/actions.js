@@ -847,6 +847,54 @@ actions.gh.approvePull = () => {
   })()
 }
 
+actions.gh.mergePull = () => {
+  const pull = actions.gh.parsePull()
+  if (pull?.type !== "pull") {
+    Front.showBanner("Not on a pull request page")
+    return
+  }
+
+  void (async () => {
+    const isVisible = (el) =>
+      el &&
+      el.isConnected &&
+      !el.disabled &&
+      el.getAttribute("aria-disabled") !== "true" &&
+      el.getAttribute("data-inactive") !== "true" &&
+      window.getComputedStyle(el).display !== "none" &&
+      window.getComputedStyle(el).visibility !== "hidden"
+
+    const normalizedText = (el) =>
+      (el?.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
+
+    const findButton = (text, root = document) =>
+      [...root.querySelectorAll("button, [role='button']")].find(
+        (el) => isVisible(el) && normalizedText(el).includes(text)
+      ) || null
+
+    try {
+      const mergeButton = findButton("merge pull request")
+      if (!mergeButton) {
+        Front.showBanner("Merge button not found or not clickable (checks pending?)")
+        return
+      }
+
+      mergeButton.click()
+
+      const confirmButton = await util.until(
+        () => findButton("confirm merge"),
+        (el) => !!el,
+        60,
+        50
+      )
+      confirmButton.click()
+      Front.showBanner("Merging pull request")
+    } catch (e) {
+      Front.showBanner(`GitHub merge failed: ${e.message}`)
+    }
+  })()
+}
+
 actions.gh.goParent = () => {
   const segments = window.location.pathname.split("/").filter((s) => s !== "")
   const newPath = (() => {

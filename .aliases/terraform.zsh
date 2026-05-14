@@ -5,7 +5,7 @@ alias tfa="terraform apply"
 alias tfp="terraform plan"
 alias tfi="terraform init"
 alias tfo="terraform output"
-alias tss='terraform state list | fzf --multi --bind "tab:toggle+down" | xargs -I{} terraform state show "{}"'
+alias tss='terraform state list | fzf --multi --bind "tab:toggle+down" | while IFS= read -r addr; do terraform state show "$addr"; done'
 alias tsf='terraform state list | fzf --multi --bind "tab:toggle+down"'
 
 tfUnlock() {

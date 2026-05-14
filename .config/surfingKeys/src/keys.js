@@ -480,7 +480,7 @@ maps["github.com"] = [
     callback: actions.gh.openRepoOwner,
   },
   {
-    alias: "M",
+    alias: "U",
     description: "Open your profile page ('Me')",
     callback: actions.gh.openProfile,
   },
@@ -518,6 +518,11 @@ maps["github.com"] = [
     alias: "V",
     description: "Approve current Pull Request",
     callback: actions.gh.approvePull,
+  },
+  {
+    alias: "M",
+    description: "Merge current Pull Request",
+    callback: actions.gh.mergePull,
   },
   {
     alias: "e",
