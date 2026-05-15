@@ -525,6 +525,11 @@ maps["github.com"] = [
     callback: actions.gh.mergePull,
   },
   {
+    alias: "d",
+    description: "Approve current deployment",
+    callback: actions.gh.approveDeployment,
+  },
+  {
     alias: "e",
     description: "View external link",
     callback: () => util.createHints("a[rel=nofollow]"),

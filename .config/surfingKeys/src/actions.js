@@ -847,6 +847,141 @@ actions.gh.approvePull = () => {
   })()
 }
 
+actions.gh.approveDeployment = () => {
+  void (async () => {
+    const isVisible = (el) =>
+      el &&
+      el.isConnected &&
+      !el.disabled &&
+      window.getComputedStyle(el).display !== "none" &&
+      window.getComputedStyle(el).visibility !== "hidden"
+
+    const normalizedText = (el) =>
+      (el?.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
+
+    const elementText = (el) =>
+      [
+        normalizedText(el),
+        (el?.getAttribute("aria-label") || "").trim().toLowerCase(),
+        (el?.getAttribute("title") || "").trim().toLowerCase(),
+      ]
+        .filter((s) => s.length > 0)
+        .join(" ")
+
+    const findButton = (matcher, root = document) =>
+      [...root.querySelectorAll("button, a, summary, [role='button']")].find(
+        (el) => isVisible(el) && matcher(el)
+      ) || null
+
+    const findDeploymentRequestLink = () =>
+      [...document.querySelectorAll("a[href*='/actions/runs/']")].find((el) => {
+        if (!isVisible(el)) return false
+        const text = normalizedText(el)
+        return text.includes("requested a deployment")
+      }) || null
+
+    const getDeploymentRunUrl = (href) => {
+      const url = new URL(href, window.location.origin)
+      const match = url.pathname.match(/^(\/[^/]+\/[^/]+\/actions\/runs\/\d+)/)
+      if (match) {
+        url.pathname = match[1]
+        url.search = ""
+        url.hash = ""
+      }
+      return url.href
+    }
+
+    const queryDialog = () =>
+      [
+        ...document.querySelectorAll("details-dialog, dialog, [role='dialog']"),
+      ].find((dialog) => {
+        if (!isVisible(dialog)) return false
+        const text = elementText(dialog)
+        return (
+          text.includes("review deployments") ||
+          text.includes("approve and deploy") ||
+          text.includes("approve deployment")
+        )
+      }) || null
+
+    const openReviewDialog = async () => {
+      const reviewButton = findButton((el) => {
+        const text = elementText(el)
+        return (
+          text.includes("review deployments") ||
+          text.includes("review deployment") ||
+          text.includes("approve deployment")
+        )
+      })
+
+      if (!reviewButton) return null
+
+      reviewButton.click()
+      return util.until(queryDialog, (dialog) => !!dialog && isVisible(dialog))
+    }
+
+    const selectEnvironment = (dialog) => {
+      ;[
+        ...dialog.querySelectorAll(
+          "input[type='checkbox']:not(:checked), input[type='radio']:not(:checked)"
+        ),
+      ]
+        .filter((input) => isVisible(input))
+        .forEach((input) => {
+          const label =
+            dialog.querySelector(`label[for='${input.id}']`) ||
+            input.closest("label")
+          if (label) {
+            label.click()
+          } else {
+            input.click()
+            input.dispatchEvent(new Event("input", { bubbles: true }))
+            input.dispatchEvent(new Event("change", { bubbles: true }))
+          }
+        })
+    }
+
+    const clickApprove = (root = document) => {
+      const approveButton = findButton((el) => {
+        const text = elementText(el)
+        return (
+          text.includes("approve and deploy") ||
+          text.includes("approve deployment") ||
+          (text.includes("approve") && text.includes("deploy"))
+        )
+      }, root)
+
+      if (!approveButton) {
+        throw new Error("Could not find the deployment approval button")
+      }
+
+      approveButton.click()
+    }
+
+    try {
+      const deploymentRequestLink = findDeploymentRequestLink()
+      if (deploymentRequestLink) {
+        Front.showBanner("Opening deployment run")
+        actions.openLink(getDeploymentRunUrl(deploymentRequestLink.href), {
+          newTab: true,
+        })
+        return
+      }
+
+      const dialog = (await openReviewDialog()) || queryDialog()
+      if (dialog) {
+        selectEnvironment(dialog)
+        clickApprove(dialog)
+      } else {
+        clickApprove(document)
+      }
+      Front.showBanner("Approving deployment")
+    } catch (e) {
+      Front.showBanner(`GitHub deployment approval failed: ${e.message}`)
+    }
+  })()
+}
+
 actions.gh.mergePull = () => {
   const pull = actions.gh.parsePull()
   if (pull?.type !== "pull") {
