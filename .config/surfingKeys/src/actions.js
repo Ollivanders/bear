@@ -1002,13 +1002,23 @@ actions.gh.mergePull = () => {
     const normalizedText = (el) =>
       (el?.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
 
-    const findButton = (text, root = document) =>
-      [...root.querySelectorAll("button, [role='button']")].find(
-        (el) => isVisible(el) && normalizedText(el).includes(text)
-      ) || null
+    const findButton = (texts, root = document) => {
+      const candidates = Array.isArray(texts) ? texts : [texts]
+      return (
+        [...root.querySelectorAll("button, [role='button']")].find((el) => {
+          if (!isVisible(el)) return false
+          const text = normalizedText(el)
+          return candidates.some((candidate) => text.includes(candidate))
+        }) || null
+      )
+    }
 
     try {
-      const mergeButton = findButton("merge pull request")
+      const mergeButton = findButton([
+        "merge pull request",
+        "squash and merge",
+        "rebase and merge",
+      ])
       if (!mergeButton) {
         Front.showBanner("Merge button not found or not clickable (checks pending?)")
         return
@@ -1017,7 +1027,12 @@ actions.gh.mergePull = () => {
       mergeButton.click()
 
       const confirmButton = await util.until(
-        () => findButton("confirm merge"),
+        () =>
+          findButton([
+            "confirm merge",
+            "confirm squash and merge",
+            "confirm rebase and merge",
+          ]),
         (el) => !!el,
         60,
         50
