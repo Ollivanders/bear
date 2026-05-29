@@ -12,9 +12,6 @@ alias cfgp='cfg pull'
 alias cfgu='cfg add ~/.config/nvim/ && cfg add -u && cfg commit -m "update" && cfg push'
 
 # Search, find, grep and other locating
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
 alias hg='history | grep'
 alias hf='history | fzf'
 
