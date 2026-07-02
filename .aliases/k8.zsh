@@ -15,3 +15,4 @@ alias kcc="kubectl config current-context; kubectl config view --minify -o jsonp
 alias ksc="kubectl config set-context --current --namespace"
 
 alias ku="kubie"
+alias kuc="kubie ctx"

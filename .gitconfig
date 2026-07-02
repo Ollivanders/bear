@@ -73,3 +73,5 @@ autosquash = true
 
 [diff]
 	tool = nvimdiff
+[credential]
+	helper = store
