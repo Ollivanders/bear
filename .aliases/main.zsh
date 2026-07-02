@@ -92,6 +92,8 @@ alias bupdate="${HOME}/.script/installBrew.sh"
 
 alias pwdc='pwd | copy'
 
+# cdw: fuzzy-pick a git worktree for the current repo and cd into it.
+# Runs `git worktree list`, pipes into fzf, and cd's into the selected path.
 cdw() {
   local dir
   dir=$(git worktree list | fzf --prompt="Git Worktrees > " | awk '{print $1}')
