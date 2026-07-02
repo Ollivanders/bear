@@ -92,4 +92,10 @@ alias bupdate="${HOME}/.script/installBrew.sh"
 
 alias pwdc='pwd | copy'
 
+cdw() {
+  local dir
+  dir=$(git worktree list | fzf --prompt="Git Worktrees > " | awk '{print $1}')
+  [[ -n $dir ]] && cd "$dir"
+}
+
 alias spotify_current='osascript -e '\''tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'\'''
