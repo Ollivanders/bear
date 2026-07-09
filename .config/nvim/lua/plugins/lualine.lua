@@ -10,15 +10,41 @@ return {
 
     vim.o.laststatus = vim.g.lualine_laststatus
 
+    -- monokai-pro's bundled lualine theme has no `terminal` mode entry, so
+    -- lualine falls back to `normal` - Terminal and Normal end up the same
+    -- yellow. Add a distinct terminal color on top of it.
+    local function theme_with_terminal_mode()
+      local ok, theme = pcall(function()
+        local scheme = require("monokai-pro").get_scheme()
+        local t = vim.deepcopy(require("lualine.themes.monokai-pro"))
+        t.terminal = {
+          a = { bg = scheme.base.cyan, fg = scheme.base.black, gui = "bold" },
+          b = { bg = scheme.base.dimmed5, fg = scheme.base.cyan },
+        }
+        return t
+      end)
+      return ok and theme or "auto"
+    end
+
     local opts = {
       options = {
-        theme = "auto",
+        theme = theme_with_terminal_mode(),
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         globalstatus = vim.o.laststatus == 3,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
-          winbar = { "neo-tree", "neo-tree-buffer", "dashboard", "alpha", "ministarter", "snacks_dashboard" },
+          -- "snacks_terminal" excluded so lualine doesn't overwrite the custom
+          -- per-window winbar (tab strip) snacks.terminal sets on these windows.
+          winbar = {
+            "neo-tree",
+            "neo-tree-buffer",
+            "dashboard",
+            "alpha",
+            "ministarter",
+            "snacks_dashboard",
+            "snacks_terminal",
+          },
         },
         always_divide_middle = true,
       },

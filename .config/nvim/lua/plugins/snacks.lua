@@ -5,6 +5,7 @@ return {
     ---@class snacks.terminal.Config
     terminal = {
       enabled = true,
+      stack = true,
       keys = {
         q = "hide",
         gf = function(self)
@@ -77,20 +78,20 @@ return {
     winpicker = {
       enabled = true,
       ui = {
-        width = 0.3,        -- percentage of screen width
-        height = 0.3,       -- percentage of screen height
+        width = 0.3, -- percentage of screen width
+        height = 0.3, -- percentage of screen height
         border = "double", -- "single", "double", "rounded", "none"
-        row = 0.9,          -- center vertically (0 = top, 1 = bottom)
-        col = 0.9,          -- center horizontally (0 = left, 1 = right)
+        row = 0.9, -- center vertically (0 = top, 1 = bottom)
+        col = 0.9, -- center horizontally (0 = left, 1 = right)
       },
     },
     ---@class snacks.dashboard.Config
     dashboard = {
       enabled = false,
       width = 60,
-      row = nil,                                                                   -- dashboard position. nil for center
-      col = nil,                                                                   -- dashboard position. nil for center
-      pane_gap = 4,                                                                -- empty columns between vertical panes
+      row = nil, -- dashboard position. nil for center
+      col = nil, -- dashboard position. nil for center
+      pane_gap = 4, -- empty columns between vertical panes
       autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
       -- These settings are used by some built-in sections
       preset = {
@@ -159,6 +160,6 @@ return {
       win = {
         style = "lazygit",
       },
-    }
+    },
   },
 }

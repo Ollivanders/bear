@@ -43,38 +43,51 @@ end, {
 
 map("n", "<leader>uH", require("snacks").dashboard.open, { desc = "Open mini starter" })
 
--- map("n", "<C-\\>", function()
---   require("snacks").terminal.toggle(nil, { win = { position = "bottom" } })
--- end, { desc = "Bottom Terminal" })
-
-map("n", "<C-/>", function()
-  require("snacks").terminal.toggle(nil, {
-    count = 1,
-    win = { position = "right" },
-  })
-end, { desc = "Terminal (Right)" })
 
 -- Bottom terminal (#2)
 map("n", "<C-_>", function()
   require("snacks").terminal.toggle(nil, {
-    count = 2,
+    count = 99,
     win = { position = "bottom" },
   })
 end, { desc = "Terminal (Bottom)" })
 
--- vim.keymap.set("n", "<leader>ts", function()
---   require("snacks").terminal.open(nil, {
---     count = vim.v.count1,            -- allow 1,2,... to make new ones
---     win = { position = "right" },    -- vertical split
---   })
--- end, { desc = "New vertical terminal" })
---
--- vim.keymap.set("n", "<leader>tS", function()
---   require("snacks").terminal.open(nil, {
---     count = vim.v.count1,
---     win = { position = "bottom" },   -- horizontal split
---   })
--- end, { desc = "New horizontal terminal" })
+
+local term_tabs = require("custom.util.terminal_tabs")
+term_tabs.setup("right", { position = "right" })
+
+map({ "n", "t" }, "<C-/>", function()
+  term_tabs.toggle("right")
+end, { desc = "Terminal Tabs (Right)" })
+
+map("n", "]t", function()
+  term_tabs.next()
+end, { desc = "Next Terminal Tab" })
+
+map("n", "[t", function()
+  term_tabs.prev()
+end, { desc = "Prev Terminal Tab" })
+
+map({ "n", "t" }, "<C-]>", function()
+  term_tabs.next()
+end, { desc = "Next Terminal Tab" })
+
+map({ "n", "t" }, "<C-o>", function()
+  term_tabs.prev()
+end, { desc = "Prev Terminal Tab" })
+
+map("n", "<leader>tn", function()
+  term_tabs.new()
+end, { desc = "New Terminal Tab" })
+
+map("n", "<leader>tx", function()
+  term_tabs.close()
+end, { desc = "Close Terminal Tab" })
+
+map("n", "<leader>tl", function()
+  term_tabs.pick()
+end, { desc = "Pick Terminal Tab" })
+
 
 -- <Esc><Esc> in terminal mode sends <C-\><C-n> to exit terminal mode, see :h term
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
@@ -197,7 +210,7 @@ map("n", "<leader>pj", require("smart-splits").swap_buf_down)
 map("n", "<leader>pk", require("smart-splits").swap_buf_up)
 map("n", "<leader>pl", require("smart-splits").swap_buf_right)
 
-map("n", "<leader>tb", function()
+map("n", "<leader>bt", function()
   -- 0 = never show tabline (hides bufferline)
   -- 2 = always show tabline (shows bufferline)
   vim.o.showtabline = (vim.o.showtabline == 0) and 2 or 0

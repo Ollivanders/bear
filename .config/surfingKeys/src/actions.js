@@ -904,7 +904,27 @@ actions.gh.approveDeployment = () => {
         )
       }) || null
 
+    const clickSummaryTab = async () => {
+      const summaryLink =
+        document.querySelector("a[data-test-selector='summary-link']") ||
+        findButton((el) => normalizedText(el) === "summary")
+
+      if (!summaryLink) return false
+      if (summaryLink.getAttribute("aria-current") === "page") return false
+
+      summaryLink.click()
+      await util.until(
+        () => findButton((el) => elementText(el).includes("review deployments")),
+        (el) => !!el,
+        20,
+        50
+      )
+      return true
+    }
+
     const openReviewDialog = async () => {
+      await clickSummaryTab()
+
       const reviewButton = findButton((el) => {
         const text = elementText(el)
         return (
