@@ -67,6 +67,6 @@ zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 
 # VI
 VI_MODE_SET_CURSOR=true
-bindkey -M viins 'jj' vi-cmd-mode
+# bindkey -M viins 'jj' vi-cmd-mode
 MODE_INDICATOR="%F{white}+%f"
 INSERT_MODE_INDICATOR="%F{yellow}+%f"

@@ -72,7 +72,7 @@ map({ "n", "t" }, "<C-]>", function()
   term_tabs.next()
 end, { desc = "Next Terminal Tab" })
 
-map({ "n", "t" }, "<C-o>", function()
+map({ "n", "t" }, "<C-]>", function()
   term_tabs.prev()
 end, { desc = "Prev Terminal Tab" })
 

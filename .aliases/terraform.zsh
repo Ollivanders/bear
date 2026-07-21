@@ -1,5 +1,4 @@
 alias tf="terraform"
-alias tws="terraform workspace select"
 alias twl="terraform workspace list"
 alias tfa="terraform apply"
 alias tfp="terraform plan"
@@ -7,6 +6,24 @@ alias tfi="terraform init"
 alias tfo="terraform output"
 alias tss='terraform state list | fzf --multi --bind "tab:toggle+down" | while IFS= read -r addr; do terraform state show "$addr"; done'
 alias tsf='terraform state list | fzf --multi --bind "tab:toggle+down"'
+
+function tws() {
+  if [ "$#" -eq 0 ]; then
+    local ws
+    ws=$(terraform workspace list 2>/dev/null | sed 's/^[* ]*//' | fzf --prompt="Terraform workspace > ")
+    if [ -z "$ws" ]; then
+      return 0
+    fi
+    set -- "$ws"
+  fi
+
+  terraform workspace select "$@" || return $?
+
+  local workspace_name="${@: -1}"
+  if typeset -f set_aws_profile_for_env >/dev/null; then
+    set_aws_profile_for_env "$workspace_name"
+  fi
+}
 
 tfUnlock() {
   echo "Running terraform plan..."
@@ -70,15 +87,6 @@ function checkWorkspaceLocks() {
   done
 }
 
-
-function selectWorkspace() {
-  local ws
-  ws=$(terraform workspace list 2>/dev/null | sed 's/^[* ]*//' | fzf --prompt="Terraform workspace > ")
-  if [ -n "$ws" ]; then
-    terraform workspace select "$ws"
-  fi
-}
-alias twss="selectWorkspace"
 
 tf_targets() {
   local input
