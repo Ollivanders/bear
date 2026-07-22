@@ -1,6 +1,6 @@
 local grug_far_open_cfg = {
   prefills = {
-    flags = "-F --hidden",
+    flags = "-F --hidden --multiline",
   },
   instanceName = "Toggle",
   staticTitle = "Toggle",
@@ -31,7 +31,7 @@ local M = {
           instanceName = "Main",
           staticTitle = "Main",
           prefills = {
-            flags = "-F --hidden",
+            flags = "-F --hidden --multiline",
             -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
           },
         })
@@ -46,7 +46,7 @@ local M = {
           instanceName = "Second",
           staticTitle = "Second",
           prefills = {
-            flags = "-F --hidden",
+            flags = "-F --hidden --multiline",
           },
         })
       end,
@@ -60,7 +60,7 @@ local M = {
           instanceName = "Toggle",
           staticTitle = "Toggle",
           prefills = {
-            flags = "-F --hidden",
+            flags = "-F --hidden --multiline",
           },
         })
       end,
