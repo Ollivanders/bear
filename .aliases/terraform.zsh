@@ -8,18 +8,30 @@ alias tss='terraform state list | fzf --multi --bind "tab:toggle+down" | while I
 alias tsf='terraform state list | fzf --multi --bind "tab:toggle+down"'
 
 function tws() {
+  local workspaces
+  workspaces=$(terraform workspace list 2>/dev/null | sed 's/^[* ]*//') || return $?
+
   if [ "$#" -eq 0 ]; then
     local ws
-    ws=$(terraform workspace list 2>/dev/null | sed 's/^[* ]*//' | fzf --prompt="Terraform workspace > ")
+    ws=$(printf '%s\n' "$workspaces" | fzf --prompt="Terraform workspace > ")
     if [ -z "$ws" ]; then
       return 0
     fi
     set -- "$ws"
   fi
 
-  terraform workspace select "$@" || return $?
-
   local workspace_name="${@: -1}"
+  if ! printf '%s\n' "$workspaces" | grep -Fx -- "$workspace_name" >/dev/null; then
+    echo "Terraform workspace does not exist: $workspace_name" >&2
+    return 1
+  fi
+
+  if [ "$workspace_name" = "default" ]; then
+    unset TF_WORKSPACE
+  else
+    export TF_WORKSPACE="$workspace_name"
+  fi
+
   if typeset -f set_aws_profile_for_env >/dev/null; then
     set_aws_profile_for_env "$workspace_name"
   fi
