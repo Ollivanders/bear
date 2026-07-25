@@ -100,4 +100,8 @@ cdw() {
   [[ -n $dir ]] && cd "$dir"
 }
 
+ff() {
+ aerospace list--windows --all
+}
+
 alias spotify_current='osascript -e '\''tell application "Spotify" to if player state is playing then artist of current track & " – " & name of current track'\'''

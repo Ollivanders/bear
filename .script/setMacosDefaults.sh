@@ -104,4 +104,8 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
+# Aerospace config
+defaults write -g NSWindowShouldDragOnGesture -bool true
+defaults write com.apple.dock expose-group-apps -bool true && killall Dock
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
