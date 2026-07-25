@@ -1,112 +1,248 @@
-tap "aws/tap"
-tap "hashicorp/tap"
+tap "aws/tap", trusted: true
+tap "derailed/k9s", trusted: true
+tap "felixkratz/formulae", "https://github.com/FelixKratz/homebrew-formulae"
+tap "hashicorp/tap", trusted: true
+tap "narugit/tap"
+tap "nikitabobko/tap"
 tap "octopusdeploy/taps"
-brew "webp"
-brew "jpeg-xl"
+# Codec library for encoding and decoding AV1 video streams
 brew "aom"
+# Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
+# Companion library to apr, the Apache Portable Runtime library
 brew "apr-util"
+# Spell checker with better logic than ispell
 brew "aspell"
+# Code searching, linting, rewriting
 brew "ast-grep"
+# Improved shell history for zsh, bash, fish and nushell
 brew "atuin"
+# Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
+# Get/set bluetooth power and discoverable state
+brew "blueutil"
+# Collection of portable C++ source libraries
 brew "boost"
+# Core application library for C
 brew "glib"
+# Multi-shell multi-command argument completer
 brew "carapace"
+# Decentralized dependency manager for Cocoa
 brew "carthage"
-brew "unbound"
+# GNU Transport Layer Security (TLS) Library
 brew "gnutls"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# Emacs dependency management
 brew "cask"
+# Mozilla CA bundle for Python
 brew "certifi"
+# Validate CloudFormation templates against the CloudFormation spec
 brew "cfn-lint"
+# Computational Geometry Algorithms Library
 brew "cgal"
+# Container Signing
 brew "cosign"
+# Reimplementation of ctags(1)
 brew "ctags"
+# Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# Pack, ship and run any application as a lightweight container
+brew "docker", link: false
+# Bash, Zsh and Fish completion for Docker
 brew "docker-completion"
-brew "docker"
+# Select default apps for documents and URL schemes on macOS
 brew "duti"
+# Spellchecker wrapping library
 brew "enchant"
+# Modern, maintained replacement for ls
 brew "eza"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# Banner-like program prints strings as ASCII art
 brew "figlet"
+# Fast and simple Node.js version manager
 brew "fnm"
+# Libraries to talk to Microsoft SQL Server and Sybase databases
 brew "freetds"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# GitHub command-line tool
 brew "gh"
+# Distributed revision control system
 brew "git"
+# Syntax-highlighting pager for git and diff output
 brew "git-delta"
+# Small git utilities
 brew "git-extras"
+# GNU implementation of the famous stream editor
 brew "gnu-sed"
+# Open source programming language to build simple/reliable/efficient software
 brew "go"
-brew "grep"
+# Next generation open source RPC library and framework
 brew "grpc"
+# GNU Ubiquitous Intelligent Language for Extensions
 brew "guile"
+# Improved top (interactive process viewer)
 brew "htop"
+# Add GitHub support to git on the command-line
 brew "hub"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
+# Tools and libraries to manipulate images in select formats
 brew "imagemagick"
+# Git-compatible distributed version control system
+brew "jj"
+# TUI for interacting with the Jujutsu version control system
+brew "jjui"
+# New file format for still image compression
+brew "jpeg-xl"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Kubernetes CLI To Manage Your Clusters In Style!
+brew "k9s"
+# Much more powerful alternative to kubectx and kubens
 brew "kubie"
+# Simple terminal UI for git commands
 brew "lazygit"
+# DNS library written in C
 brew "ldns"
+# Framework for scientific data networking
 brew "libdap"
+# Postgres C API library
 brew "libpq", link: true
+# Run LogQL queries against a Loki server
+brew "logcli"
+# Powerful, lightweight programming language
 brew "lua"
+# Package manager for the Lua programming language
 brew "luarocks"
+# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Port scanning utility for large networks
 brew "nmap"
+# Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# Retrieves currently playing media, and simulates media actions
+brew "nowplaying-cli"
+# Manage multiple Node.js versions
 brew "nvm"
-brew "openssh"
-brew "poetry"
-brew "poppler"
-brew "qt@5"
-brew "poppler-qt5"
-brew "postgresql@15"
-brew "pre-commit"
-brew "pyenv"
-brew "pyenv-virtualenv"
-brew "pyright"
-brew "python@3.12"
-brew "rbenv"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# AI coding agent, built for the terminal
+brew "opencode"
+# OpenBSD freely-licensed SSH connectivity tools
+brew "openssh"
+# Python package management tool
+brew "poetry"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Cross-platform application and UI framework
+brew "qt@5"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler-qt5"
+# Object-relational database system
+brew "postgresql@17"
+# Framework for managing multi-language pre-commit hooks
+brew "pre-commit"
+# Python version management
+brew "pyenv"
+# Pyenv plugin to manage virtualenv
+brew "pyenv-virtualenv"
+# Static type checker for Python
+brew "pyright"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.12"
+# Ruby version manager
+brew "rbenv"
+# Powerful, clean, object-oriented scripting language
 brew "ruby"
+# Extremely fast Python linter, written in Rust
 brew "ruff"
+# Safe, concurrent, practical language
 brew "rust"
+# Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
+# Terminal multiplexer with VT100/ANSI terminal emulation
 brew "screen"
+# Non-interactive SSH password auth
 brew "sshpass"
+# Version control system designed to be a better CVS
 brew "subversion"
+# Change macOS audio source from the command-line
+brew "switchaudio-osx"
+# Tool Command Language
 brew "tcl-tk"
+# OpenTofu / Terraform / Terragrunt / Terramate / Atmos version manager
 brew "tenv"
+# Terraform Language Server
 brew "terraform-ls"
+# Text interface for Git repositories
 brew "tig"
+# Terminal multiplexer
 brew "tmux"
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Source code beautifier
 brew "uncrustify"
+# Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Your CLI home video recorder
+brew "vhs"
+# Vi 'workalike' with many additional features
 brew "vim"
+# Pager/text based browser
 brew "w3m"
+# Executes a program periodically, showing output fullscreen
 brew "watch"
+# Internet file retriever
 brew "wget"
+# Network analyzer and capture tool - without graphical user interface
 brew "wireshark"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# Compression and file packaging/archive utility
 brew "zip"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
+# UNIX shell (command interpreter)
 brew "zsh"
+# Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-brew "hashicorp/tap/packer"
-brew "octopusdeploy/taps/octopuscli"
+# A window border system for macOS
+brew "felixkratz/formulae/borders", trusted: true
+# Custom macOS statusbar with shell plugin, interaction and graph support
+brew "felixkratz/formulae/sketchybar", trusted: true
+# Packer
+brew "hashicorp/tap/packer", link: false
+# Check Temperature by using Apple System Management Control (Smc) tool
+brew "narugit/tap/smctemp", trusted: true
+# Password manager that keeps all passwords secure behind one password
 cask "1password"
+# Command-line interface for 1Password
 cask "1password-cli"
+# AeroSpace is an i3-like tiling window manager for macOS
+cask "nikitabobko/tap/aerospace", trusted: true
+# Enable Windows-like alt-tab
 cask "alt-tab"
+# Terminal-based AI coding assistant
+cask "claude-code@latest"
+# Clipboard extension app
 cask "clipy"
+# OpenAI's coding agent that runs in your terminal
 cask "codex"
+# Universal database tool and SQL client
 cask "dbeaver-community"
+cask "font-hack-nerd-font"
+cask "font-sf-mono"
+cask "font-sf-pro"
+# Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
-cask "google-chrome"
-cask "raycast"
-cask "spotify"
-cask "visual-studio-code"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Tool that provides consistent, highly configurable symbols for apps
+cask "sf-symbols"
+# GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
-cargo "grip-grab"
