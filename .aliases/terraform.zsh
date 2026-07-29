@@ -26,11 +26,8 @@ function tws() {
     return 1
   fi
 
-  if [ "$workspace_name" = "default" ]; then
-    unset TF_WORKSPACE
-  else
-    export TF_WORKSPACE="$workspace_name"
-  fi
+  unset TF_WORKSPACE
+  terraform workspace select "$workspace_name" >/dev/null || return $?
 
   if typeset -f set_aws_profile_for_env >/dev/null; then
     set_aws_profile_for_env "$workspace_name"
