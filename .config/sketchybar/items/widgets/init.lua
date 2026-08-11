@@ -2,6 +2,7 @@
 require("items.widgets.wechat_and_qq")
 require("items.widgets.bluetooth")
 require("items.widgets.volume")
+require("items.widgets.spotify")
 -- require("items.widgets.qq")
 require("items.widgets.battery")
 require("items.widgets.wifi")

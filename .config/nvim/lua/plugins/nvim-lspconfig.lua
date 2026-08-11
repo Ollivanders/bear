@@ -13,6 +13,11 @@ return {
           mason = false,
           cmd = { vim.fn.expand("~/.rbenv/shims/ruby") },
         },
+        terraformls = {
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(".git")(fname)
+          end,
+        },
       },
     },
   },

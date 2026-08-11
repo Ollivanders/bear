@@ -1,2 +1,5 @@
 -- require("items.spaces")
 require("items.workspaces")
+require("items.widgets.clock")
+require("items.widgets.battery")
+require("items.widgets.spotify")

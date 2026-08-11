@@ -8,6 +8,7 @@ M.battery = sbar.add("item", "widgets.battery", {
 	position = "right",
 	icon = {
 		font = {
+			family = "Hack Nerd Font",
 			style = settings.font.style_map["Regular"],
 			size = 19.0,
 		},

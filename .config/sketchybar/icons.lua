@@ -1,5 +1,4 @@
 return {
-	nerdfont = {
 		plus = "",
 		loading = "",
 		apple = "",
@@ -41,5 +40,4 @@ return {
 		social_media = {
 			qq = "󰘅",
 		},
-	},
 }
