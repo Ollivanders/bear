@@ -14,6 +14,6 @@ sbar.bar({
 	border_color = colors.bar.border,
 	color = colors.bar.bg,
 	blur_radius = 0,
-	padding_right = 5,
+	padding_right = 0,
 	padding_left = 5,
 })
