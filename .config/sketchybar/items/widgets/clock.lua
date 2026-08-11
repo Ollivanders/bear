@@ -7,7 +7,9 @@ local clock = sbar.add("item", "widgets.clock", {
 	label = {
 		string = "??:??",
 		color = colors.white,
-		font = { style = settings.font.style_map["Bold"], size = 15.0 },
+		font = { family = settings.font.numbers, style = settings.font.style_map["Bold"], size = 15.0 },
+		width = 180,
+		align = "right",
 	},
 	padding_left = settings.paddings,
 	padding_right = settings.paddings + 22,
