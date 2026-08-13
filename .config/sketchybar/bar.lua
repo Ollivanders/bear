@@ -2,7 +2,7 @@ local colors = require("colors")
 sbar = require("sketchybar")
 
 sbar.bar({
-	display = "all",
+	display = "main",
 	-- topmost = "off",
 	height = 38,
 	-- notch_offset = 10,
