@@ -84,18 +84,18 @@ gaps.outer.right =      5
 [mode.main.binding]
     # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-    alt-c = 'exec-and-forget open -g -a "Calendar"'
-    alt-e = 'exec-and-forget open -g -a "Google Calendar"'
-    alt-a = 'exec-and-forget open -g -a "Google Chrome"'
-    alt-t = 'exec-and-forget open -g -a "Google Tasks"'
-    alt-w = 'exec-and-forget open -g -a "GMail"'
-    alt-p = 'exec-and-forget open -g -a "1Password"'
-    alt-q = 'exec-and-forget open -g -a "SlackWeb"'
-    alt-d = 'exec-and-forget open -g -a "ChatGPTWeb"'
+    alt-c = 'exec-and-forget open -a "Calendar"'
+    alt-e = 'exec-and-forget open -a "Google Calendar"'
+    alt-a = 'exec-and-forget open -a "Google Chrome"'
+    alt-w = 'exec-and-forget open -a "GMail"'
+    alt-p = 'exec-and-forget open -a "1Password"'
+    alt-q = 'exec-and-forget open -a "SlackWeb"'
+    alt-d = 'exec-and-forget open -a "ChatGPTWeb"'
     alt-z = 'exec-and-forget open -a "WezTerm"'
-    alt-g = 'exec-and-forget open -g -a "Spotify"'
+    alt-g = 'exec-and-forget open -a "Spotify"'
     alt-v = 'exec-and-forget open -g -a "Zoom"'
-    alt-x = 'exec-and-forget open -g -a "System Settings"'
+    alt-t = 'exec-and-forget open -g -a "System Settings"'
+    alt-x = 'exec-and-forget open -a "Mail"'
     alt-shift-x = """exec-and-forget /bin/zsh -lc '
         if [ "$(defaults read .GlobalPreferences _HIHideMenuBar 2>/dev/null || echo 0)" = "1" ]; then
             defaults write .GlobalPreferences _HIHideMenuBar -bool false
@@ -194,10 +194,6 @@ gaps.outer.right =      5
 # floating
 [[on-window-detected]]
 if.app-name-regex-substring = 'finder'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'System Settings'
 run = 'layout floating'
 
 [[on-window-detected]]

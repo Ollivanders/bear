@@ -4,8 +4,11 @@
 config_files=(
   ${HOME}/.aliases/*.zsh
   ${HOME}/.completions/*.zsh
-  ${HOME}/.devops_tools/*.zsh
 )
+
+if [[ -e "${HOME}/.devops_tools" ]]; then
+  source ${HOME}/.devops_tools/*.zsh
+fi
 
 if [[ -e "${HOME}/.aliases/env.zsh" ]]; then
   source "${HOME}/.aliases/env.zsh"
