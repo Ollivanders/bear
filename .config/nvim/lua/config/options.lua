@@ -8,7 +8,6 @@ vim.o.scrolloff = 0
 vim.o.so = 0
 
 vim.opt.textwidth = 100
-vim.lsp.buf.definition({ reuse_win = true })
 -- vim.opt.laststatus = 3
 vim.opt.spell = true
 
@@ -18,3 +17,10 @@ vim.g.opencode_opts = {
     wezterm = { }
   }
 }
+
+vim.filetype.add({
+  extension = {
+    tf = "terraform",
+    tfvars = "terraform-vars",
+  },
+})

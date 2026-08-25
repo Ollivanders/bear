@@ -35,7 +35,9 @@ end, { desc = "Wipeout all buffers not shown in a window" })
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = { "*.tf" },
   callback = function()
-    vim.cmd("TerraformValidate")
+    if vim.fn.exists(":TerraformValidate") == 2 then
+      vim.cmd("TerraformValidate")
+    end
   end,
 })
 
