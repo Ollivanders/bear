@@ -5,7 +5,6 @@
 -- vim.opt.winbar = "%=%m %f"
 
 vim.o.scrolloff = 0
-vim.o.so = 0
 
 vim.opt.textwidth = 100
 -- vim.opt.laststatus = 3
@@ -17,10 +16,3 @@ vim.g.opencode_opts = {
     wezterm = { }
   }
 }
-
-vim.filetype.add({
-  extension = {
-    tf = "terraform",
-    tfvars = "terraform-vars",
-  },
-})

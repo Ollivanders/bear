@@ -10,7 +10,7 @@ return {
       filter_rules = {
         bo = {
           filetype = { "neo-tree", "neo-tree-popup", "notify", "minifiles" },
-          buftype = { "terminal", "quickfix", "minifiles" },
+          buftype = { "terminal", "quickfix" },
         },
       },
       other_win_hl_color = "#900000",

@@ -7,7 +7,6 @@ return {
         "pyright",
         "mypy",
         "ruff",
-        "ruff-lsp",
         "lua-language-server",
       },
     },

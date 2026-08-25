@@ -106,8 +106,7 @@ return {
   },
   {
     "rebelot/kanagawa.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = {
       transparent = true,
       styles = {

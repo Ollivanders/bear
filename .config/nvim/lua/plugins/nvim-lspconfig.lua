@@ -11,7 +11,7 @@ return {
         },
         ruby_lsp = {
           mason = false,
-          cmd = { vim.fn.expand("~/.rbenv/shims/ruby") },
+          cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
         },
         terraformls = {
           root_dir = function(fname)
