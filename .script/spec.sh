@@ -6,10 +6,6 @@ config_files=(
   ${HOME}/.completions/*.zsh
 )
 
-if [[ -e "${HOME}/.devops_tools" ]]; then
-  source ${HOME}/.devops_tools/*.zsh
-fi
-
 if [[ -e "${HOME}/.aliases/env.zsh" ]]; then
   source "${HOME}/.aliases/env.zsh"
 fi
@@ -41,6 +37,6 @@ if [[ -n $INIT_COMMAND ]]; then
   eval "$INIT_COMMAND"
 fi
 
-if [[ -e ~/.localrc ]]; then
-  source ~/.localrc
+if [[ -f ${HOME}/.script/local.sh ]]; then
+  source ${HOME}/.script/local.sh
 fi
