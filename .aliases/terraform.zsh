@@ -1,3 +1,7 @@
+# Share downloaded providers across projects so `terraform init` reuses them.
+export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+[[ -d "$TF_PLUGIN_CACHE_DIR" ]] || mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
 alias tf="terraform"
 alias twl="terraform workspace list"
 alias tfa="terraform apply"
