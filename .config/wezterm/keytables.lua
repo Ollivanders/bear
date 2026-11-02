@@ -2,12 +2,7 @@ local wt = require("wezterm")
 local act = wt.action
 
 return {
-  -- Defines the keys that are active in our resize-pane mode.
-  -- Since we're likely to want to make multiple adjustments,
-  -- we made the activation one_shot=false. We therefore need
-  -- to define a key assignment for getting out of this mode.
-  -- 'resize_pane' here corresponds to the name="resize_pane" in
-  -- the key assignments above.
+  -- LEADER r (keymaps.lua). one_shot = false, so exit with Escape/q/Enter.
   resize_pane = {
     { key = "LeftArrow",  action = act.AdjustPaneSize({ "Left", 1 }) },
     { key = "h",          action = act.AdjustPaneSize({ "Left", 1 }) },
@@ -21,13 +16,12 @@ return {
     { key = "DownArrow",  action = act.AdjustPaneSize({ "Down", 1 }) },
     { key = "j",          action = act.AdjustPaneSize({ "Down", 1 }) },
 
-    -- Cancel the mode by pressing escape
-    { key = "Escape",     action = "PopKeyTable" },
+    { key = "Escape",     action = act.PopKeyTable },
+    { key = "q",          action = act.PopKeyTable },
+    { key = "Enter",      action = act.PopKeyTable },
   },
 
-  -- Defines the keys that are active in our activate-pane mode.
-  -- 'activate_pane' here corresponds to the name="activate_pane" in
-  -- the key assignments above.
+  -- LEADER a (keymaps.lua). Times out after 1s.
   activate_pane = {
     { key = "LeftArrow",  action = act.ActivatePaneDirection("Left") },
     { key = "h",          action = act.ActivatePaneDirection("Left") },

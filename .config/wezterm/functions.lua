@@ -1,82 +1,60 @@
 local wt = require("wezterm")
 local project_dir = wt.home_dir .. "/projects"
-local stored_playback = ""
 
 local M = {}
 
+-- Poll Spotify every 5s. Each config load bumps a generation counter in wt.GLOBAL; timers from
+-- older loads see a stale generation and stop, so reloads neither stack nor kill the poller.
+function M.start_playback_poller()
+  local gen = (wt.GLOBAL.playback_poller_gen or 0) + 1
+  wt.GLOBAL.playback_poller_gen = gen
 
-function M.get_currently_playing()
-  local ok, stdout, stderr = wt.run_child_process {
-    "/usr/bin/osascript",
-    "-e",
-    [[
-      if application "Spotify" is running then
-        tell application "Spotify"
-          if player state is playing then
-            artist of current track & " – " & name of current track
-          end if
-        end tell
-      end if
-    ]]
-  }
-  stored_playback = stdout
-  wt.time.call_after(5, M.get_currently_playing)
+  local function poll()
+    if wt.GLOBAL.playback_poller_gen ~= gen then
+      return
+    end
+    local called, ok, stdout = pcall(wt.run_child_process, {
+      "/usr/bin/osascript",
+      "-e",
+      [[
+        if application "Spotify" is running then
+          tell application "Spotify"
+            if player state is playing then
+              artist of current track & " – " & name of current track
+            end if
+          end tell
+        end if
+      ]],
+    })
+    local playback = called and ok and stdout:gsub("%s+$", "") or ""
+    wt.GLOBAL.playback = wt.truncate_right(playback, 40)
+    wt.time.call_after(5, poll)
+  end
+
+  wt.time.call_after(0, poll)
 end
 
--- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
-local function is_vim(pane)
-  -- this is set by the plugin, and unset on ExitPre in Neovim
-  return pane:get_user_vars().IS_NVIM == 'true'
-end
-
-local direction_keys = {
-  h = 'Left',
-  j = 'Down',
-  k = 'Up',
-  l = 'Right',
-}
-function M.split_nav(resize_or_move, key)
-  return {
-    key = key,
-    mods = resize_or_move == 'resize' and 'CTRL|SHIFT' or 'CTRL',
-    action = wt.action_callback(function(win, pane)
-      if is_vim(pane) then
-        -- pass the keys through to vim/nvim
-        win:perform_action({
-          SendKey = { key = key, mods = resize_or_move == 'resize' and 'META' or 'CTRL' },
-        }, pane)
-      else
-        if resize_or_move == 'resize' then
-          win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
-        else
-          win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
-        end
-      end
-    end),
-  }
-end
-
-function M.segments_for_right_status(window, pane)
-  local bat = ''
+function M.segments_for_right_status(window)
+  local bat = ""
   for _, b in ipairs(wt.battery_info()) do
-    bat = '🔋 ' .. string.format('%.0f%%', b.state_of_charge * 100)
+    bat = "🔋 " .. string.format("%.0f%%", b.state_of_charge * 100)
   end
 
-  local basename = function (s)
-    return string.gsub(s, "(.*[/\\])(.*)", "%2")
-  end
-  --
-  -- local cwd = basename(pane:get_current_working_dir())
-  -- local cmd = basename(pane:get_foreground_process_name())
+  local key_table = window:active_key_table()
 
-  return {
-    -- window:active_workspace(),
+  local segments = {}
+  for _, seg in ipairs({
+    key_table and ("TABLE: " .. key_table) or "",
     wt.strftime("%a %b %-d %H:%M:%S"),
     wt.hostname(),
-    -- cmd,
     bat,
-    stored_playback,
-  }
+    wt.GLOBAL.playback or "",
+  }) do
+    if seg ~= "" then
+      table.insert(segments, seg)
+    end
+  end
+  return segments
 end
 
 function M.get_tab_title(tab)
@@ -86,8 +64,7 @@ function M.get_tab_title(tab)
     return title
   end
 
-  local pane = tab.active_pane
-  title = pane.title
+  title = tab.active_pane.title
   if string.find(title, "nvim") then
     return "nvim"
   end
@@ -95,8 +72,8 @@ function M.get_tab_title(tab)
 end
 
 function M.project_dirs()
-  local projects = { wt.home_dir, wt.home_dir .. '/scratch', wt.home_dir .. '/nvim/config' }
-  for _, dir in ipairs(wt.glob(project_dir .. '/*')) do
+  local projects = { wt.home_dir, wt.home_dir .. "/scratch", wt.home_dir .. "/.config/nvim" }
+  for _, dir in ipairs(wt.glob(project_dir .. "/*")) do
     table.insert(projects, dir)
   end
   return projects
