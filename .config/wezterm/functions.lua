@@ -97,8 +97,20 @@ function M.get_tab_title(tab)
     dir = path:gsub("/+$", "") == wt.home_dir and "~" or basename(path)
   end
 
+  -- ssh sessions: show the remote host from the
+  -- "user@host: dir" title the remote shell sets, with the ssh icon and no process suffix
+  local remote_host = (process == "ssh" or process == "tsh" or process:match("^python"))
+    and (pane.title or ""):match("^[^@%s]+@([^:%s]+)")
+  if remote_host then
+    info = process_icons.ssh
+    dir = remote_host
+    process = ""
+  end
+
   local title = tab.tab_title
-  if title and #title > 0 and not title:match("^p: ") then
+  if remote_host and not (title and #title > 0) then
+    -- keep remote_host
+  elseif title and #title > 0 and not title:match("^p: ") then
     dir = title
   elseif dir == "" then
     dir = (title or ""):gsub("^p: ", "")
