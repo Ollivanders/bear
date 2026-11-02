@@ -41,7 +41,7 @@ M.setup = function()
     local fg = palette.foreground
     local gradient = wt.color.gradient({
       orientation = "Horizontal",
-      colors = { bg:lighten(0.2), bg },
+      colors = { bg:lighten(0.1), bg },
     }, #segments)
 
     local elements = { { Background = { Color = "none" } } }
@@ -57,8 +57,34 @@ M.setup = function()
   end)
 
   wt.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local title = wt.truncate_right(funcs.get_tab_title(tab), max_width - 3)
-    return { { Text = " " .. title .. (tab.is_active and "*" or "") .. " " } }
+    local t = funcs.get_tab_title(tab)
+    local pane = tab.active_pane
+    -- markers: zoomed pane, and unseen output in a background tab
+    local marks = (pane.is_zoomed and " " .. utf8.char(0xf0349) or "")
+      .. (not tab.is_active and pane.has_unseen_output and " ●" or "")
+    local process = t.process and (" · " .. t.process) or ""
+
+    -- layout: "   1  <icon>  dir · process marks   "; dir is what gets truncated
+    local fixed = 3 + #tostring(t.index) + 1 + wt.column_width(t.icon) + 1
+      + wt.column_width(process) + wt.column_width(marks) + 3
+    local dir = wt.truncate_right(t.dir, math.max(max_width - fixed, 4))
+
+    -- text colour follows config.colors.tab_bar so the icon tint is the only override
+    local tab_colors = config.colors.tab_bar[tab.is_active and "active_tab" or (hover and "inactive_tab_hover" or "inactive_tab")]
+    local text = { Foreground = { Color = tostring(tab_colors.fg_color) } }
+
+    return {
+      text,
+      { Text = "   " .. t.index .. " " },
+      { Foreground = { Color = t.icon_color or tostring(tab_colors.fg_color) } },
+      { Text = t.icon },
+      text,
+      { Text = " " .. dir },
+      { Attribute = { Italic = true } },
+      { Text = process },
+      { Attribute = { Italic = false } },
+      { Text = marks .. "   " },
+    }
   end)
 
   wt.on("choose-project", function(window, pane)

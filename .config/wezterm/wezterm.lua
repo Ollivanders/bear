@@ -6,30 +6,39 @@ require("functions").start_playback_poller()
 
 -- appearance
 config.color_scheme = "Darkside"
-config.font = wt.font("JetBrains Mono")
+config.font = wt.font_with_fallback({ "JetBrains Mono", "Symbols Nerd Font Mono" })
 config.font_size = 16
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.9
--- config.macos_window_background_blur = 2
+config.macos_window_background_blur = 20
+config.window_padding = { left = 4, right = 4, top = 4, bottom = 0 }
 config.inactive_pane_hsb = {
   saturation = 0.8,
   brightness = 0.7,
 }
 
--- tab bar
+-- tab bar: fancy bar (taller, padded) with muted colours derived from the active scheme
+local scheme = wt.color.get_builtin_schemes()[config.color_scheme]
+local bg = wt.color.parse(scheme.background)
+local fg = wt.color.parse(scheme.foreground)
+local accent = wt.color.parse(scheme.ansi[7]):desaturate(0.35)
+
 config.show_new_tab_button_in_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 config.tab_max_width = 40
 config.window_frame = {
-  font = wt.font({ family = "Noto Sans", weight = "Bold" }),
-  font_size = 13,
+  font = wt.font_with_fallback({ { family = "Noto Sans", weight = "Medium" }, "Symbols Nerd Font Mono" }),
+  font_size = 14,
+  active_titlebar_bg = bg,
+  inactive_titlebar_bg = bg,
 }
 config.colors = {
+  split = bg:lighten(0.12),
   tab_bar = {
-    active_tab = {
-      fg_color = "#073642",
-      bg_color = "#2aa198",
-    },
+    inactive_tab_edge = bg,
+    active_tab = { bg_color = bg:lighten(0.1), fg_color = accent },
+    inactive_tab = { bg_color = bg, fg_color = fg:darken(0.35) },
+    inactive_tab_hover = { bg_color = bg:lighten(0.05), fg_color = fg:darken(0.15) },
   },
 }
 
