@@ -141,15 +141,6 @@ return {
     end),
   },
 
-  -- move between split panes
-  funcs.split_nav('move', 'h'),
-  funcs.split_nav('move', 'j'),
-  funcs.split_nav('move', 'k'),
-  funcs.split_nav('move', 'l'),
-  -- resize panes
-  funcs.split_nav('resize', 'h'),
-  funcs.split_nav('resize', 'j'),
-  funcs.split_nav('resize', 'k'),
-  funcs.split_nav('resize', 'l'),
+  -- pane move/resize (Ctrl/Alt+hjkl) handled by smart-splits backend-wezterm, see wezterm.lua
 }
 

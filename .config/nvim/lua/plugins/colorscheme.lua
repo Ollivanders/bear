@@ -1,125 +1,60 @@
 return {
-  { "ellisonleao/gruvbox.nvim" },
+  { "ellisonleao/gruvbox.nvim", lazy = true },
+  { "rebelot/kanagawa.nvim", lazy = true, opts = { transparent = true } },
   {
     "EdenEast/nightfox.nvim",
-    config = function()
-      require("nightfox").setup({
-        options = {
-          -- Compiled file's destination location
-          compile_path = vim.fn.stdpath("cache") .. "/nightfox",
-          compile_file_suffix = "_compiled", -- Compiled file suffix
-          transparent = true,                -- Disable setting background
-          terminal_colors = true,            -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-          dim_inactive = false,              -- Non focused panes set to alternative background
-          module_default = true,             -- Default enable value for modules
-          styles = {                         -- Style to be applied to different syntax groups
-            comments = "italic",
-            keywords = "bold",
-            types = "italic,bold",
-            conditionals = "NONE",
-            constants = "NONE",
-            functions = "NONE",
-            numbers = "NONE",
-            operators = "NONE",
-            strings = "NONE",
-            variables = "NONE",
-          },
-          inverse = { -- Inverse highlight for different types
-            match_paren = false,
-            visual = false,
-            search = false,
-          },
-          modules = { -- List of various plugins and additional options
-            -- ...
-          },
-        },
-        palettes = {},
-        specs = {},
-        groups = {},
-      }
-      )
-    end,
-  },
-  {
-    "loctvl842/monokai-pro.nvim",
-    config = function()
-      local function apply_transparent_window_highlights()
-        local groups = {
-          NormalFloat = { bg = "NONE" },
-          FloatBorder = { bg = "NONE" },
-          FloatTitle = { bg = "NONE" },
-          SnacksNormal = { bg = "NONE" },
-          SnacksNormalNC = { bg = "NONE" },
-        }
-
-        for group, opts in pairs(groups) do
-          vim.api.nvim_set_hl(0, group, opts)
-        end
-      end
-
-      require("monokai-pro").setup(
-        {
-          transparent_background = true,
-          background_clear = {
-            "float_win",
-            "toggleterm",
-            "telescope",
-            "which-key",
-            "renamer",
-            "notify",
-            "nvim-tree",
-            "bufferline",
-            "term",
-          },
-          filter = "machine",
-          overridePalette = function(filter)
-            return {
-              -- dark2 = "#101014",
-              -- dark1 = "#16161E",
-              -- background = "#1A1B26",
-              -- text = "#C0CAF5",
-              -- accent1 = "#f7768e",
-              -- accent2 = "#7aa2f7",
-              -- accent3 = "#e0af = "#737aa2",
-              -- dimmed2 = "#787c99",
-              -- dimmed3 = "#363b54",
-              -- dimmed4 = "#363b54",
-              -- dimmed5 = "#16161e",
-              dimmed1 = "#c1c0c0",
-              dimmed2 = "#939293",
-              dimmed3 = "#727072",
-              dimmed4 = "#5b595c",
-              dimmed5 = "#403e41",
-            }
-          end
-        }
-      )
-
-      local group = vim.api.nvim_create_augroup("TransparentWindows", { clear = true })
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        group = group,
-        pattern = "*",
-        callback = apply_transparent_window_highlights,
-      })
-      apply_transparent_window_highlights()
-    end
-  },
-  {
-    "rebelot/kanagawa.nvim",
     lazy = true,
     opts = {
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
+      options = {
+        transparent = true,
+        styles = {
+          comments = "italic",
+          keywords = "bold",
+          types = "italic,bold",
+        },
       },
     },
   },
-
   {
-    "LazyVim/LazyVim",
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 1000,
     opts = {
-      colorscheme = "monokai-pro",
+      transparent_background = true,
+      background_clear = {
+        "float_win",
+        "toggleterm",
+        "telescope",
+        "which-key",
+        "renamer",
+        "notify",
+        "nvim-tree",
+        "bufferline",
+        "term",
+      },
+      filter = "machine",
+      override_palette = function()
+        return {
+          dimmed1 = "#c1c0c0",
+          dimmed2 = "#939293",
+          dimmed3 = "#727072",
+          dimmed4 = "#5b595c",
+          dimmed5 = "#403e41",
+        }
+      end,
     },
+    config = function(_, opts)
+      require("monokai-pro").setup(opts)
+      local function transparent_floats()
+        for _, group in ipairs({ "NormalFloat", "FloatBorder", "FloatTitle", "SnacksNormal", "SnacksNormalNC" }) do
+          vim.api.nvim_set_hl(0, group, { bg = "NONE" })
+        end
+      end
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("user_transparent_floats", { clear = true }),
+        callback = transparent_floats,
+      })
+      transparent_floats()
+    end,
   },
 }

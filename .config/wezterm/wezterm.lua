@@ -55,4 +55,46 @@ config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = require("keymaps")
 config.key_tables = require("keytables")
 
+-- smart-splits: Ctrl+hjkl move, Alt+hjkl resize; passes through to nvim when IS_NVIM is set
+local smart_splits = wt.plugin.require("https://github.com/smart-splits-nvim/backend-wezterm")
+smart_splits.apply_to_config(config, {
+  direction_keys = { "h", "j", "k", "l" },
+  modifiers = { move = "CTRL", resize = "META" },
+  at_edge = "stop",
+})
+
+-- Alt+hjkl belongs to AeroSpace (window focus), so resize lives on Ctrl+Shift+hjkl instead.
+-- In nvim panes it's forwarded as Alt+hjkl (internal SendKey, AeroSpace never sees it) so nvim
+-- splits resize first; elsewhere it resizes the WezTerm pane 3 cells (plugin default is 1).
+local resize_dirs = { h = "Left", j = "Down", k = "Up", l = "Right" }
+for i, binding in ipairs(config.keys) do
+  if binding.mods == "META" and resize_dirs[binding.key] then
+    local key = binding.key
+    config.keys[i].mods = "CTRL|SHIFT"
+    config.keys[i].action = wt.action_callback(function(window, pane)
+      if pane:get_user_vars().IS_NVIM == "true" then
+        window:perform_action(wt.action.SendKey({ key = key, mods = "META" }), pane)
+      else
+        window:perform_action(wt.action.AdjustPaneSize({ resize_dirs[key], 3 }), pane)
+      end
+    end)
+  end
+end
+
+-- nvim terminal tabs: Ctrl+Shift+] / [ sent to nvim as Alt+. / Alt+, (explicit META, so macOS
+-- Option composition can't turn them into characters); other panes get the key unchanged
+for phys, nvim_key in pairs({ RightBracket = ".", LeftBracket = "," }) do
+  table.insert(config.keys, {
+    key = "phys:" .. phys,
+    mods = "CTRL|SHIFT",
+    action = wt.action_callback(function(window, pane)
+      if pane:get_user_vars().IS_NVIM == "true" then
+        window:perform_action(wt.action.SendKey({ key = nvim_key, mods = "META" }), pane)
+      else
+        window:perform_action(wt.action.SendKey({ key = phys == "RightBracket" and "]" or "[", mods = "CTRL|SHIFT" }), pane)
+      end
+    end),
+  })
+end
+
 return config

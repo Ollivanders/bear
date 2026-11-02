@@ -72,34 +72,46 @@ M.items = {
   "🧹DECOM:- :broom: - decom something",
 }
 
+--- Insert `text` where the picker was opened from: typed into the job for terminals,
+--- otherwise inserted at the saved cursor position and insert mode resumed.
+local function insert_at(ctx, text)
+  if not vim.api.nvim_win_is_valid(ctx.win) then
+    return
+  end
+  vim.api.nvim_set_current_win(ctx.win)
+  if vim.bo[ctx.buf].buftype == "terminal" then
+    vim.api.nvim_chan_send(vim.bo[ctx.buf].channel, text)
+    vim.cmd("startinsert")
+    return
+  end
+  local row, col = ctx.cursor[1], ctx.cursor[2]
+  vim.api.nvim_buf_set_text(ctx.buf, row - 1, col, row - 1, col, { text })
+  local at_eol = col + #text >= #vim.api.nvim_buf_get_lines(ctx.buf, row - 1, row, true)[1]
+  -- normal mode clamps the cursor onto the last char, so at end of line use `startinsert!`
+  vim.api.nvim_win_set_cursor(ctx.win, { row, col + #text })
+  if ctx.insert then
+    vim.cmd(at_eol and "startinsert!" or "startinsert")
+  end
+end
+
 M.select = function()
-  vim.ui.select(M.items, {
-    prompt = M.prompt,
-    format_item = function(item)
-      return item
-    end,
-  }, function(choice)
-    if choice == nil then
-      vim.print("No choice made!")
+  -- capture origin before the picker takes focus
+  local ctx = {
+    win = vim.api.nvim_get_current_win(),
+    buf = vim.api.nvim_get_current_buf(),
+    cursor = vim.api.nvim_win_get_cursor(0),
+    insert = vim.fn.mode():sub(1, 1) == "i",
+  }
+  vim.ui.select(M.items, { prompt = M.prompt }, function(choice)
+    if not choice then
       return
     end
-
-    local s = vim.split(choice, "-")
-    local emoji = s[1]
-
+    local emoji = vim.trim(vim.split(choice, "-")[1])
     vim.fn.setreg("+", emoji)
     vim.fn.setreg('"', emoji)
-
-    if vim.bo.buftype == "terminal" then
-      local reg = "0"
-      local old_val = vim.fn.getreg(reg)
-      vim.fn.setreg(reg, emoji)
-      -- vim.cmd('normal! "0p')
-      -- vim.cmd("startinsert!")
-      -- vim.fn.setreg(reg, old_val)
-    else
-      vim.cmd("normal!" .. emoji)
-    end
+    vim.schedule(function()
+      insert_at(ctx, emoji)
+    end)
   end)
 end
 

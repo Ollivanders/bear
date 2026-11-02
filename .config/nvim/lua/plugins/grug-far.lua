@@ -1,39 +1,65 @@
-local grug_far_open_cfg = {
-  prefills = {
-    flags = "-F --hidden --multiline",
-  },
-  instanceName = "Toggle",
-  staticTitle = "Toggle",
-}
+local default_flags = "-F --hidden --multiline"
 
-function close_toggle_instance()
-  local inst = require("grug-far.instances").get_instance("Toggle" or 0)
+local function close_toggle_instance()
+  local inst = require("grug-far").get_instance("Toggle")
   if inst then
     inst:close()
   end
 end
 
-local M = {
+--- Open the shared "Toggle" instance, closing any previous one first.
+---@param prefills table
+---@param visual? boolean use the visual selection as the search
+local function toggle(prefills, visual)
+  close_toggle_instance()
+  local opts = {
+    instanceName = "Toggle",
+    staticTitle = "Toggle",
+    prefills = vim.tbl_extend("force", { flags = default_flags }, prefills),
+  }
+  if visual then
+    require("grug-far").with_visual_selection(opts)
+  else
+    require("grug-far").toggle_instance(opts)
+  end
+end
+
+return {
   "MagicDuck/grug-far.nvim",
-  opts = { headerMaxWidth = 80 },
   cmd = "GrugFar",
-  config = function()
-    require("grug-far").setup({})
+  opts = { headerMaxWidth = 80 },
+  init = function()
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("user_grug_far_keys", { clear = true }),
+      pattern = "grug-far",
+      callback = function(ev)
+        local function toggle_flag(flag)
+          local state = unpack(require("grug-far").get_instance(0):toggle_flags({ flag }))
+          vim.notify(("grug-far: %s %s"):format(flag, state and "ON" or "OFF"))
+        end
+        vim.keymap.set("n", "<C-enter>", function()
+          local inst = require("grug-far").get_instance(0)
+          inst:open_location()
+          inst:close()
+        end, { buffer = ev.buf, desc = "Open location and close" })
+        vim.keymap.set("n", "<C-f>", function()
+          toggle_flag("-F")
+        end, { buffer = ev.buf, desc = "Toggle -F" })
+        vim.keymap.set("n", "<C-a>", function()
+          toggle_flag("--hidden")
+        end, { buffer = ev.buf, desc = "Toggle --hidden" })
+      end,
+    })
   end,
   keys = {
     {
       "<leader>sr",
       function()
-        local grug = require("grug-far")
-        local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-        grug.open({
+        require("grug-far").open({
           transient = true,
           instanceName = "Main",
           staticTitle = "Main",
-          prefills = {
-            flags = "-F --hidden --multiline",
-            -- filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-          },
+          prefills = { flags = default_flags },
         })
       end,
       mode = { "n", "v" },
@@ -45,9 +71,7 @@ local M = {
         require("grug-far").toggle_instance({
           instanceName = "Second",
           staticTitle = "Second",
-          prefills = {
-            flags = "-F --hidden --multiline",
-          },
+          prefills = { flags = default_flags },
         })
       end,
       mode = { "n", "v" },
@@ -59,9 +83,7 @@ local M = {
         require("grug-far").toggle_instance({
           instanceName = "Toggle",
           staticTitle = "Toggle",
-          prefills = {
-            flags = "-F --hidden --multiline",
-          },
+          prefills = { flags = default_flags },
         })
       end,
       mode = { "n", "v" },
@@ -70,125 +92,80 @@ local M = {
     {
       "<leader>rv",
       function()
-        close_toggle_instance()
-        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg,
-          { paths = vim.fn.expand("%") }))
+        toggle({ paths = vim.fn.expand("%") }, true)
       end,
-      mode = { "n", "v" },
+      mode = "v",
       desc = "S/R visual selection",
     },
     {
       "<leader>rd",
       function()
-        close_toggle_instance()
-        local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h:t")
-        local search = "source .*=.*/modules/" .. dir_name .. '"'
-        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            flags = "",
-            search = search,
-          },
-        }))
+        local dir_name = vim.fn.expand("%:p:h:t")
+        toggle({ flags = "", search = "source .*=.*/modules/" .. dir_name .. '"' })
       end,
-      mode = { "n", "v" },
       desc = "S/R Terraform Module",
     },
     {
       "<leader>rp",
       function()
-        close_toggle_instance()
-        local search = vim.fn.getreg("*")
-        -- surround with \b if "word" search (such as when pressing `*`)
-        if search and vim.startswith(search, "\\<") and vim.endswith(search, "\\>") then
+        local search = vim.fn.getreg("/")
+        -- `*` searches are \<word\>; convert to ripgrep word boundaries
+        if vim.startswith(search, "\\<") and vim.endswith(search, "\\>") then
           search = "\\b" .. search:sub(3, -3) .. "\\b"
         end
-
-        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = { search = search },
-        }))
+        toggle({ search = search })
       end,
-      mode = { "n", "v" },
       desc = "S/R using @/ register value",
     },
     {
       "<leader>rw",
       function()
-        close_toggle_instance()
-        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = { search = vim.fn.expand("<cword>") },
-        }))
+        toggle({ search = vim.fn.expand("<cword>") })
       end,
-      mode = { "n", "v" },
+      desc = "S/R word under cursor",
     },
     {
       "<leader>rf",
       function()
-        close_toggle_instance()
-        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            paths = vim.fn.expand("%"),
-          },
-        }))
+        toggle({ paths = vim.fn.expand("%") })
       end,
-      mode = { "n" },
       desc = "S/R Current file",
     },
     {
       "<leader>rf",
       function()
-        close_toggle_instance()
-        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            paths = vim.fn.expand("%"),
-          },
-        }))
+        toggle({ paths = vim.fn.expand("%") }, true)
       end,
-      mode = { "v" },
+      mode = "v",
       desc = "S/R Visual, Current file",
-    },
-    {
-      "<leader>rr",
-      function()
-        local inst_toggle = require("grug-far.instances").get_instance("Toggle" or 0)
-        local inst_main = require("grug-far.instances").get_instance("Main" or 0)
-        if inst_main then
-          inst_main:search()
-        end
-        if inst_toggle then
-          inst_toggle:search()
-        end
-      end,
-      mode = { "n", "v" },
-      desc = "S/R Refresh",
     },
     {
       "<leader>rc",
       function()
-        close_toggle_instance()
-        local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
-        require("grug-far").toggle_instance(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            paths = dir_name,
-          },
-        }))
+        toggle({ paths = vim.fn.expand("%:p:h") })
       end,
-      mode = { "n" },
       desc = "S/R Current Dir",
     },
     {
       "<leader>rc",
       function()
-        close_toggle_instance()
-        local dir_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
-        require("grug-far").with_visual_selection(vim.tbl_deep_extend("force", grug_far_open_cfg, {
-          prefills = {
-            paths = dir_name,
-          },
-        }))
+        toggle({ paths = vim.fn.expand("%:p:h") }, true)
       end,
-      mode = { "v" },
+      mode = "v",
       desc = "S/R Visual, Current Dir",
-    }
+    },
+    {
+      "<leader>rr",
+      function()
+        for _, name in ipairs({ "Main", "Toggle" }) do
+          local inst = require("grug-far").get_instance(name)
+          if inst then
+            inst:search()
+          end
+        end
+      end,
+      mode = { "n", "v" },
+      desc = "S/R Refresh",
+    },
   },
 }
-return M

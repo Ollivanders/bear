@@ -20,7 +20,7 @@ function M.setup(name, win_opts)
   -- `v:lua.<path>(...)` only supports a plain dotted path - `require(...)` with
   -- parens mid-chain is NOT allowed (:help v:lua-call), so this must use the
   -- single-quote-no-parens require form or it silently renders nothing.
-  win_opts.wo.winbar = string.format("%%{%%v:lua.require'custom.util.terminal_tabs'.tabline(%q)%%}", name)
+  win_opts.wo.winbar = string.format("%%{%%v:lua.require'user.terminal_tabs'.tabline(%q)%%}", name)
   M.groups[name] = {
     win_opts = win_opts,
     tabs = {},

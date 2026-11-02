@@ -1,107 +1,81 @@
--- lazy.nvim
 return {
-  "snacks.nvim",
+  "folke/snacks.nvim",
+  ---@type snacks.Config
   opts = {
-    ---@class snacks.terminal.Config
     terminal = {
-      enabled = true,
-      stack = true,
-      keys = {
-        q = "hide",
-        gf = function(self)
-          local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
-          if f == "" then
-            Snacks.notify.warn("No file under cursor")
-          else
-            -- self:hide()
-            vim.schedule(function()
-              vim.cmd("e " .. f)
-            end)
-          end
-        end,
-        gl = function(self)
-          Snacks.notify.info("run")
-          local cfile = vim.fn.expand("<cfile>")
-
-          -- Check if it's a URL
-          if cfile:match("^https?://") or cfile:match("^www%.") then
-            vim.schedule(function()
-              local open_cmd
-              if vim.fn.has("mac") == 1 then
-                open_cmd = "open"
-              elseif vim.fn.has("unix") == 1 then
-                open_cmd = "xdg-open"
-              elseif vim.fn.has("win32") == 1 then
-                open_cmd = "start"
-              end
-
-              if open_cmd then
-                vim.fn.system(open_cmd .. " " .. vim.fn.shellescape(cfile))
-              else
-                Snacks.notify.warn("No command to open URLs on this system")
-              end
-            end)
-          else
-            Snacks.notify.warn("No file under cursor")
-          end
-        end,
-        term_normal = {
-          "<esc>",
-          function(self)
-            self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
-            if self.esc_timer:is_active() then
-              self.esc_timer:stop()
-              vim.cmd("stopinsert")
+      win = {
+        -- merged over snacks' default terminal keys (q = hide, double <esc> = normal mode)
+        keys = {
+          -- Ctrl+hjkl in terminal mode: route through smart-splits so it crosses into WezTerm panes
+          nav_h = {
+            "<C-h>",
+            function(self)
+              return self:is_floating() and "<C-h>" or vim.schedule(require("smart-splits").move_cursor_left)
+            end,
+            mode = "t",
+            expr = true,
+            desc = "Move left",
+          },
+          nav_j = {
+            "<C-j>",
+            function(self)
+              return self:is_floating() and "<C-j>" or vim.schedule(require("smart-splits").move_cursor_down)
+            end,
+            mode = "t",
+            expr = true,
+            desc = "Move down",
+          },
+          nav_k = {
+            "<C-k>",
+            function(self)
+              return self:is_floating() and "<C-k>" or vim.schedule(require("smart-splits").move_cursor_up)
+            end,
+            mode = "t",
+            expr = true,
+            desc = "Move up",
+          },
+          nav_l = {
+            "<C-l>",
+            function(self)
+              return self:is_floating() and "<C-l>" or vim.schedule(require("smart-splits").move_cursor_right)
+            end,
+            mode = "t",
+            expr = true,
+            desc = "Move right",
+          },
+          -- open file under cursor without hiding the terminal
+          gf = function()
+            local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+            if f == "" then
+              Snacks.notify.warn("No file under cursor")
             else
-              self.esc_timer:start(200, 0, function() end)
-              return "<esc>"
+              vim.schedule(function()
+                vim.cmd.edit(f)
+              end)
             end
           end,
-          mode = "t",
-          expr = true,
-          desc = "Double escape to normal mode",
+          gl = function()
+            local cfile = vim.fn.expand("<cfile>")
+            if cfile:match("^https?://") or cfile:match("^www%.") then
+              vim.ui.open(cfile)
+            else
+              Snacks.notify.warn("No URL under cursor")
+            end
+          end,
         },
       },
     },
     picker = {
       sources = {
-        explorer = {
-          hidden = true,
-          -- ignored = true,
-        },
-        files = {
-          hidden = true,
-          -- ignored = true,
-        },
+        explorer = { hidden = true },
+        files = { hidden = true },
       },
     },
-    winpicker = {
-      enabled = true,
-      ui = {
-        width = 0.3, -- percentage of screen width
-        height = 0.3, -- percentage of screen height
-        border = "double", -- "single", "double", "rounded", "none"
-        row = 0.9, -- center vertically (0 = top, 1 = bottom)
-        col = 0.9, -- center horizontally (0 = left, 1 = right)
-      },
-    },
-    ---@class snacks.dashboard.Config
+    lazygit = { configure = true },
     dashboard = {
       enabled = false,
       width = 60,
-      row = nil, -- dashboard position. nil for center
-      col = nil, -- dashboard position. nil for center
-      pane_gap = 4, -- empty columns between vertical panes
-      autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
-      -- These settings are used by some built-in sections
       preset = {
-        -- Defaults to a picker that supports `fzf-lua`, `telescope.nvim` and `mini.pick`
-        ---@type fun(cmd:string, opts:table)|nil
-        pick = nil,
-        -- Used by the `keys` section to show keymaps.
-        -- Set your custom keymaps here.
-        -- When using a function, the `items` argument are the default keymaps.
-        ---@type snacks.dashboard.Item[]
         keys = {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
@@ -153,12 +127,6 @@ return {
           ttl = 5 * 60,
           indent = 3,
         },
-      },
-    },
-    lazygit = {
-      configure = true,
-      win = {
-        style = "lazygit",
       },
     },
   },

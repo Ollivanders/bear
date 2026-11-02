@@ -1,53 +1,68 @@
--- return {
---   {
---     "Juksuu/worktrees.nvim",
---     config = function()
---       require("worktrees").setup({
---         swap_current_buffer = false,
---         hooks = {
---           on_switch = function(from, to)
---             local Path = require("plenary.path")
---             local any_exist = false
---             for win in vim.iter(vim.api.nvim_list_tabpages()):map(vim.api.nvim_tabpage_list_wins):flatten() do
---               local bufnr = vim.api.nvim_win_get_buf(win)
---               local buf_path = Path:new(vim.api.nvim_buf_get_name(bufnr))
---               local rel_path = buf_path:make_relative(from)
---               local path_in_new_cwd = Path:new(to .. "/" .. rel_path)
---               if path_in_new_cwd:exists() then
---                 any_exist = true
---                 local win_to_update = win
---                 local bufnr_to_delete = bufnr
---                 local path_to_open = path_in_new_cwd:absolute()
---                 vim.schedule(function()
---                   if vim.api.nvim_buf_is_valid(bufnr_to_delete) then
---                     local buf_in_new_cwd = vim.fn.bufnr(path_to_open, true)
---                     vim.api.nvim_win_set_buf(win_to_update, buf_in_new_cwd)
---                     vim.api.nvim_buf_delete(bufnr_to_delete, {})
---                   end
---                 end)
---               else
---                 vim.api.nvim_win_close(win, true)
---               end
---               if not any_exist then
---                 local root = vim.fn.bufnr(to)
---                 vim.api.nvim_set_current_buf(root)
---               end
---             end
---           end,
---         },
---       })
---     end,
---   },
--- }
+---@return { path: string, branch: string }[]
+local function list_worktrees()
+  local worktrees, current = {}, nil
+  for _, line in ipairs(vim.fn.systemlist("git worktree list --porcelain")) do
+    if vim.startswith(line, "worktree ") then
+      current = { path = line:sub(#"worktree " + 1), branch = "(detached)" }
+      worktrees[#worktrees + 1] = current
+    elseif vim.startswith(line, "branch ") and current then
+      current.branch = line:gsub("^branch refs/heads/", "")
+    end
+  end
+  return worktrees
+end
+
+local function pick_worktree(prompt, on_choice)
+  vim.ui.select(list_worktrees(), {
+    prompt = prompt,
+    format_item = function(item)
+      return ("%s -> %s"):format(item.branch, item.path)
+    end,
+  }, function(choice)
+    if choice then
+      on_choice(choice)
+    end
+  end)
+end
 
 return {
   "polarmutex/git-worktree.nvim",
   version = "^2",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  keys = {
+    {
+      "<leader>gws",
+      function()
+        pick_worktree("Switch worktree", function(wt)
+          require("git-worktree").switch_worktree(wt.path)
+        end)
+      end,
+      desc = "Switch",
+    },
+    {
+      "<leader>gwn",
+      function()
+        vim.ui.input({ prompt = "Branch: " }, function(branch)
+          if not branch or branch == "" then
+            return
+          end
+          vim.ui.input({ prompt = "Path: ", default = "../" .. branch }, function(path)
+            if path and path ~= "" then
+              require("git-worktree").create_worktree(path, branch, "origin")
+            end
+          end)
+        end)
+      end,
+      desc = "New",
+    },
+    {
+      "<leader>gwr",
+      function()
+        pick_worktree("Remove worktree", function(wt)
+          require("git-worktree").delete_worktree(wt.path, false)
+        end)
+      end,
+      desc = "Remove",
+    },
   },
-  config = function()
-    require("telescope").load_extension("git_worktree")
-  end,
 }

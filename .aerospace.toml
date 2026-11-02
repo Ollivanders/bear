@@ -92,6 +92,8 @@ gaps.outer.right =      5
     alt-q = 'exec-and-forget open -a "SlackWeb"'
     alt-d = 'exec-and-forget open -a "ChatGPTWeb"'
     alt-z = 'exec-and-forget open -a "WezTerm"'
+    # New Ghostty window, then tile it (Ghostty windows start floating, see on-window-detected)
+    alt-shift-z = '''exec-and-forget osascript -e 'tell application "Ghostty" to activate' -e 'tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1' && sleep 0.3 && /opt/homebrew/bin/aerospace layout tiling'''
     alt-g = 'exec-and-forget open -a "Spotify"'
     alt-v = 'exec-and-forget open -g -a "Zoom"'
     alt-t = 'exec-and-forget open -g -a "System Settings"'
@@ -198,4 +200,11 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Zoom'
+run = 'layout floating'
+
+
+# Ghostty native tabs show up as separate windows; float them so new tabs don't retile.
+# Use alt-shift-z for a new tiled Ghostty window.
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
 run = 'layout floating'

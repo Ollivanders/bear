@@ -1,8 +1,6 @@
 return {
   "LazyVim/LazyVim",
   opts = {
-    bigfile = {
-      exclude = { "json", "jsonc" },
-    },
+    colorscheme = "monokai-pro",
   },
 }
