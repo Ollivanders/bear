@@ -1,27 +1,38 @@
 local default_flags = "-F --hidden --multiline"
 
-local function close_toggle_instance()
-  local inst = require("grug-far").get_instance("Toggle")
-  if inst then
-    inst:close()
+--- Close the named instance if it exists (get_instance errors when missing).
+---@param name string
+local function close_instance(name)
+  local gf = require("grug-far")
+  if gf.has_instance(name) then
+    gf.get_instance(name):close()
   end
 end
 
---- Open the shared "Toggle" instance, closing any previous one first.
+--- (Re)open a named instance, closing any previous one first.
+--- Visual selection is captured before closing, since closing can disturb visual mode.
+---@param name string
 ---@param prefills table
 ---@param visual? boolean use the visual selection as the search
-local function toggle(prefills, visual)
-  close_toggle_instance()
-  local opts = {
-    instanceName = "Toggle",
-    staticTitle = "Toggle",
-    prefills = vim.tbl_extend("force", { flags = default_flags }, prefills),
-  }
+local function reopen(name, prefills, visual)
+  local gf = require("grug-far")
+  prefills = vim.tbl_extend("force", { flags = default_flags }, prefills)
   if visual then
-    require("grug-far").with_visual_selection(opts)
-  else
-    require("grug-far").toggle_instance(opts)
+    prefills.search = gf.get_current_visual_selection()
   end
+  close_instance(name)
+  gf.open({
+    instanceName = name,
+    staticTitle = name,
+    visualSelectionUsage = "ignore",
+    prefills = prefills,
+  })
+end
+
+---@param prefills table
+---@param visual? boolean
+local function toggle(prefills, visual)
+  reopen("Toggle", prefills, visual)
 end
 
 return {
@@ -55,12 +66,7 @@ return {
     {
       "<leader>sr",
       function()
-        require("grug-far").open({
-          transient = true,
-          instanceName = "Main",
-          staticTitle = "Main",
-          prefills = { flags = default_flags },
-        })
+        reopen("Main", {}, vim.fn.mode():find("[vV\22]") ~= nil)
       end,
       mode = { "n", "v" },
       desc = "S/R Main",
@@ -108,14 +114,14 @@ return {
     {
       "<leader>rp",
       function()
-        local search = vim.fn.getreg("/")
+        local search = vim.fn.getreg("+")
         -- `*` searches are \<word\>; convert to ripgrep word boundaries
         if vim.startswith(search, "\\<") and vim.endswith(search, "\\>") then
           search = "\\b" .. search:sub(3, -3) .. "\\b"
         end
         toggle({ search = search })
       end,
-      desc = "S/R using @/ register value",
+      desc = "S/R using clipboard (+) value",
     },
     {
       "<leader>rw",
@@ -158,9 +164,9 @@ return {
       "<leader>rr",
       function()
         for _, name in ipairs({ "Main", "Toggle" }) do
-          local inst = require("grug-far").get_instance(name)
-          if inst then
-            inst:search()
+          local gf = require("grug-far")
+          if gf.has_instance(name) then
+            gf.get_instance(name):search()
           end
         end
       end,
