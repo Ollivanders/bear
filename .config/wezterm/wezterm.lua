@@ -57,6 +57,27 @@ config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = require("keymaps")
 config.key_tables = require("keytables")
 
+-- copy: explicit Cmd+C, plus copy-on-select (mouse release copies to clipboard).
+-- Apps with mouse reporting (nvim, tmux, Claude Code) grab the mouse; hold Shift while dragging
+-- to make WezTerm do the selection instead.
+table.insert(config.keys, { key = "c", mods = "CMD", action = wt.action.CopyTo("Clipboard") })
+config.mouse_bindings = {}
+for _, mods in ipairs({ "NONE", "SHIFT" }) do
+  for streak = 1, 3 do -- single/double/triple click (cell/word/line)
+    table.insert(config.mouse_bindings, {
+      event = { Up = { streak = streak, button = "Left" } },
+      mods = mods,
+      action = wt.action.CompleteSelection("ClipboardAndPrimarySelection"),
+    })
+  end
+end
+-- Cmd+click opens links (plain click no longer does, since Up is bound to copy)
+table.insert(config.mouse_bindings, {
+  event = { Up = { streak = 1, button = "Left" } },
+  mods = "CMD",
+  action = wt.action.OpenLinkAtMouseCursor,
+})
+
 -- smart-splits: Ctrl+hjkl move, Alt+hjkl resize; passes through to nvim when IS_NVIM is set
 local smart_splits = wt.plugin.require("https://github.com/smart-splits-nvim/backend-wezterm")
 smart_splits.apply_to_config(config, {
