@@ -4,9 +4,10 @@ local app_icons = require("helpers.app_icons")
 local sbar = require("sketchybar")
 
 sbar.add("event", "aerospace_workspace_change")
+sbar.add("event", "aerospace_windows_change")
 
 local workspaces = {}
-local set_icon_line
+local refresh_icons
 
 -- Function to execute shell commands and return the output
 local function execute_command(command)
@@ -76,9 +77,6 @@ local function add_workspace(workspace_id)
     sbar.exec("aerospace workspace " .. tostring(workspace_id))
   end)
 
-  space:subscribe({ "space_windows_change" }, function()
-    set_icon_line(workspace_id)
-  end)
 end
 
 -- Show every configured Aerospace workspace, not just the ones currently assigned to a monitor.
@@ -90,34 +88,26 @@ for workspace_id in workspace_output:gmatch("[^\r\n]+") do
   end
 end
 
-function set_icon_line(workspace_id)
-  sbar.exec(
-    "aerospace list-windows --format %{app-name} --workspace " .. tostring(workspace_id),
-    function(app_names)
-      local no_app = true
-      local icon_line = ""
-      for app_name in app_names:gmatch("[^\r\n]+") do
-        local trimmed_app_name = app_name:match("^%s*(.-)%s*$")
-        if trimmed_app_name ~= "" then
-          no_app = false
-          local lookup = app_icons[trimmed_app_name]
-          local icon = ((lookup == nil) and app_icons["default"] or lookup)
-          icon_line = icon_line .. " " .. icon
-        end
-      end
-
-      if no_app then
-        icon_line = " —"
-      end
-
-      local workspace = workspaces[tonumber(workspace_id)]
-      if workspace ~= nil then
-        sbar.animate("tanh", 10, function()
-          workspace:set({ label = icon_line })
-        end)
+-- Refresh every workspace's icons from a single aerospace call so windows
+-- moved off a workspace don't leave stale icons behind.
+refresh_icons = function()
+  sbar.exec("aerospace list-windows --all --format '%{workspace}|%{app-name}'", function(output)
+    local lines = {}
+    for workspace_id, _ in pairs(workspaces) do
+      lines[workspace_id] = ""
+    end
+    for line in output:gmatch("[^\r\n]+") do
+      local ws, app_name = line:match("^%s*(.-)|(.-)%s*$")
+      local id = tonumber(ws)
+      if id ~= nil and lines[id] ~= nil and app_name ~= "" then
+        local icon = app_icons[app_name] or app_icons["default"]
+        lines[id] = lines[id] .. " " .. icon
       end
     end
-  )
+    for workspace_id, icon_line in pairs(lines) do
+      workspaces[workspace_id]:set({ label = icon_line == "" and " —" or icon_line })
+    end
+  end)
 end
 
 local space_window_observer = sbar.add("item", {
@@ -125,9 +115,12 @@ local space_window_observer = sbar.add("item", {
   updates = true,
 })
 
-space_window_observer:subscribe({ "aerospace_workspace_change" }, function(env)
-  set_icon_line(env.FOCUSED_WORKSPACE)
-end)
+space_window_observer:subscribe(
+  { "aerospace_workspace_change", "aerospace_windows_change", "front_app_switched", "space_windows_change", "system_woke" },
+  function()
+    refresh_icons()
+  end
+)
 
 -- initial run
 local ok, ws = pcall(function()
@@ -135,8 +128,6 @@ local ok, ws = pcall(function()
 end)
 local focused_workspace = ok and tonumber(ws) or -1
 
-for workspace_id, _ in pairs(workspaces) do
-  set_icon_line(workspace_id)
-end
+refresh_icons()
 
 sbar.trigger("aerospace_workspace_change", { FOCUSED_WORKSPACE = focused_workspace })

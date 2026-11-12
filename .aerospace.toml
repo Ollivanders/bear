@@ -39,6 +39,9 @@ default-root-container-orientation = 'auto'
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+# Refresh sketchybar workspace icons when windows open/close/move
+on-focus-changed = ['exec-and-forget /opt/homebrew/bin/sketchybar --trigger aerospace_windows_change']
+
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
 # Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
@@ -48,7 +51,7 @@ automatically-unhide-macos-hidden-apps = true
 # even when they are invisible.
 # This config option is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1","2","3", "4", "5"]
+persistent-workspaces = ["1","2","3","4"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -190,8 +193,9 @@ gaps.outer.right =      5
 
 [workspace-to-monitor-force-assignment]
       1 = 'built-in'
-      2 = ['ASUS', 'secondary']
-      3 = 'LG'
+      2 = ['DELL.*\(1\)', 'ASUS', 'secondary']
+      3 = ['DELL.*\(2\)', 'LG']
+      4 = 'built-in'
 
 # floating
 [[on-window-detected]]
@@ -208,3 +212,21 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = 'layout floating'
+
+# Default workspaces for apps
+[[on-window-detected]]
+# Slack (Chrome app)
+if.app-id = 'com.google.Chrome.app.nofgeijlnnfcedcmgbdkiiaddkaljgob' 
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 4'
