@@ -11,7 +11,11 @@ return {
         cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
       },
       terraformls = {
-        root_markers = { ".git" },
+        -- per-stack root; .git made it index whole monorepo
+        root_markers = { ".terraform.lock.hcl", ".terraform", ".git" },
+        init_options = {
+          indexing = { ignoreDirectoryNames = { ".terraform", "plan" } },
+        },
       },
     },
   },
