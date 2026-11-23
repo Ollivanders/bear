@@ -34,7 +34,7 @@ Commit all local changes, push, open PR to default branch.
 5. **Push**: `git push -u origin <branch>`.
 
 6. **Open PR**:
-   - If PR already exists for branch (`gh pr view --json url` succeeds), report URL and stop (pushed commits update it).
+   - If PR already exists for branch (`gh pr view --json url` succeeds), skip creation and go to step 7 (pushed commits update it).
    - Otherwise:
      ```
      gh pr create --base <default> --head <branch> --title "<commit title>" --body "$(cat <<'EOF'
@@ -47,6 +47,8 @@ Commit all local changes, push, open PR to default branch.
    - Body: **bullet points only**, high-level summary of changes. Optionally one leading line linking/referencing the ticket context if it adds clarity. NO headings — no "Summary", "Testing", "Test plan", etc.
 
 7. **Report**: print branch name and PR URL.
+
+8. **Open in browser**: `gh pr view --web` (works for both new and existing PRs).
 
 ## Rules
 
