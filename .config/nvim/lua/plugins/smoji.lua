@@ -3,7 +3,7 @@ return {
   name = "smoji.nvim",
   cmd = "Smoji",
   keys = {
-    { "<C-e>", "<cmd>Smoji<cr>", desc = "Git[e]moji", mode = { "i", "t" } },
+    { "<C-b>", "<cmd>Smoji<cr>", desc = "Git[e]moji", mode = { "i", "t" } },
   },
   config = function()
     require("smoji")
